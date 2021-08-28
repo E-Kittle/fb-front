@@ -118,8 +118,6 @@ const current_user = {
 }
 
 
-
-
 const Home = () => {
 
 

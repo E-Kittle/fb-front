@@ -1,9 +1,27 @@
 import '../styles/style.css';
 import '../styles/form.css';
+import '../styles/modal.css'
+import SignUp from './modal/SignUp';
+import { useState } from 'react';
 
 const Login = () => {
 
+    const [modal, setModal] = useState(false);
 
+    /*
+    Toggling the modal
+    We want the signup button to 
+    */
+    const toggleModal = (e) => {
+        e.preventDefault();
+
+        if (e.target.id === 'close-modal') {
+            setModal(false)
+        } else {
+            setModal(true);
+        }
+    }
+    
     return (
         <div className='login-container'>
             <div className='logo'>
@@ -20,11 +38,12 @@ const Login = () => {
                 </form>
                 <hr />
                 <div className='login-button-wrapper'>
-                    <a href='/signup' className='button-style'>Create New Account</a>
+                    <a href='/signup' className='button-style' onClick={toggleModal}>Create New Account</a>
                     <button className='button-style'>Test Drive an Existing Account</button>
                     <button className='button-style'>Login with Facebook</button>
                 </div>
             </div>
+            {modal? <SignUp toggleModal={toggleModal} /> : null }
         </div>
     )
     
