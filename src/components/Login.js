@@ -6,12 +6,32 @@ import { useState } from 'react';
 
 const Login = () => {
 
-    const [modal, setModal] = useState(false);
+    // State to hold the users login data
+    const [user, setUser] = useState ({
+        email: '',
+        password: ''
+    })
 
-    /*
-    Toggling the modal
-    We want the signup button to 
-    */
+
+  const handleChange = (e) => {
+    setUser(prevState => ({
+      ...prevState,
+      [e.target.id]: e.target.value
+    }))
+
+    console.log(user)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('would submit')
+    console.log(user)
+  }
+
+
+    // State and method to toggle the signup modal - Presenting the user
+    //with the signup form
+    const [modal, setModal] = useState(false);
     const toggleModal = (e) => {
         e.preventDefault();
 
@@ -29,11 +49,11 @@ const Login = () => {
                 <p>Connecting you with friends wherever you go</p>
             </div>
             <div className='login-wrapper'>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <label htmlFor='email'>Email</label>
-                    <input type='email' id='email' name='email' placeholder='Email'/>
+                    <input type='email' id='email' name='email' placeholder='Email' onChange={handleChange} initialvalue={user.email} value={user.email} />
                     <label htmlFor='password'>Password</label>
-                    <input type='password' id='password' name='password' placeholder='Password'/>
+                    <input type='password' id='password' name='password' placeholder='Password' onChange={handleChange} initialvalue={user.password} value={user.password} />
                     <button type='submit' className='button-style'>Log In</button>
                 </form>
                 <hr />
