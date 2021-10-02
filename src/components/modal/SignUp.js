@@ -74,7 +74,7 @@ function SignUp(props) {
             <h1>Sign Up</h1>
             <p>It's quick and easy.</p>
           </div>
-          <button id='close-modal' onClick={props.toggleModal}>X</button>
+          <button id='close-modal' className='close-modal' onClick={props.toggleModal}>X</button>
         </div>
         <hr />
         <form className='signup-form' onSubmit={handleSubmit}>

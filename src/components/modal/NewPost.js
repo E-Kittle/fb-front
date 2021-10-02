@@ -14,16 +14,16 @@ function NewPost(props) {
         <div className="modal">
             <div className='modal-main'>
                 <div className="modal-header">
-                    <div className='news-header'>
-                        <h1>Sign Up</h1>
-                        <p>It's quick and easy.</p>
+                    <div className='post-header'>
+                        <h1>Create Post</h1>
                     </div>
-                    <button id='close-modal' onClick={props.toggleModal}>X</button>
+                    <button className='close-modal' id='x-modal' onClick={props.toggleModal}>X</button>
                 </div>
                 <hr />
-                <form >
+                <form id='new-post-form'>
                     <label htmlFor='new-post'>What's on your mind?</label>
-                    <input type='text' id='new-post' name='new-post' placeholder="What's on your mind?" required></input>
+                    <textarea type='text' id='new-post' name='new-post' placeholder="What's on your mind?" required></textarea>
+                    <button type='submit'>Post</button>
                 </form>
             </div>
         </div>

@@ -13,7 +13,6 @@
 
 /* Styling for the new post */
 .new-post {
-
     height: 90px;
     display: flex;
     align-items: center;
@@ -35,6 +34,15 @@
     background-color: #5c5d5e;
 }
 
+.post-header {
+    width: 100%;
+    padding-top: 5px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 50px;
+}
+
 /* Styling for the newsfeed */
 
 .news-feed hr {
@@ -46,7 +54,7 @@
     background-color: #242526;
     border-radius: 10px;
     padding: 0 20px;
-    width: 90%;
+    width: 60%;
     margin: 0 auto;
     margin-bottom: 20px;
 }

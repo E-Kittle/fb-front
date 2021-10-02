@@ -5,7 +5,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,7 +13,7 @@
 
 .modal-main {
     position:fixed;
-    background-color: #fff;
+    background-color: #242526;
     width: 430px;
     display: flex;
     flex-direction: column;
@@ -51,14 +51,22 @@
 
 .modal-header button{
     border: none;
-    background-color: white;
+    background-color: #3a3b3c;
     font-weight: 600;
     font-size: 2rem;
-    align-self: flex-start;
-    color: #606770;
+    color: #ebedf0;
     margin-right: 10px;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    margin-top: 10px;
+    position: absolute;
+    right: 0;
 }
 
+.modal-header button:hover {
+    background-color: rgba(0,0,0,0.5);
+}
 .modal-main form {
     padding: 0 15px 15px 15px;
 }
@@ -85,4 +93,33 @@
     border-color: #36a420;
     width: 200px;
     margin: 10px auto 0 auto;
+}
+
+/* Styling specific to the newpost modal */
+
+#new-post-form {
+    height: 300px;
+}
+
+#new-post {
+    border: none;
+    background-color: rgba(0,0,0,0);
+    color: white;
+    font-size: 1.8rem;
+    overflow: hidden;
+    height: 100%;
+}
+
+#new-post:focus {
+    outline: none;
+}
+
+#new-post-form button {
+    height: 40px;
+    background-color: #505151;
+    border: none;
+    border-radius: 5px;
+    width: 60%;
+    margin: 0 auto;
+    color: rgba(255, 255, 255, 0.555);
 }
