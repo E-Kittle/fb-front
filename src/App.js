@@ -2,6 +2,7 @@ import React, { useReducer, useEffect } from 'react';
 import Routes from './Routes';
 import { BrowserRouter as Router } from 'react-router-dom'
 import './styles/style.css';
+import { authenticateUser } from './services/auth.service'
 
 
 // Export context for the user reducerhook
@@ -44,7 +45,12 @@ function App() {
   // useReducer hook for the user
   const [currentUser, dispatch] = useReducer(reducer, initialState);
 
-
+  // Checks if a token exists in the users localStorage, if so, it pings the database
+  // to check if the session is still active and 'logs in' the user on client side
+  // Additionally, catches any page refresh that would 'logout' the user
+  useEffect(() => {
+    authenticateUser(dispatch);
+  }, [])
 
 
   return (
