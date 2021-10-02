@@ -34,8 +34,18 @@ const getNewsFeed = () => {
 
 // Grabs the current users HOME newsfeed (newsfeed from friends)
 
+
+
+// Creates a new post
+const createNewPost = (post) => {
+    const config = authHeader();
+    return axios.post(`${API_URL}posts`, {'content': post}, config)
+} 
+
+
 export {
     getCurrentFriends,
     getFriendRequests,
-    getNewsFeed
+    getNewsFeed,
+    createNewPost
 };
