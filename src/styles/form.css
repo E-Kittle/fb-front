@@ -92,3 +92,8 @@ form input {
 .error {
     color: red;
 }
+
+.success {
+    color: green;
+    padding-left: 5px;
+}
