@@ -1,99 +1,11 @@
 import '../styles/style.css';
 import '../styles/home.css';
 import { useState, useEffect, useContext } from 'react';
-import { getCurrentFriends, getFriendRequests } from '../services/user.service';
+import { getCurrentFriends, getFriendRequests, getNewsFeed } from '../services/user.service';
 import { UserContext } from '../App';
-
-// Sample data
-const sample_posts = [
-    {
-        user: {
-            username: 'sarah B. Strickland',
-            temp_img: 'SS'
-        },
-        timestamp: '52m',
-        content: 'To the left to the left',
-        likes: 12,
-        comments: [
-            {
-                username: 'Robert',
-                temp_img: 'RS',
-                content: 'Come and pick me up!',
-                likes: 8
-            },
-            {
-                username: 'Elisabeth',
-                temp_img: 'EK',
-                content: 'Too cool!',
-                likes: 30
-            }
-        ]
-    },
-    {
-        user: {
-            username: 'Maddie',
-            temp_img: 'MH',
-        },
-        timestamp: '2h',
-        content: 'closing Day!',
-        likes: 38,
-        comments: [
-            {
-                username: 'Lindsay',
-                temp_img: 'LS',
-                content: 'Congrats!',
-                likes: 5
-            },
-            {
-                username: 'Elisabeth',
-                temp_img: 'EK',
-                content: 'Congrats!',
-                likes: 2
-            }
-        ]
-    },
-    {
-        user: {
-            username: 'Tricia',
-            temp_img: 'TR',
-        },
-        timestamp: 'August 19 at 1:29 PM',
-        content: 'Yay to friends',
-        likes: 12,
-        comments: [
-            {
-                username: 'Robert',
-                temp_img: 'RS',
-                content: "We're best friends!",
-                likes: 4
-            },
-            {
-                username: 'Elisabeth',
-                temp_img: 'EK',
-                content: 'Too cool!',
-                likes: 2
-            },
-            {
-                username: 'Shannon',
-                temp_img: 'ST',
-                content: "I'm tired!",
-                likes: 3
-            },
-            {
-                username: 'Julia',
-                temp_img: 'JR',
-                content: "This sucks!",
-                likes: 4
-            }
-        ]
-    },
-]
+import NewPost from './modal/NewPost';
 
 
-const current_user = {
-    username: 'Test User',
-    temp_img: 'TU'
-}
 
 
 /*
@@ -113,6 +25,14 @@ const Home = () => {
     // State to hold each piece of data for the current user
     const [friendsList, setFriendsList] = useState([]);
     const [friendReq, setFriendReq] = useState([]);
+    const [newsFeed, setNewsFeed] = useState([]);
+
+    // State and function to manage the modal for a new news post
+    const [ modal, setModal ] = useState(false);
+    const toggleModal = () => {
+        console.log('would toggle modal')
+        setModal(!modal);
+    }
 
 
     useEffect(() => {
@@ -134,6 +54,15 @@ const Home = () => {
                 console.log(err.result)
             });
 
+        getNewsFeed()
+            .then(result => {
+                console.log(result.data)
+                setNewsFeed(result.data)
+                // setFriendReq(result.data.results);
+            })
+            .catch(err => {
+                console.log(err.result)
+            });
 
     }, [])
 
@@ -147,37 +76,43 @@ const Home = () => {
                     {/* Triggers a modal */}
                     <button className='user-img'>
                         {currentUser.first_name[0]}{currentUser.last_name[0]}
-                    </button>
-                    <button>{`What's on your mind, ${currentUser.first_name}?`}</button>
+                    </button >
+                    <button onClick={toggleModal}>{`What's on your mind, ${currentUser.first_name}?`}</button>
                 </div>
                 <div className='news-feed'>
-                    {sample_posts.map(post => {
+                    {newsFeed.map(post => {
                         return (
                             <div className='news-post'>
                                 <div className='news-header'>
-                                    <button className='user-img'>{post.user.temp_img}</button>
-                                    <h3>{post.user.username}</h3>
-                                    <p>{post.timestamp}</p>
+                                    <button className='user-img'>{post.author.first_name[0]}{post.author.last_name[0]}</button>
+                                    <div>
+                                        <h3>{post.author.first_name} {post.author.last_name}</h3>
+                                        <p>{post.date}</p>
+                                    </div>
                                 </div>
                                 <div className='news-content'>
                                     <p>{post.content}</p>
                                     <div>
-                                        <p>{post.likes} Likes</p>
+                                        <p>{post.likes.length} Likes</p>
                                         <p>{post.comments.length} Comments</p>
                                     </div>
+                                    <hr />
                                 </div>
-                                <div className='new-button-wrapper'>
+                                <div className='news-button-wrapper'>
                                     <button>Like</button>
                                     <button>Comment</button>
                                     {/* This button just adds focus to the text input */}
                                 </div>
+                                <hr />
                                 <div className='comment-container'>
+                                    {post.comments.length === 0 ? <p>No comments yet!</p> : null}
                                     {post.comments.map(comment => {
                                         return (
                                             <div className='comment-wrapper'>
-                                                <button>{comment.temp_img}</button>
+                                                {/* Need to fix the backend not populating comment author */}
+                                                {/* <button>{comment.temp_img}</button> */}
                                                 <div>
-                                                    <a href='/#'>{comment.username}</a>
+                                                    {/* <a href='/#'>{comment.username}</a> */}
                                                     <p>{comment.content}</p>
                                                 </div>
                                                 <div className='comment-meta'>
@@ -190,9 +125,9 @@ const Home = () => {
                                             </div>
                                         )
                                     })}
-                                    <form>
+                                    <form className='new-comment-form'>
                                         <label htmlFor='new-comment'>New Comment</label>
-                                        <button>{current_user.temp_img}</button>
+                                        <button className='user-img'>{currentUser.first_name[0]}{currentUser.last_name[0]}</button>
                                         <input type='text' id='new-comment' name='new-comment' placeholder='write a comment...' />
                                     </form>
                                 </div>
@@ -221,7 +156,7 @@ const Home = () => {
                     })}
                 </div>
             </div>
-
+            {modal ? <NewPost toggleModal={toggleModal} /> : null}
         </div >
     )
 }

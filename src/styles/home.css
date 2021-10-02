@@ -36,17 +36,88 @@
 }
 
 /* Styling for the newsfeed */
+
+.news-feed hr {
+    width: 100%;
+}
+
+
 .news-post {
     background-color: #242526;
     border-radius: 10px;
-    padding-left: 20px;
+    padding: 0 20px;
     width: 90%;
     margin: 0 auto;
     margin-bottom: 20px;
 }
 
+.news-header {
+    padding-top: 5px;
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
+
+.news-header div {
+    color: white;
+}
+
+.news-content {
+    padding-top: 15px;
+    color: white;
+}
+
+.news-content > p {
+    font-size: 1.4rem;
+}
+
+.news-content div {
+    display: flex;
+    justify-content: space-between;
+    height: 20px;
+}
+
+.news-button-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.news-button-wrapper button{
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    border: none;
+    font-size: 1.4rem;
+    width: 30%;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.news-button-wrapper button:hover{
+    background-color: #5c5d5e;
+}
 
 
+
+/* Styling for comments */
+.new-comment-form {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-comment-form input {
+    background-color: #3a3b3c;
+    color: white;
+    border-radius: 20px;
+    border: none;
+    width: 90%;
+    height: 16px;
+    font-size: 1.5rem;
+    text-align: left;
+    /* padding-left: 20px; */
+}
 /* Styling for the friends/friend request sidebar */
 .friends-style {
     display: flex;

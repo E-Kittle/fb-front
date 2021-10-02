@@ -27,11 +27,15 @@ const getFriendRequests = () => {
 }
 
 // Grabs the current users newsfeed (for profile)
-
+const getNewsFeed = () => {
+    const config = authHeader();
+    return axios.get(`${API_URL}posts`, config)
+}
 
 // Grabs the current users HOME newsfeed (newsfeed from friends)
 
 export {
     getCurrentFriends,
     getFriendRequests,
+    getNewsFeed
 };
