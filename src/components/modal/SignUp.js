@@ -32,6 +32,11 @@ function SignUp(props) {
     e.preventDefault();
     console.log('would submit')
     console.log(newUser)
+    /*
+    Error handling - Just make sure no input field is empty
+    and password is 8 characters long
+
+    */
   }
 
   return (
@@ -48,14 +53,26 @@ function SignUp(props) {
         <form className='signup-form' onSubmit={handleSubmit}>
           <div id='form-names'>
             <label htmlFor='first_name'>First name</label>
-            <input type='text' id='first_name' name='first_name' placeholder='First name' required onChange={handleChange} initialvalue={newUser.first_name} value={newUser.first_name}/>
+            <input
+              type='text' id='first_name' name='first_name' placeholder='First name'
+              autoFocus required onChange={handleChange} initialvalue={newUser.first_name} value={newUser.first_name}
+            />
             <label htmlFor='last_name'>First name</label>
-            <input type='text' id='last_name' name='last_name' placeholder='Last name' required onChange={handleChange} initialvalue={newUser.last_name} value={newUser.last_name}/>
+            <input
+              type='text' id='last_name' name='last_name' placeholder='Last name'
+              required onChange={handleChange} initialvalue={newUser.last_name} value={newUser.last_name}
+            />
           </div>
           <label htmlFor='email'>Email</label>
-          <input type='email' id='email' name='email' placeholder='Email' required onChange={handleChange} initialvalue={newUser.email} value={newUser.email}/>
+          <input
+            type='email' id='email' name='email' placeholder='Email'
+            required onChange={handleChange} initialvalue={newUser.email} value={newUser.email}
+          />
           <label htmlFor='password'>Password</label>
-          <input type='password' id='password' name='password' placeholder='Password' required onChange={handleChange} initialvalue={newUser.password} value={newUser.password}/>
+          <input
+            type='password' id='password' name='password' placeholder='Password'
+            required onChange={handleChange} initialvalue={newUser.password} value={newUser.password}
+          />
 
           <button type='submit' className='button-style'>Sign Up</button>
 

@@ -3,30 +3,45 @@ import '../styles/form.css';
 import '../styles/modal.css'
 import SignUp from './modal/SignUp';
 import { useState } from 'react';
+import { login } from '../services/auth.service';
 
 const Login = () => {
 
     // State to hold the users login data
-    const [user, setUser] = useState ({
+    const [user, setUser] = useState({
         email: '',
         password: ''
     })
 
+    const [error, setError] = useState(false);
 
-  const handleChange = (e) => {
-    setUser(prevState => ({
-      ...prevState,
-      [e.target.id]: e.target.value
-    }))
+    // Handles the input value changing and saves it in state
+    const handleChange = (e) => {
+        setUser(prevState => ({
+            ...prevState,
+            [e.target.id]: e.target.value
+        }))
+    }
 
-    console.log(user)
-  }
+    // Submit handler to login a user
+    const handleSubmit = (e) => {
+        // Prevent page refresh
+        e.preventDefault();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('would submit')
-    console.log(user)
-  }
+        // Send data to the server for user login
+        // No need to validate data as html requires input prior to submission
+
+        console.log('would submit')
+        console.log(user)
+
+        login(user.email, user.password)
+            .then(response => {
+                console.log(response)
+            })
+            .catch(err => {
+
+            })
+    }
 
 
     // State and method to toggle the signup modal - Presenting the user
@@ -41,7 +56,7 @@ const Login = () => {
             setModal(true);
         }
     }
-    
+
     return (
         <div className='login-container'>
             <div className='logo'>
@@ -51,9 +66,16 @@ const Login = () => {
             <div className='login-wrapper'>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor='email'>Email</label>
-                    <input type='email' id='email' name='email' placeholder='Email' onChange={handleChange} initialvalue={user.email} value={user.email} />
+                    <input
+                        type='email' id='email' name='email' placeholder='Email' required
+                        onChange={handleChange} initialvalue={user.email} value={user.email}
+                    />
                     <label htmlFor='password'>Password</label>
-                    <input type='password' id='password' name='password' placeholder='Password' onChange={handleChange} initialvalue={user.password} value={user.password} />
+                    <input
+                        type='password' id='password' name='password' placeholder='Password' required
+                        onChange={handleChange} initialvalue={user.password} value={user.password}
+                    />
+                    <span className='error-note'>{error ? 'Incorrect email or password' : null}</span>
                     <button type='submit' className='button-style'>Log In</button>
                 </form>
                 <hr />
@@ -63,10 +85,10 @@ const Login = () => {
                     <button className='button-style'>Login with Facebook</button>
                 </div>
             </div>
-            {modal? <SignUp toggleModal={toggleModal} /> : null }
+            {modal ? <SignUp toggleModal={toggleModal} /> : null}
         </div>
     )
-    
+
 }
 
 export default Login
