@@ -10,9 +10,27 @@ const register = (newUser) => {
     return axios.post(API_URL + "user/", newUser);
 };
 
-
+//To login a user
+const login = (user) => {
+    return axios
+      .post(API_URL + "session", user)
+  
+      // API call was successful, set the token in local storage and return the response
+      .then((response) => {
+        if (response.data.token) {
+          localStorage.setItem("user", JSON.stringify(response.data));
+        }
+  
+        return response;
+      })
+  
+      // API call failed, return the error with appropriate data
+      .catch((err) => {
+        return err.response;
+      })
+  };
 
 
 export {
-    register
+    register, login
 };
