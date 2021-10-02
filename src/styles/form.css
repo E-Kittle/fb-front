@@ -88,3 +88,7 @@ form input {
     background-color: #36a420;
     border-color: #36a420;
 }
+
+.error {
+    color: red;
+}
