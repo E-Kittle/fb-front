@@ -1,5 +1,8 @@
 import '../styles/style.css';
 import '../styles/home.css';
+import { useState, useEffect, useContext } from 'react';
+import { getCurrentFriends, getFriendRequests } from '../services/user.service';
+import { UserContext } from '../App';
 
 // Sample data
 const sample_posts = [
@@ -87,39 +90,52 @@ const sample_posts = [
 ]
 
 
-const sample_contacts = [
-    {
-        username: 'Maddie Heath',
-        temp_img: 'MH',
-    },
-    {
-        username: 'Alicia Berryhill',
-        temp_img: 'AB'
-    },
-    {
-        username: 'Michelle Londono',
-        temp_img: 'ML'
-    },
-    {
-        username: 'Faith R Tronz',
-        temp_img: 'FT'
-    },
-    {
-        username: 'Lisa Bockelman',
-        temp_img: 'LB'
-    }
-]
-
-
-
 const current_user = {
     username: 'Test User',
     temp_img: 'TU'
 }
 
 
+/*
+Here is where the bulk of the data grabbing will need to be done....
+1. Grab friends list and display it on the sidebar
+2. Grab 
+*/
+
+
+
 const Home = () => {
 
+    // Grab UserContext from app.js and destructure currentUser from it
+    const userContext = useContext(UserContext);
+    const { currentUser } = userContext;
+
+    // State to hold each piece of data for the current user
+    const [friendsList, setFriendsList] = useState([]);
+    const [friendReq, setFriendReq] = useState([]);
+
+
+    useEffect(() => {
+        // Grabs current users friends
+        getCurrentFriends()
+            .then(result => {
+                setFriendsList(result.data.friends);
+            })
+            .catch(err => {
+                console.log(err.result)
+            });
+
+        // Grabs current users friend requests
+        getFriendRequests()
+            .then(result => {
+                setFriendReq(result.data.results);
+            })
+            .catch(err => {
+                console.log(err.result)
+            });
+
+
+    }, [])
 
     return (
         <div className='home-wrapper'>
@@ -127,17 +143,17 @@ const Home = () => {
 
             </div>
             <div className='news'>
-                <div className='new-post'>
+                <div className='new-post news-post'>
                     {/* Triggers a modal */}
                     <button className='user-img'>
-                        {current_user.temp_img}
+                        {currentUser.first_name[0]}{currentUser.last_name[0]}
                     </button>
-                    <button>{`What's on your mind, ${current_user.username}`}</button>
+                    <button>{`What's on your mind, ${currentUser.first_name}?`}</button>
                 </div>
                 <div className='news-feed'>
                     {sample_posts.map(post => {
                         return (
-                            <div>
+                            <div className='news-post'>
                                 <div className='news-header'>
                                     <button className='user-img'>{post.user.temp_img}</button>
                                     <h3>{post.user.username}</h3>
@@ -186,13 +202,24 @@ const Home = () => {
                 </div>
             </div>
             <div className='contact-sidebar'>
-                <h2>Friends</h2>
-                {sample_contacts.map(contact => {
-                    return (<div className='friend-aside-wrapper'>
-                        <button className='user-img'>{contact.temp_img}</button>
-                        <h3>{contact.username}</h3>
-                    </div>)
-                })}
+                <div id='home-friend-requests'>
+                    <h2>Friend Requests</h2>
+                    {friendReq.map(contact => {
+                        return (<div className='friend-aside-wrapper friends-style'>
+                            <button className='user-img'>{contact.requestee.first_name[0]}{contact.requestee.last_name[0]}</button>
+                            <h3>{contact.requestee.first_name} {contact.requestee.last_name}</h3>
+                        </div>)
+                    })}
+                </div>
+                <div id='home-friends' >
+                    <h2>Friends</h2>
+                    {friendsList.map(contact => {
+                        return (<div className='friend-aside-wrapper friends-style'>
+                            <button className='user-img'>{contact.first_name[0]}{contact.last_name[0]}</button>
+                            <h3>{contact.first_name} {contact.last_name}</h3>
+                        </div>)
+                    })}
+                </div>
             </div>
 
         </div >

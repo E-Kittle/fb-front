@@ -2,3 +2,52 @@
     display: grid;
     grid-template-columns: 1fr 4fr 1fr;
 }
+
+.user-img {
+    border: solid 2px;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    margin-right: 20px;
+}
+
+/* Styling for the new post */
+.new-post {
+
+    height: 90px;
+    display: flex;
+    align-items: center;
+}
+
+.new-post :nth-child(2) {
+    background-color: #3a3b3c;
+    color: rgb(158, 151, 151);
+    border-radius: 20px;
+    border: none;
+    width: 90%;
+    height: 40px;
+    font-size: 1.5rem;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.new-post :nth-child(2):hover {
+    background-color: #5c5d5e;
+}
+
+/* Styling for the newsfeed */
+.news-post {
+    background-color: #242526;
+    border-radius: 10px;
+    padding-left: 20px;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+
+
+/* Styling for the friends/friend request sidebar */
+.friends-style {
+    display: flex;
+}

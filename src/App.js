@@ -11,9 +11,9 @@ export const UserContext = React.createContext();
 // Set up Reducer state and function
 const initialState = {
   id: '',
-  username: '',
-  email: '',
-  admin: false
+  first_name: '',
+  last_name: '',
+  email: ''
 }
 
 // Reducer method to either set the user in state or logout the user
@@ -22,9 +22,9 @@ const reducer = (state, action) => {
     case 'setUser':
       return {
         id: action.payload.id,
-        username: action.payload.username,
-        email: action.payload.email,
-        admin: action.payload.admin,
+        first_name: action.payload.first_name,
+        last_name: action.payload.last_name,
+        email: action.payload.email
       }
     case 'logoutUser':
       return initialState
