@@ -1,6 +1,7 @@
 .home-wrapper {
     display: grid;
     grid-template-columns: 1fr 4fr 1fr;
+    padding-top: 10px;
 }
 
 .user-img {
@@ -129,4 +130,14 @@
 /* Styling for the friends/friend request sidebar */
 .friends-style {
     display: flex;
+}
+
+#home-friend-requests div {
+    display: flex;
+    align-items: center;
+}
+
+#home-friend-requests div a {
+    color: #1877f2;
+    padding-left: 20px;
 }

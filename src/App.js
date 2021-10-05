@@ -3,6 +3,7 @@ import Routes from './Routes';
 import { BrowserRouter as Router } from 'react-router-dom'
 import './styles/style.css';
 import { authenticateUser } from './services/auth.service'
+import Nav from './components/Nav'
 
 
 // Export context for the user reducerhook
@@ -59,6 +60,7 @@ function App() {
     >
       <Router>
         <div className='app'>
+          {currentUser.first_name === ''? null : <Nav /> }
           <Routes />
         </div>
       </Router>

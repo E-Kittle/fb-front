@@ -5,7 +5,7 @@ import { Switch, Route } from 'react-router-dom';
 // Import components
 import Login from './components/Login';
 import Home from './components/Home';
-
+import Friends from './components/Friends';
 
 const Routes = () => {
 
@@ -16,6 +16,7 @@ const Routes = () => {
     return (
         <Switch>
             <Route path='/' exact component={currentUser.email === '' ? Login: Home} />
+            <Route path='/friends' component={Friends} />
         </Switch>
     )
 

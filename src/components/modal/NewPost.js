@@ -22,6 +22,7 @@ function NewPost(props) {
         // Create the new post. If successful, close the modal
         createNewPost(newPost)
             .then(response => {
+                props.setUpdateNewsFeed(true);
                 props.toggleModal();
             })
             .catch(err => {

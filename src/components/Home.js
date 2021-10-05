@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from 'react';
 import { getCurrentFriends, getFriendRequests, getNewsFeed } from '../services/user.service';
 import { UserContext } from '../App';
 import NewPost from './modal/NewPost';
-
+import htmlDecode from '../services/formatting';
 
 
 
@@ -26,11 +26,11 @@ const Home = () => {
     const [friendsList, setFriendsList] = useState([]);
     const [friendReq, setFriendReq] = useState([]);
     const [newsFeed, setNewsFeed] = useState([]);
+    const [updateNewsFeed, setUpdateNewsFeed] = useState(false);
 
     // State and function to manage the modal for a new news post
-    const [ modal, setModal ] = useState(false);
+    const [modal, setModal] = useState(false);
     const toggleModal = () => {
-        console.log('would toggle modal')
         setModal(!modal);
     }
 
@@ -45,6 +45,10 @@ const Home = () => {
                 console.log(err.result)
             });
 
+
+    }, [])
+
+    useEffect(() => {
         // Grabs current users friend requests
         getFriendRequests()
             .then(result => {
@@ -53,18 +57,31 @@ const Home = () => {
             .catch(err => {
                 console.log(err.result)
             });
+    }, []);
+
+    useEffect(() => {
+        getNewsFeed()
+            .then(result => {
+                setNewsFeed(result.data)
+            })
+            .catch(err => {
+                console.log(err.result)
+            });
+    }, [])
+
+    useEffect(() => {
+        //Used to refresh the page if the user has submitted a new post
 
         getNewsFeed()
             .then(result => {
-                console.log(result.data)
                 setNewsFeed(result.data)
-                // setFriendReq(result.data.results);
             })
             .catch(err => {
                 console.log(err.result)
             });
 
-    }, [])
+        setUpdateNewsFeed(false)
+    }, [updateNewsFeed])
 
     return (
         <div className='home-wrapper'>
@@ -82,7 +99,7 @@ const Home = () => {
                 <div className='news-feed'>
                     {newsFeed.map(post => {
                         return (
-                            <div className='news-post'>
+                            <div className='news-post' key={post._id}>
                                 <div className='news-header'>
                                     <button className='user-img'>{post.author.first_name[0]}{post.author.last_name[0]}</button>
                                     <div>
@@ -91,7 +108,7 @@ const Home = () => {
                                     </div>
                                 </div>
                                 <div className='news-content'>
-                                    <p>{post.content}</p>
+                                    <p>{htmlDecode(post.content)}</p>
                                     <div>
                                         <p>{post.likes.length} Likes</p>
                                         <p>{post.comments.length} Comments</p>
@@ -108,12 +125,12 @@ const Home = () => {
                                     {post.comments.length === 0 ? <p>No comments yet!</p> : null}
                                     {post.comments.map(comment => {
                                         return (
-                                            <div className='comment-wrapper'>
+                                            <div className='comment-wrapper' key={comment._id}>
                                                 {/* Need to fix the backend not populating comment author */}
                                                 {/* <button>{comment.temp_img}</button> */}
                                                 <div>
                                                     {/* <a href='/#'>{comment.username}</a> */}
-                                                    <p>{comment.content}</p>
+                                                    <p>{htmlDecode(comment.content)}</p>
                                                 </div>
                                                 <div className='comment-meta'>
                                                     <div>
@@ -138,7 +155,10 @@ const Home = () => {
             </div>
             <div className='contact-sidebar'>
                 <div id='home-friend-requests'>
-                    <h2>Friend Requests</h2>
+                    <div>
+                        <h2>Friend Requests</h2>
+                        <a href='/friendRequests'>See All</a>
+                    </div>
                     {friendReq.map(contact => {
                         return (<div className='friend-aside-wrapper friends-style'>
                             <button className='user-img'>{contact.requestee.first_name[0]}{contact.requestee.last_name[0]}</button>
@@ -156,7 +176,7 @@ const Home = () => {
                     })}
                 </div>
             </div>
-            {modal ? <NewPost toggleModal={toggleModal} /> : null}
+            {modal ? <NewPost toggleModal={toggleModal} setUpdateNewsFeed={setUpdateNewsFeed} /> : null}
         </div >
     )
 }
