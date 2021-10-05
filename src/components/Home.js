@@ -4,7 +4,8 @@ import { useState, useEffect, useContext } from 'react';
 import { getCurrentFriends, getFriendRequests, getNewsFeed } from '../services/user.service';
 import { UserContext } from '../App';
 import NewPost from './modal/NewPost';
-import htmlDecode from '../services/formatting';
+// import htmlDecode from '../services/formatting';
+import NewsPost from './NewsPost';
 
 
 
@@ -97,70 +98,21 @@ const Home = () => {
                     <button onClick={toggleModal}>{`What's on your mind, ${currentUser.first_name}?`}</button>
                 </div>
                 <div className='news-feed'>
-                    {newsFeed.map(post => {
-                        return (
-                            <div className='news-post' key={post._id}>
-                                <div className='news-header'>
-                                    <button className='user-img'>{post.author.first_name[0]}{post.author.last_name[0]}</button>
-                                    <div>
-                                        <h3>{post.author.first_name} {post.author.last_name}</h3>
-                                        <p>{post.date}</p>
-                                    </div>
-                                </div>
-                                <div className='news-content'>
-                                    <p>{htmlDecode(post.content)}</p>
-                                    <div>
-                                        <p>{post.likes.length} Likes</p>
-                                        <p>{post.comments.length} Comments</p>
-                                    </div>
-                                    <hr />
-                                </div>
-                                <div className='news-button-wrapper'>
-                                    <button>Like</button>
-                                    <button>Comment</button>
-                                    {/* This button just adds focus to the text input */}
-                                </div>
-                                <hr />
-                                <div className='comment-container'>
-                                    {post.comments.length === 0 ? <p>No comments yet!</p> : null}
-                                    {post.comments.map(comment => {
-                                        return (
-                                            <div className='comment-wrapper' key={comment._id}>
-                                                {/* Need to fix the backend not populating comment author */}
-                                                {/* <button>{comment.temp_img}</button> */}
-                                                <div>
-                                                    {/* <a href='/#'>{comment.username}</a> */}
-                                                    <p>{htmlDecode(comment.content)}</p>
-                                                </div>
-                                                <div className='comment-meta'>
-                                                    <div>
-                                                        <a href='/#'>Like</a>
-                                                        <a href='/#'>Reply</a>
-                                                    </div>
-                                                    <p>{comment.likes}</p>
-                                                </div>
-                                            </div>
-                                        )
-                                    })}
-                                    <form className='new-comment-form'>
-                                        <label htmlFor='new-comment'>New Comment</label>
-                                        <button className='user-img'>{currentUser.first_name[0]}{currentUser.last_name[0]}</button>
-                                        <input type='text' id='new-comment' name='new-comment' placeholder='write a comment...' />
-                                    </form>
-                                </div>
-                            </div>
-                        )
-                    })}
+                    {newsFeed.map(post => { return <NewsPost post={post} key={post._id} /> })}
                 </div>
+
+
+
+
             </div>
             <div className='contact-sidebar'>
                 <div id='home-friend-requests'>
                     <div>
                         <h2>Friend Requests</h2>
-                        <a href='/friendRequests'>See All</a>
+                        <a href='/friends'>See All</a>
                     </div>
                     {friendReq.map(contact => {
-                        return (<div className='friend-aside-wrapper friends-style'>
+                        return (<div className='friend-aside-wrapper friends-style' key={contact._id}>
                             <button className='user-img'>{contact.requestee.first_name[0]}{contact.requestee.last_name[0]}</button>
                             <h3>{contact.requestee.first_name} {contact.requestee.last_name}</h3>
                         </div>)
@@ -169,7 +121,7 @@ const Home = () => {
                 <div id='home-friends' >
                     <h2>Friends</h2>
                     {friendsList.map(contact => {
-                        return (<div className='friend-aside-wrapper friends-style'>
+                        return (<div className='friend-aside-wrapper friends-style' key={contact._id}>
                             <button className='user-img'>{contact.first_name[0]}{contact.last_name[0]}</button>
                             <h3>{contact.first_name} {contact.last_name}</h3>
                         </div>)

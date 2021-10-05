@@ -11,7 +11,7 @@ const Nav =() => {
     return (
         <nav>
             <div className='nav-1'>
-                <h1>OdinBook</h1>
+                <a href='/' id='nav-title'>OdinBook</a>
                 <form>
                     <label htmlFor='find-friend'>Find Friend</label>
                     <input type='text' id='find-friend' name='find-friend' placeholder='Find Friend'></input>

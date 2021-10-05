@@ -78,6 +78,7 @@
 
 .news-content > p {
     font-size: 1.4rem;
+    padding-bottom: 15px;
 }
 
 .news-content div {
@@ -91,6 +92,7 @@
     justify-content: space-evenly;
     width: 80%;
     margin: 0 auto;
+    padding: 10px 0;
 }
 
 .news-button-wrapper button{
@@ -125,11 +127,25 @@
     height: 16px;
     font-size: 1.5rem;
     text-align: left;
-    /* padding-left: 20px; */
+    padding: 20px 10px;
+}
+
+.comment-container {
+    padding: 10px 0;
 }
 /* Styling for the friends/friend request sidebar */
+.contact-sidebar h2{
+    font-size: 2rem;
+}
+
+.contact-sidebar > div {
+    padding-top: 2.5rem;
+}
+
+
 .friends-style {
     display: flex;
+    align-items: center;
 }
 
 #home-friend-requests div {
