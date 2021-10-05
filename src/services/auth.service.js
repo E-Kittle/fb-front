@@ -62,5 +62,5 @@ const authenticateUser = (dispatch) => {
 
 
 export {
-    register, login, authenticateUser
+    register, login, logout, authenticateUser
 };

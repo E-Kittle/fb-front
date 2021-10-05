@@ -1,6 +1,7 @@
 import htmlDecode from "../services/formatting";
 import { UserContext } from '../App';
 import { useContext, useRef } from 'react';
+import { likePost } from '../services/user.service';
 
 
 const NewsPost = (props) => {
@@ -18,8 +19,22 @@ const NewsPost = (props) => {
             commentRef.current.focus();
     }
 
+    const toggleLike = () => {
+        likePost(post._id)
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            console.log(error.response)
+        })
+        // A user can add a like or remove a like...
+        // the API checks if the user has like the post before or not. So all I need to do 
+        // is send that data to the API, and update the DOM...
+        //For simplicity, just trigger another API call
+    }
 
     return (
+        
         <div className='news-post' key={post._id}>
             <div className='news-header'>
                 <button className='user-img'>{post.author.first_name[0]}{post.author.last_name[0]}</button>
@@ -37,7 +52,7 @@ const NewsPost = (props) => {
                 <hr />
             </div>
             <div className='news-button-wrapper'>
-                <button>Like</button>
+                <button onClick={toggleLike}>Like</button>
                 <button onClick={changeFocus}>Comment</button>
                 {/* This button just adds focus to the text input */}
             </div>

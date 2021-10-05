@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { UserContext } from '../App';
+import { logout } from '../services/auth.service';
 
 const Nav =() => {
 
@@ -7,6 +8,12 @@ const Nav =() => {
         // Grab UserContext from app.js and destructure currentUser from it
         const userContext = useContext(UserContext);
         const { currentUser } = userContext;
+
+        const logoutUser = () => {
+            userContext.userDispatch({ type: 'logoutUser'})
+            logout();
+        }
+
 
     return (
         <nav>
@@ -28,7 +35,8 @@ const Nav =() => {
                 <a href='/profile' className='nav-element'>
                     {currentUser.first_name} {currentUser.last_name}
                 </a>
-                <button className='nav-element' id='logout'>Logout</button>
+                {/* To logout a user: delete JWT, clear user out of currentUser state */}
+                <button className='nav-element' id='logout' onClick={logoutUser}>Logout</button>
             </div>
 
         </nav>

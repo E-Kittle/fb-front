@@ -31,6 +31,7 @@ const Home = () => {
 
     // State and function to manage the modal for a new news post
     const [modal, setModal] = useState(false);
+
     const toggleModal = () => {
         setModal(!modal);
     }
@@ -98,10 +99,8 @@ const Home = () => {
                     <button onClick={toggleModal}>{`What's on your mind, ${currentUser.first_name}?`}</button>
                 </div>
                 <div className='news-feed'>
-                    {newsFeed.map(post => { return <NewsPost post={post} key={post._id} /> })}
+                    {newsFeed.map(post => { return <NewsPost post={post} key={post._id} setUpdateNewsFeed={setUpdateNewsFeed} /> })}
                 </div>
-
-
 
 
             </div>

@@ -62,7 +62,6 @@ const Login = () => {
         login(currentUser)
             .then(response => {
                 if (response.status === 200) {
-                    console.log('loggedin!')
                     setError(false);
 
                     // Sets the new user in App.js and 'redirects' them to the homepage
