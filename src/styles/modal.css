@@ -60,7 +60,7 @@
     border-radius: 50%;
     height: 40px;
     width: 40px;
-    margin-top: 10px;
+    margin: 0 10px;
     position: absolute;
     right: 0;
 }
@@ -68,13 +68,16 @@
 .modal-header button:hover {
     background-color: rgba(0,0,0,0.5);
 }
+
 .modal-main form {
     padding: 0 15px 15px 15px;
 }
 
 .signup-form input{
     height: 1rem;
-    background-color: #ebedf0;
+    background-color: #3a3b3c;
+    border: none;
+    color: white;
     display: flex;
     flex-direction: column;
     margin: 5px 0;
@@ -87,6 +90,7 @@
 
 #form-names input {
     width: 155px;
+    
 }
 
 .signup-form button {

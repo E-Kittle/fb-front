@@ -66,8 +66,17 @@ function SignUp(props) {
     }
   }
 
+
+      // Used to close the modal when the user clicks outside of the modal
+      const closeModal = (e) => {
+        if (e.target.className === 'modal') {
+            props.toggleModal();
+        }
+    }
+
+
   return (
-    <div className="modal">
+    <div className="modal" onClick={closeModal}>
       <div className='modal-main'>
         <div className="modal-header">
           <div>

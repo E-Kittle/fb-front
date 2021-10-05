@@ -45,6 +45,7 @@ const createNewPost = (post) => {
 // Adds/Removes a like on a post - API handles removing a post
 const likePost = (postid) => {
     const config = authHeader();
+    console.log(config)
     return axios.put(`${API_URL}post/${postid}/like`, config)
 }
 
