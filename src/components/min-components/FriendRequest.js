@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { UserContext } from '../../App';
+import { Link } from 'react-router-dom';
 
 
 const FriendRequest = (props) => {
@@ -20,7 +21,7 @@ const FriendRequest = (props) => {
                 <div className='friend-container' key={props.friend.requestee._id}>
                     <h3>{props.friend.requestee.first_name} {props.friend.requestee.last_name}</h3>
                     <div id='pending-friend-container'>
-                        <a className='friend-container-button' href={`/profile/${props.friend.requestee._id}`}>View Profile</a>
+                        <Link className='friend-container-button' to={`/profile/${props.friend.requestee._id}`}>View Profile</Link>
                         <button className='friend-container-button'>Accept</button>
                         <button className='friend-container-button'>Reject</button>
                     </div>
@@ -35,7 +36,7 @@ const FriendRequest = (props) => {
                 <div className='friend-container' key={props.friend.requested._id}>
                     <h3>{props.friend.requested.first_name} {props.friend.requested.last_name}</h3>
                     <div>
-                        <a className='friend-container-button' href={`/profile/${props.friend.requested._id}`}>View Profile</a>
+                        <Link className='friend-container-button' to={`/profile/${props.friend.requested._id}`}>View Profile</Link>
                         <button className='friend-container-button'>Cancel Request</button>
                     </div>
                 </div>

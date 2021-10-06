@@ -3,6 +3,7 @@ import '../styles/home.css';
 import { useState, useEffect, useContext } from 'react';
 import { getCurrentFriends, getFriendRequests, getNewsFeed } from '../services/user.service';
 import { UserContext } from '../App';
+import { Link } from 'react-router-dom';
 import NewPost from './modal/NewPost';
 // import htmlDecode from '../services/formatting';
 import NewsPost from './NewsPost';
@@ -130,7 +131,7 @@ const Home = () => {
                 <div id='home-friend-requests'>
                     <div>
                         <h2>Friend Requests</h2>
-                        <a href='/friends'>See All</a>
+                        <Link to='/friends'>See All</Link>
                     </div>
                     {friendReq.map(contact => { return <PendingFriendReq contact={contact} key={contact._id}/> })}
                 </div>

@@ -2,6 +2,7 @@ import htmlDecode from "../services/formatting";
 import { UserContext } from '../App';
 import { useContext, useRef } from 'react';
 import { likePost } from '../services/user.service';
+import { Link } from 'react-router-dom';
 
 
 const NewsPost = (props) => {
@@ -70,8 +71,8 @@ const NewsPost = (props) => {
                             </div>
                             <div className='comment-meta'>
                                 <div>
-                                    <a href='/#'>Like</a>
-                                    <a href='/#'>Reply</a>
+                                    <Link to='/#'>Like</Link>
+                                    <Link to='/#'>Reply</Link>
                                 </div>
                                 <p>{comment.likes}</p>
                             </div>

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 
 const Friend = (props) => {
 
@@ -8,7 +9,7 @@ const Friend = (props) => {
         <div className='friend-container' key={friend._id}>
             <h3>{friend.first_name} {friend.last_name}</h3>
             <div>
-                <a className='friend-container-button' href={`/profile/${friend._id}`}>View Profile</a>
+                <Link className='friend-container-button' to={`/profile/${friend._id}`}>View Profile</Link>
                 <button className='friend-container-button'>Unfriend</button>
             </div>
         </div>

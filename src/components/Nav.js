@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { UserContext } from '../App';
 import { logout } from '../services/auth.service';
+import { Link } from 'react-router-dom';
 
 const Nav =() => {
 
@@ -18,7 +19,7 @@ const Nav =() => {
     return (
         <nav>
             <div className='nav-1'>
-                <a href='/' id='nav-title'>OdinBook</a>
+                <Link to='/' id='nav-title'>OdinBook</Link>
                 <form>
                     <label htmlFor='find-friend'>Find Friend</label>
                     <input type='text' id='find-friend' name='find-friend' placeholder='Find Friend'></input>
@@ -26,15 +27,15 @@ const Nav =() => {
             </div>
 
             <div className='nav-2'>
-                <a href='/' className='nav-element'>Home</a>
-                <a href='/friends' className='nav-element'>Friends</a>
+                <Link to='/' className='nav-element'>Home</Link>
+                <Link to='/friends' className='nav-element'>Friends</Link>
             </div>
 
             <div className='nav-3'>
                 {/* Could add a dm option or possibly, an edit page option*/}
-                <a href='/profile' className='nav-element'>
+                <Link to='/profile' className='nav-element'>
                     {currentUser.first_name} {currentUser.last_name}
-                </a>
+                </Link>
                 {/* To logout a user: delete JWT, clear user out of currentUser state */}
                 <button className='nav-element' id='logout' onClick={logoutUser}>Logout</button>
             </div>
