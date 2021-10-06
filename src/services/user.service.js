@@ -39,11 +39,12 @@ const rejectFriendRequest = (reqId) => {
 // This approves the friend request and the API adds the friends to the friend lists
 const acceptFriendRequest = (reqId) => {
     const config = authHeader();
-    return axios.put(`${API_URL}user/friendreq/${reqId}`, config)
+    return axios.put(`${API_URL}user/friendreq/${reqId}`, {'data': ''}, config)
 }
 
-const deleteFriend = () => {
-
+const deleteFriend = (friendId) => {
+    const config = authHeader();
+    return axios.delete(`${API_URL}user/friend/${friendId}`, config)
 }
 
 
@@ -72,8 +73,7 @@ const createNewPost = (post) => {
 // Adds/Removes a like on a post - API handles removing a post
 const likePost = (postid) => {
     const config = authHeader();
-    console.log(config)
-    return axios.put(`${API_URL}post/${postid}/like`, config)
+    return axios.put(`${API_URL}post/${postid}/like`, {'data': ''}, config)
 }
 
 export {

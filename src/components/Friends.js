@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getCurrentFriends, getFriendRequests } from '../services/user.service';
-import Friend from './min-components/Friend';
-import FriendRequest from './min-components/FriendRequest';
+import Friend from './mini-components/Friend';
+import FriendRequest from './mini-components/FriendRequest';
 
 const Friends = () => {
 
@@ -65,7 +65,7 @@ const Friends = () => {
                 {/* If friendReqActive=true, then user is viewing the friend request list */}
                 {!friendReqActive ? <h2>All Friends</h2> : <h2>Friend Requests</h2>}
                 <div className='friends-container'>
-                    {!friendReqActive ? friendsList.map(friend => { return (<Friend friend={friend} key={friend._id} />) }) : <FriendRequest friendRequestList={friendRequestList} grabFriendRequests={grabFriendRequests} grabFriends={grabFriends}/>}
+                    {!friendReqActive ? friendsList.map(friend => { return (<Friend friend={friend} key={friend._id} grabFriends={grabFriends}/>) }) : <FriendRequest friendRequestList={friendRequestList} grabFriendRequests={grabFriendRequests} grabFriends={grabFriends}/>}
                 </div>
             </div>
         </div>

@@ -49,8 +49,8 @@ const Login = () => {
     const loginTestUser = (e) => {
         e.preventDefault();
         let testUser = {
-            email: 'BB@gmail.com',
-            password: 'bensPass'
+            email: 'PR@gmail.com',
+            password: 'patsPass'
         }
 
         loginUser(testUser)
