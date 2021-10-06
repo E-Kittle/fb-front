@@ -64,7 +64,11 @@ const Home = () => {
     useEffect(() => {
         getNewsFeed()
             .then(result => {
-                setNewsFeed(result.data)
+                if (result.data.new === true) {
+                    setNewsFeed([]);
+                } else {
+                    setNewsFeed(result.data)
+                }
             })
             .catch(err => {
                 console.log(err.result)
@@ -76,7 +80,11 @@ const Home = () => {
 
         getNewsFeed()
             .then(result => {
-                setNewsFeed(result.data)
+                if (result.data.new === true) {
+                    setNewsFeed([]);
+                } else {
+                    setNewsFeed(result.data)
+                }
             })
             .catch(err => {
                 console.log(err.result)
@@ -84,6 +92,20 @@ const Home = () => {
 
         setUpdateNewsFeed(false)
     }, [updateNewsFeed])
+
+    const PendingFriendReq = (props) => {
+        const { contact } = props;
+        if (contact.requestee._id === currentUser.id) {
+            return null;
+        } else {
+            return (
+                <div className='friend-aside-wrapper friends-style' key={contact._id}>
+                    <button className='user-img'>{contact.requestee.first_name[0]}{contact.requestee.last_name[0]}</button>
+                    <h3>{contact.requestee.first_name} {contact.requestee.last_name}</h3>
+                </div>
+            )
+        }
+    }
 
     return (
         <div className='home-wrapper'>
@@ -99,7 +121,7 @@ const Home = () => {
                     <button onClick={toggleModal}>{`What's on your mind, ${currentUser.first_name}?`}</button>
                 </div>
                 <div className='news-feed'>
-                    {newsFeed.map(post => { return <NewsPost post={post} key={post._id} setUpdateNewsFeed={setUpdateNewsFeed} /> })}
+                    {newsFeed.length === 0 ? <h3>Add some friends to see some content!</h3> : newsFeed.map(post => { return <NewsPost post={post} key={post._id} setUpdateNewsFeed={setUpdateNewsFeed} /> })}
                 </div>
 
 
@@ -110,12 +132,7 @@ const Home = () => {
                         <h2>Friend Requests</h2>
                         <a href='/friends'>See All</a>
                     </div>
-                    {friendReq.map(contact => {
-                        return (<div className='friend-aside-wrapper friends-style' key={contact._id}>
-                            <button className='user-img'>{contact.requestee.first_name[0]}{contact.requestee.last_name[0]}</button>
-                            <h3>{contact.requestee.first_name} {contact.requestee.last_name}</h3>
-                        </div>)
-                    })}
+                    {friendReq.map(contact => { return <PendingFriendReq contact={contact} key={contact._id}/> })}
                 </div>
                 <div id='home-friends' >
                     <h2>Friends</h2>

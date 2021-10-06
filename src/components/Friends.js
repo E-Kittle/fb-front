@@ -5,9 +5,9 @@ import FriendRequest from './min-components/FriendRequest';
 
 const Friends = () => {
 
-    const [ friendsList, setFriendsList ] = useState([]);
-    const [ friendRequestList, setFriendRequestList ] = useState([]); 
-    const [ friendReqActive, setFriendReqActive ] = useState(true);
+    const [friendsList, setFriendsList] = useState([]);
+    const [friendRequestList, setFriendRequestList] = useState([]);
+    const [friendReqActive, setFriendReqActive] = useState(true);
 
 
     useEffect(() => {
@@ -47,16 +47,19 @@ const Friends = () => {
             <div className='friends-page-sidebar'>
                 <ul>
                     <li>
-                        <button id='friend-toggle' onClick={toggleList}>Friend Requests</button>
+                        <button id='friend-req-toggle' className={friendReqActive? 'sidebar-button active-friend': 'sidebar-button'} onClick={toggleList}>Friend Requests</button>
                     </li>
                     <li>
-                    <button id='friend-req-toggle' onClick={toggleList}>All Friends</button>
+                        <button id='friend-toggle' className={!friendReqActive? ' sidebar-button active-friend': 'sidebar-button'} onClick={toggleList}>All Friends</button>
                     </li>
                 </ul>
             </div>
-            <div className='friends-container'>
+            <div className='friends-page-main'>
                 {/* If friendReqActive=true, then user is viewing the friend request list */}
-                {friendReqActive? friendsList.map(friend => {return (<Friend friend={friend} />)}) : friendRequestList.map(friend => {return (<FriendRequest friend={friend} />)}) }
+                {!friendReqActive ? <h2>All Friends</h2> : <h2>Friend Requests</h2>}
+                <div className='friends-container'>
+                    {!friendReqActive ? friendsList.map(friend => { return (<Friend friend={friend} key={friend._id} />) }) : <FriendRequest friendRequestList={friendRequestList} />}
+                </div>
             </div>
         </div>
     )
