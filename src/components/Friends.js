@@ -9,8 +9,7 @@ const Friends = () => {
     const [friendRequestList, setFriendRequestList] = useState([]);
     const [friendReqActive, setFriendReqActive] = useState(true);
 
-
-    useEffect(() => {
+    const grabFriends = () => {
         // Grabs current users friends
         getCurrentFriends()
             .then(result => {
@@ -19,11 +18,9 @@ const Friends = () => {
             .catch(err => {
                 console.log(err.result)
             });
+    }
 
-
-    }, [])
-
-    useEffect(() => {
+    const grabFriendRequests = () => {
         // Grabs current users friend requests
         getFriendRequests()
             .then(result => {
@@ -32,6 +29,16 @@ const Friends = () => {
             .catch(err => {
                 console.log(err.result)
             });
+    }
+
+    // Effect to grab the friends list on page load
+    useEffect(() => {
+        grabFriends();
+    }, [])
+
+    // Effect to grab the friend request list on page load
+    useEffect(() => {
+        grabFriendRequests();
     }, []);
 
     const toggleList = (e) => {
@@ -58,7 +65,7 @@ const Friends = () => {
                 {/* If friendReqActive=true, then user is viewing the friend request list */}
                 {!friendReqActive ? <h2>All Friends</h2> : <h2>Friend Requests</h2>}
                 <div className='friends-container'>
-                    {!friendReqActive ? friendsList.map(friend => { return (<Friend friend={friend} key={friend._id} />) }) : <FriendRequest friendRequestList={friendRequestList} />}
+                    {!friendReqActive ? friendsList.map(friend => { return (<Friend friend={friend} key={friend._id} />) }) : <FriendRequest friendRequestList={friendRequestList} grabFriendRequests={grabFriendRequests} grabFriends={grabFriends}/>}
                 </div>
             </div>
         </div>

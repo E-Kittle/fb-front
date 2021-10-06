@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { UserContext } from '../../App';
 import { Link } from 'react-router-dom';
+import { rejectFriendRequest, acceptFriendRequest } from '../../services/user.service';
 
 
 const FriendRequest = (props) => {
@@ -12,7 +13,34 @@ const FriendRequest = (props) => {
     const userContext = useContext(UserContext);
     const { currentUser } = userContext;
 
+    // Event handler to reject a friend request
+    const handleRejection = (e) => {
+        console.log(`would reject request for request: ${e.target.id}`)
+        rejectFriendRequest(e.target.id)
+        .then(response => {
+            props.grabFriendRequests();
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
 
+    // Event handler to accept a friend request
+    const handleAcceptance = (e) => {
+        console.log(`would accept request for request: ${e.target.id}`)
+        acceptFriendRequest(e.target.id)
+        .then(response => {
+            console.log('worked')
+            props.grabFriends();
+            props.grabFriendRequests();
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+
+    // Function/Component to display the appropriate data to the DOM - Appropriate data is defined
+    // as a request received by the user
     const PendingRequest = (props) => {
         if (props.friend.requestee._id === currentUser.id) {
             return null;
@@ -22,14 +50,16 @@ const FriendRequest = (props) => {
                     <h3>{props.friend.requestee.first_name} {props.friend.requestee.last_name}</h3>
                     <div id='pending-friend-container'>
                         <Link className='friend-container-button' to={`/profile/${props.friend.requestee._id}`}>View Profile</Link>
-                        <button className='friend-container-button'>Accept</button>
-                        <button className='friend-container-button'>Reject</button>
+                        <button id={props.friend._id} className='friend-container-button' onClick={handleAcceptance}>Accept</button>
+                        <button id={props.friend._id} className='friend-container-button' onClick={handleRejection}>Reject</button>
                     </div>
                 </div>
             )
         }
     }
 
+    // Function/Component to display the appropriate data to the DOM - Appropriate data is for
+    // requests sent by the user
     const SentRequest = (props) => {
         if (props.friend.requestee._id === currentUser.id) {
             return (
@@ -37,7 +67,7 @@ const FriendRequest = (props) => {
                     <h3>{props.friend.requested.first_name} {props.friend.requested.last_name}</h3>
                     <div>
                         <Link className='friend-container-button' to={`/profile/${props.friend.requested._id}`}>View Profile</Link>
-                        <button className='friend-container-button'>Cancel Request</button>
+                        <button id={props.friend._id} className='friend-container-button' onClick={handleRejection}>Cancel Request</button>
                     </div>
                 </div>
             )
@@ -47,8 +77,6 @@ const FriendRequest = (props) => {
     }
 
 
-    // Need to break this down into the currentUser being the requestee vs. requested
-    // 'Your pending requests' and 'Your sent requests'
     return (
         <div className='friend-req-wrapper'>
             {console.log(friendRequestList)}

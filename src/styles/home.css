@@ -198,7 +198,6 @@
 
 .friends-container {
     display: flex;
-    justify-content: space-evenly;
     flex-wrap: wrap;
     padding: 50px;
     width: 100%;
@@ -223,7 +222,6 @@
 .friend-container div {
     display: flex;
     align-items: center;
-    align-content: center;
     justify-content: space-evenly;
     height: 100%;
 }
@@ -233,7 +231,8 @@
     border: #365899;
     border-radius: 6px;
     color: white;
-    line-height: 48px;
+    height: 40px;
+    line-height: 1.3rem;
     font-size: 1.3rem;
     font-weight: bold;
     text-align: center;
@@ -242,8 +241,8 @@
     text-decoration: none;
 }
 
-.friend-container-button a {
-    padding-top: 10px;
+.friend-container a {
+    padding-top: 15px;
 }
 
 #pending-friend-container {

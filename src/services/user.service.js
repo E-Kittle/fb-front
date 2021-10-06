@@ -6,6 +6,10 @@ import authHeader from './auth-header';
 
 const API_URL = "http://localhost:5000/";
 
+// SERVICE REQUESTS FOR FRIENDS
+// ------------------------------------------------------------------------------------
+
+
 // Grab the current users friendslist
 // API uses bearer token to gran currentusers data
 const getCurrentFriends = () => {
@@ -26,15 +30,38 @@ const getFriendRequests = () => {
     return axios.get(`${API_URL}user/friendreq`, config)
 }
 
+// This just requires us to delete the friend request. It works for the reject and cancel friend request buttons
+const rejectFriendRequest = (reqId) => {
+    const config = authHeader();
+    return axios.delete(`${API_URL}user/friendreq/${reqId}`, config)
+}
+
+// This approves the friend request and the API adds the friends to the friend lists
+const acceptFriendRequest = (reqId) => {
+    const config = authHeader();
+    return axios.put(`${API_URL}user/friendreq/${reqId}`, config)
+}
+
+const deleteFriend = () => {
+
+}
+
+
+//SERVICE REQUESTS FOR NEWSFEED
+// ------------------------------------------------------------------------------------
+
 // Grabs the current users newsfeed (for profile)
 const getNewsFeed = () => {
     const config = authHeader();
     return axios.get(`${API_URL}posts`, config)
 }
 
-// Grabs the current users HOME newsfeed (newsfeed from friends)
 
 
+
+
+// SERVICE REQUESTS FOR POSTS
+// ------------------------------------------------------------------------------------
 
 // Creates a new post
 const createNewPost = (post) => {
@@ -54,5 +81,8 @@ export {
     getFriendRequests,
     getNewsFeed,
     createNewPost,
-    likePost
+    likePost,
+    rejectFriendRequest,
+    acceptFriendRequest,
+    deleteFriend
 };
