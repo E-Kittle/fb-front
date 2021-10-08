@@ -307,16 +307,19 @@
 
 .profile-header {
     padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .profile-header p {
-    text-align: center;
     font-size: 1.5rem;
 }
 
-.profile-header h1 {
-    text-align: center;
+.profile-header button {
+    margin-top: 20px;
 }
+
 
 .profile-header-wrapper hr {
     width: 80%;

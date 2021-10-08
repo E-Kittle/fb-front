@@ -45,7 +45,10 @@ const deleteFriend = (friendId) => {
     return axios.delete(`${API_URL}user/friend/${friendId}`, config)
 }
 
-
+const addFriend = (friendId) => {
+    const config = authHeader();
+    return axios.post(`${API_URL}user/friend/${friendId}`, {'data': ''}, config)
+}
 
 // SERVICE REQUESTS FOR POSTS
 // ------------------------------------------------------------------------------------
@@ -93,5 +96,6 @@ export {
     deleteFriend,
     getProfile,
     getProfileFeed,
-    findFriend
+    findFriend,
+    addFriend
 };

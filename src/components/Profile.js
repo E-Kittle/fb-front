@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../App';
-import { getProfile, getProfileFeed } from '../services/user.service'
+import { getProfile, getProfileFeed, addFriend } from '../services/user.service'
 import NewsPost from './mini-components/NewsPost';
 // import Friend from './mini-components/Friend';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 
 const Profile = (props) => {
@@ -58,7 +58,7 @@ const Profile = (props) => {
                 console.log(error)
             })
 
-            setFeedToggle(true)
+        setFeedToggle(true)
     }, [props.match.params.id])
 
 
@@ -91,6 +91,45 @@ const Profile = (props) => {
         )
     }
 
+    // Router method for re-routing user after successful logout
+    let history = useHistory();
+    const addNewFriend = () => {
+        console.log(props.match.params.id + ' Added as friend')
+
+        addFriend(props.match.params.id)
+            .then(results => {
+                console.log('success!')
+                history.push('/friends')
+            })
+            .catch(error => {
+                if (error.response.status===400) {
+                    history.push('/friends')
+                }
+                console.log(error.response)
+            })
+        // Add them as a friend in the db
+        // redirect for friend page
+
+    }
+
+    console.log(currentUser)
+    console.log(friends)
+    const NewFriend = () => {
+        let test = true;
+        currentUser.friends.forEach(currentFriend => {
+            friends.forEach(profileFriend => {
+                if (currentFriend === profileFriend._id) {
+                    test = false;
+                }
+            })
+        })
+        if (test) {
+            return null;
+        } else {
+            return <button className='friend-container-button' onClick={addNewFriend}>ADD FRIEND</button>
+        }
+    }
+
     return (
         <div className='profile-wrapper'>
             <div className='profile-header-wrapper'>
@@ -98,6 +137,7 @@ const Profile = (props) => {
                     {profileUser.first_name === '' ? <h1>Loading...</h1> : null}
                     <h1>{profileUser.first_name} {profileUser.last_name}</h1>
                     <p>{profileUser.bio}</p>
+                    {profileUser._id === currentUser.id ? null : <NewFriend />}
                 </div>
                 <hr />
                 <div className='profile-buttons'>

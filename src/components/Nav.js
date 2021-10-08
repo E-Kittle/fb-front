@@ -53,6 +53,12 @@ const Nav = () => {
         }
     }
 
+    const clearDropDown = () => {
+        setSearchDropDown(false);
+        setSearchResults([]);
+        setFriendSearch('');
+    }
+
     return (
         <nav>
             <div className='nav-1'>
@@ -63,7 +69,7 @@ const Nav = () => {
                         <input type='text' id='find-friend' name='find-friend' placeholder='Find Friend' onChange={handleChange} initialvalue={friendSearch} value={friendSearch}></input>
                     </form>
                     {!searchDropDown ? null :
-                        <div className='search-results'>
+                        <div className='search-results' onClick={clearDropDown}>
                             {searchResults.length === 0 ? <p>No results found</p> :
                                 <ul>
                                     {searchResults.map(result => {
