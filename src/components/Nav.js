@@ -3,6 +3,7 @@ import { UserContext } from '../App';
 import { logout } from '../services/auth.service';
 import { Link } from 'react-router-dom';
 import { findFriend } from '../services/user.service';
+import { useHistory } from 'react-router-dom';
 
 const Nav = () => {
 
@@ -11,9 +12,15 @@ const Nav = () => {
     const userContext = useContext(UserContext);
     const { currentUser } = userContext;
 
+
+    // Router method for re-routing user after successful logout
+    let history = useHistory();
+
+
     const logoutUser = () => {
         userContext.userDispatch({ type: 'logoutUser' })
         logout();
+        history.push('/')
     }
 
 
@@ -25,17 +32,25 @@ const Nav = () => {
 
     // State and function to manage searching for the 'find friend' search
     const [searchResults, setSearchResults] = useState([])
+    const [searchDropDown, setSearchDropDown] = useState(false);
     const manageSearch = (e) => {
         e.preventDefault();
-        let query = friendSearch.replace(' ', '+')
-        findFriend(friendSearch)
-            .then((results) => {
-                setSearchResults(results.data.search)
-            })
-            .catch((error) => {
-                console.log('error')
-                console.log(error)
-            })
+        if (friendSearch === '') {
+            setSearchResults([]);
+            setSearchDropDown(false);
+        } else {
+
+            let query = friendSearch.replace(' ', '+')
+            findFriend(query)
+                .then((results) => {
+                    setSearchResults(results.data.search)
+                })
+                .catch((error) => {
+                    console.log('error')
+                    console.log(error)
+                })
+            setSearchDropDown(true)
+        }
     }
 
     return (
@@ -45,18 +60,19 @@ const Nav = () => {
                 <div className='dropdown-anchor'>
                     <form onSubmit={manageSearch}>
                         <label htmlFor='find-friend'>Find Friend</label>
-                        <input type='text' id='find-friend' name='find-friend' required placeholder='Find Friend' onChange={handleChange} initialvalue={friendSearch} value={friendSearch}></input>
+                        <input type='text' id='find-friend' name='find-friend' placeholder='Find Friend' onChange={handleChange} initialvalue={friendSearch} value={friendSearch}></input>
                     </form>
-                    {searchResults.length === 0 ? null :
+                    {!searchDropDown ? null :
                         <div className='search-results'>
-                            <ul>
-                                {searchResults.map(result => {
-                                    return (
-                                        <li>
-                                            <Link to={`/profile/${result._id}`}>{result.first_name} {result.last_name}</Link>
-                                        </li>)
-                                })}
-                            </ul>
+                            {searchResults.length === 0 ? <p>No results found</p> :
+                                <ul>
+                                    {searchResults.map(result => {
+                                        return (
+                                            <li key={result._id}>
+                                                <Link to={`/profile/${result._id}`}>{result.first_name} {result.last_name}</Link>
+                                            </li>)
+                                    })}
+                                </ul>}
                         </div>}
                 </div>
             </div>

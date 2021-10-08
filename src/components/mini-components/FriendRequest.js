@@ -79,15 +79,15 @@ const FriendRequest = (props) => {
 
     return (
         <div className='friend-req-wrapper'>
-            {console.log(friendRequestList)}
+            {friendRequestList.length === 0? <h3>Search for friends above!</h3> : null}
             <div className='users-pending-requests'>
-                <h3>Your Pending Requests</h3>
+                {friendRequestList.length===0? null : <h3>Your Pending Requests</h3>}
                 <div className='request-wrapper'>
                     {friendRequestList.map(friend => <PendingRequest friend={friend} key={friend._id}/>)}
                 </div>
             </div>
             <div className='users-sent-requests'>
-                <h3>Your Sent Requests</h3>
+            {friendRequestList.length===0? null : <h3>Your Sent Requests</h3> }
                 <div className='request-wrapper'>
                     {friendRequestList.map(friend => <SentRequest friend={friend} key={friend._id} />)}
                 </div>

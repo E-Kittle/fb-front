@@ -50,6 +50,10 @@
     width: 100%;
 }
 
+.news-feed h3 {
+    font-size: 2rem;
+    text-align: center;
+}
 
 .news-post {
     background-color: #242526;
@@ -199,6 +203,10 @@
     width: 100%;
 }
 
+.friends-container h3 {
+    font-size: 2rem;
+}
+
 .friend-container {
     background-color: #242526;
     height: 200px;
@@ -295,6 +303,10 @@
 .profile-header p {
     text-align: center;
     font-size: 1.5rem;
+}
+
+.profile-header h1 {
+    text-align: center;
 }
 
 .profile-header-wrapper hr {

@@ -65,6 +65,7 @@ const Friends = () => {
                 {/* If friendReqActive=true, then user is viewing the friend request list */}
                 {!friendReqActive ? <h2>All Friends</h2> : <h2>Friend Requests</h2>}
                 <div className='friends-container'>
+                    {friendReqActive && friendsList.length===0? null : <h3>Search for friends above!</h3>}
                     {!friendReqActive ? friendsList.map(friend => { return (<Friend friend={friend} key={friend._id} grabFriends={grabFriends}/>) }) : <FriendRequest friendRequestList={friendRequestList} grabFriendRequests={grabFriendRequests} grabFriends={grabFriends}/>}
                 </div>
             </div>
