@@ -33,7 +33,7 @@ const Nav =() => {
 
             <div className='nav-3'>
                 {/* Could add a dm option or possibly, an edit page option*/}
-                <Link to='/profile' className='nav-element'>
+                <Link to={`/profile/${currentUser.id}`} className='nav-element'>
                     {currentUser.first_name} {currentUser.last_name}
                 </Link>
                 {/* To logout a user: delete JWT, clear user out of currentUser state */}

@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../App';
+import { getProfile, getProfileFeed } from '../services/user.service'
 
 
 const Profile = (props) => {
@@ -11,37 +12,47 @@ const Profile = (props) => {
     const { currentUser } = userContext;
 
     // State to hold the profile data
-    const [profileUser, setProfileUser] = useState(null);
+    const [profileUser, setProfileUser] = useState({
+        id: '',
+        first_name: '',
+        last_name: '',
+        email: '',
+        bio: ''
+    });
     const [posts, setPosts] = useState([]);
     const [friends, setFriends] = useState([]);
 
 
     // Used to grab the profile owners data
     useEffect(() => {
-        if (props.match.params.id === undefined) {
-            // In this case, the profile belongs to the user so reference currentUser for all data
-            setProfileUser(currentUser);
-        } else {
-            // Grab profile data based on id
-        }
+        getProfile(props.match.params.id)
+        .then(results => {
+            setProfileUser(results.data.user);
+            setFriends(results.data.friends);
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }, [])
 
     // Used to grab the profile users posts
     useEffect(() => {
+        getProfileFeed(props.match.params.id)
+        .then(results => {
+            setPosts(results.data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }, [])
 
-    })
-
-    // Used to grab the profile users friends
-    useEffect(() => {
-
-    })
 
 
     return (
         <div className='profile-wrapper'>
-            {console.log(props.match.params.id)}
             <div className='profile-header-wrapper'>
                 <div className='profile-header'>
+                    {profileUser.first_name === ''? <h1>Loading...</h1> : null}
                     <h1>{profileUser.first_name} {profileUser.last_name}</h1>
                     <p>Bio</p>
                 </div>

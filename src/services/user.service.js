@@ -48,21 +48,14 @@ const deleteFriend = (friendId) => {
 }
 
 
-//SERVICE REQUESTS FOR NEWSFEED
-// ------------------------------------------------------------------------------------
 
+// SERVICE REQUESTS FOR POSTS
+// ------------------------------------------------------------------------------------
 // Grabs the current users newsfeed (for profile)
 const getNewsFeed = () => {
     const config = authHeader();
     return axios.get(`${API_URL}posts`, config)
 }
-
-
-
-
-
-// SERVICE REQUESTS FOR POSTS
-// ------------------------------------------------------------------------------------
 
 // Creates a new post
 const createNewPost = (post) => {
@@ -76,6 +69,21 @@ const likePost = (postid) => {
     return axios.put(`${API_URL}post/${postid}/like`, {'data': ''}, config)
 }
 
+// SERVICE REQUESTS FOR USER PROFILE
+// ------------------------------------------------------------------------------------
+// Grabs the users profile data and friends list
+const getProfile = (userId) => {
+    const config = authHeader();
+    return axios.get(`${API_URL}user/profile/${userId}`, config)
+}
+
+// Grabs the users personal newsfeed - Just their posts
+const getProfileFeed = (userId) => {
+    const config = authHeader();
+    return axios.get(`${API_URL}user/profile/${userId}/feed`, config)
+}
+
+
 export {
     getCurrentFriends,
     getFriendRequests,
@@ -84,5 +92,7 @@ export {
     likePost,
     rejectFriendRequest,
     acceptFriendRequest,
-    deleteFriend
+    deleteFriend,
+    getProfile,
+    getProfileFeed
 };
