@@ -1,6 +1,9 @@
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../App';
 import { getProfile, getProfileFeed } from '../services/user.service'
+import NewsPost from './mini-components/NewsPost';
+// import Friend from './mini-components/Friend';
+import { Link } from 'react-router-dom';
 
 
 const Profile = (props) => {
@@ -22,47 +25,90 @@ const Profile = (props) => {
     const [posts, setPosts] = useState([]);
     const [friends, setFriends] = useState([]);
 
+    // State and function to toggle whether the user is viewing
+    // the newsfeed or the friends list
+    const [feedToggle, setFeedToggle] = useState(true);
+    const toggleFeed = (e) => {
+        if (e.target.id === 'posts') {
+            setFeedToggle(true);
+        } else if (e.target.id === 'friends') {
+            setFeedToggle(false);
+        }
+    }
 
     // Used to grab the profile owners data
     useEffect(() => {
         getProfile(props.match.params.id)
-        .then(results => {
-            setProfileUser(results.data.user);
-            setFriends(results.data.friends);
-        })
-        .catch(error => {
-            console.log(error)
-        })
-    }, [])
+            .then(results => {
+                setProfileUser(results.data.user);
+                setFriends(results.data.friends);
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }, [props.match.params.id])
 
     // Used to grab the profile users posts
     useEffect(() => {
         getProfileFeed(props.match.params.id)
-        .then(results => {
-            setPosts(results.data)
-        })
-        .catch(error => {
-            console.log(error)
-        })
-    }, [])
+            .then(results => {
+                setPosts(results.data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+            setFeedToggle(true)
+    }, [props.match.params.id])
 
 
+
+    const ProfileFeed = (props) => {
+
+        return (
+            <div>
+                {posts.length === 0 ? <h2>User has no posts</h2> : null}
+                {posts.map(post => {
+                    return <NewsPost post={post} key={post._id} />
+                })}
+            </div>
+        )
+    }
+
+    const ProfileFriends = (props) => {
+        return (
+            <div>
+                {friends.length === 0 ? <h2>User has no friends</h2> : null}
+                {friends.map(friend => {
+                    return (
+                        <div className='profile-friend' key={friend._id}>
+                            <button className='user-img'>{friend.first_name[0]}{friend.last_name[0]}</button>
+                            <Link to={`${friend._id}`} id={friend._id}>{friend.first_name} {friend.last_name}</Link>
+                        </div>
+                    )
+                })}
+            </div>
+        )
+    }
 
     return (
         <div className='profile-wrapper'>
             <div className='profile-header-wrapper'>
                 <div className='profile-header'>
-                    {profileUser.first_name === ''? <h1>Loading...</h1> : null}
+                    {profileUser.first_name === '' ? <h1>Loading...</h1> : null}
                     <h1>{profileUser.first_name} {profileUser.last_name}</h1>
-                    <p>Bio</p>
+                    <p>{profileUser.bio}</p>
                 </div>
+                <hr />
                 <div className='profile-buttons'>
-                    <button>Posts</button>
-                    <button>Friends</button>
+                    <button id='posts' className={feedToggle ? 'active feed-buttons' : 'feed-buttons'} onClick={toggleFeed}>Posts</button>
+                    <button id='friends' className={feedToggle ? 'feed-buttons' : 'active feed-buttons'} onClick={toggleFeed}>Friends</button>
                 </div>
             </div>
             <div className='profile-content-wrapper'>
-
+                <div>
+                    {feedToggle ? <ProfileFeed /> : <ProfileFriends />}
+                </div>
             </div>
         </div>
     )

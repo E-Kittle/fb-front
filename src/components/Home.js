@@ -6,7 +6,7 @@ import { UserContext } from '../App';
 import { Link } from 'react-router-dom';
 import NewPost from './modal/NewPost';
 // import htmlDecode from '../services/formatting';
-import NewsPost from './NewsPost';
+import NewsPost from './mini-components/NewsPost';
 
 
 
@@ -42,7 +42,11 @@ const Home = () => {
         // Grabs current users friends
         getCurrentFriends()
             .then(result => {
-                setFriendsList(result.data.friends);
+                if(result.data.friends === undefined) {
+                    return;
+                } else {
+                    setFriendsList(result.data.friends);
+                }
             })
             .catch(err => {
                 console.log(err.result)

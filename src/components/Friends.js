@@ -54,10 +54,10 @@ const Friends = () => {
             <div className='friends-page-sidebar'>
                 <ul>
                     <li>
-                        <button id='friend-req-toggle' className={friendReqActive? 'sidebar-button active-friend': 'sidebar-button'} onClick={toggleList}>Friend Requests</button>
+                        <button id='friend-req-toggle' className={friendReqActive? 'sidebar-button active': 'sidebar-button'} onClick={toggleList}>Friend Requests</button>
                     </li>
                     <li>
-                        <button id='friend-toggle' className={!friendReqActive? ' sidebar-button active-friend': 'sidebar-button'} onClick={toggleList}>All Friends</button>
+                        <button id='friend-toggle' className={!friendReqActive? ' sidebar-button active': 'sidebar-button'} onClick={toggleList}>All Friends</button>
                     </li>
                 </ul>
             </div>

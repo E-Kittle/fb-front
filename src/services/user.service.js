@@ -9,6 +9,11 @@ const API_URL = "http://localhost:5000/";
 // SERVICE REQUESTS FOR FRIENDS
 // ------------------------------------------------------------------------------------
 
+// Users by the 'Find Friend' search bar to look for users matching the search query
+const findFriend = (id) => {
+    const config = authHeader();
+    return axios.get(`${API_URL}user/${id}`, config)
+}
 
 // Grab the current users friendslist
 // API uses bearer token to gran currentusers data
@@ -16,13 +21,6 @@ const getCurrentFriends = () => {
     const config = authHeader();
     return axios.get(`${API_URL}user/friends`, config)
 }
-
-// Grabs the friends of another users profile
-// Not working
-const getFriends = (user) => {
-    return axios.get(`${API_URL}${user.id}/friends`)
-}
-
 
 // Grab the current users friend requests
 const getFriendRequests = () => {
@@ -94,5 +92,6 @@ export {
     acceptFriendRequest,
     deleteFriend,
     getProfile,
-    getProfileFeed
+    getProfileFeed,
+    findFriend
 };

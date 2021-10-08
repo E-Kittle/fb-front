@@ -1,7 +1,7 @@
-import htmlDecode from "../services/formatting";
-import { UserContext } from '../App';
+import htmlDecode from "../../services/formatting";
+import { UserContext } from '../../App';
 import { useContext, useRef } from 'react';
-import { likePost } from '../services/user.service';
+import { likePost } from '../../services/user.service'
 import { Link } from 'react-router-dom';
 
 

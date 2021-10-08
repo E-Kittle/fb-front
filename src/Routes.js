@@ -19,7 +19,7 @@ const Routes = () => {
             <Route path='/' exact component={currentUser.email === '' ? Login: Home} />
             <Route path='/friends' component={Friends} />
             <Route path='/profile' exact component={Profile} />
-            <Route path='/profile/:id' component={Profile} />
+            <Route path='/profile/:id' exact component={Profile} />
         </Switch>
     )
 
