@@ -79,7 +79,7 @@ const FriendRequest = (props) => {
 
     return (
         <div className='friend-req-wrapper'>
-            {friendRequestList.length === 0? <h3>Search for friends above!</h3> : null}
+            {friendRequestList.length===0? <h3>Search for friends above!</h3> : null}
             <div className='users-pending-requests'>
                 {friendRequestList.length===0? null : <h3>Your Pending Requests</h3>}
                 <div className='request-wrapper'>

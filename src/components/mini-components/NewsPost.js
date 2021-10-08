@@ -40,7 +40,7 @@ const NewsPost = (props) => {
             <div className='news-header'>
                 <button className='user-img'>{post.author.first_name[0]}{post.author.last_name[0]}</button>
                 <div>
-                    <h3>{post.author.first_name} {post.author.last_name}</h3>
+                    <Link to={`/profile/${post.author._id}`}>{post.author.first_name} {post.author.last_name}</Link>
                     <p>{post.date}</p>
                 </div>
             </div>
@@ -66,7 +66,7 @@ const NewsPost = (props) => {
                             {/* Need to fix the backend not populating comment author */}
                             {/* <button>{comment.temp_img}</button> */}
                             <div>
-                                {/* <a href='/#'>{comment.username}</a> */}
+                                <Link to={`/profile/${comment._id}`}>{comment.first_name}</Link>
                                 <p>{htmlDecode(comment.content)}</p>
                             </div>
                             <div className='comment-meta'>

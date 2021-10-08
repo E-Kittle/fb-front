@@ -106,7 +106,7 @@ const Home = () => {
             return (
                 <div className='friend-aside-wrapper friends-style' key={contact._id}>
                     <button className='user-img'>{contact.requestee.first_name[0]}{contact.requestee.last_name[0]}</button>
-                    <h3>{contact.requestee.first_name} {contact.requestee.last_name}</h3>
+                    <Link to={`/profile/${contact.requestee._id}`}>{contact.requestee.first_name} {contact.requestee.last_name}</Link>
                 </div>
             )
         }
@@ -135,7 +135,7 @@ const Home = () => {
                 <div id='home-friend-requests'>
                     <div>
                         <h2>Friend Requests</h2>
-                        <Link to='/friends'>See All</Link>
+                        <Link to='/friends' id='see-all'>See All</Link>
                     </div>
                     {friendReq.map(contact => { return <PendingFriendReq contact={contact} key={contact._id}/> })}
                 </div>
@@ -144,7 +144,7 @@ const Home = () => {
                     {friendsList.map(contact => {
                         return (<div className='friend-aside-wrapper friends-style' key={contact._id}>
                             <button className='user-img'>{contact.first_name[0]}{contact.last_name[0]}</button>
-                            <h3>{contact.first_name} {contact.last_name}</h3>
+                            <Link to={`/profile/${contact._id}`}>{contact.first_name} {contact.last_name}</Link>
                         </div>)
                     })}
                 </div>
