@@ -27,6 +27,7 @@ const Home = () => {
     // State to hold each piece of data for the current user
     const [newsFeed, setNewsFeed] = useState([]);
     const [updateNewsFeed, setUpdateNewsFeed] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     // State and function to manage the modal for a new news post
     const [modal, setModal] = useState(false);
@@ -44,6 +45,7 @@ const Home = () => {
                 } else {
                     setNewsFeed(result.data)
                 }
+                setLoading(false);
             })
             .catch(err => {
                 console.log(err.result)
@@ -96,7 +98,8 @@ const Home = () => {
                     <button onClick={toggleModal}>{`What's on your mind, ${currentUser.first_name}?`}</button>
                 </div>
                 <div className='news-feed'>
-                    {newsFeed.length === 0 ? <div><h3>Add some friends to see some content!</h3> <h3>(Hint: Use the 'find friend' search bar!)</h3></div>: newsFeed.map(post => { return <NewsPost post={post} key={post._id} setUpdateNewsFeed={setUpdateNewsFeed} /> })}
+                    {loading ? <div><h3>Loading...</h3></div> :
+                        newsFeed.length === 0? <div><h3>Add some friends to see some content!</h3> <h3>(Hint: Use the 'find friend' search bar!)</h3></div> : newsFeed.map(post => { return <NewsPost post={post} key={post._id} setUpdateNewsFeed={setUpdateNewsFeed} /> })}
                 </div>
 
 
@@ -107,11 +110,11 @@ const Home = () => {
                         <h2>Friend Requests</h2>
                         <Link to='/friends' id='see-all'>See All</Link>
                     </div>
-                    {currentUser.friendRequests.map(contact => { return <PendingFriendReq contact={contact} key={contact._id}/> })}
+                    {currentUser.friendRequests.map(contact => { return <PendingFriendReq contact={contact} key={contact._id} /> })}
                 </div>
                 <div id='home-friends' >
                     <h2>Friends</h2>
-                    {currentUser.friends.map(contact => {  
+                    {currentUser.friends.map(contact => {
                         return (<div className='friend-aside-wrapper friends-style' key={contact._id}>
                             <button className='user-img'>{contact.first_name[0]}{contact.last_name[0]}</button>
                             <Link to={`/profile/${contact._id}`}>{contact.first_name} {contact.last_name}</Link>
