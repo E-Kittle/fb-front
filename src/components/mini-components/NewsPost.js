@@ -1,38 +1,53 @@
 import htmlDecode from "../../services/formatting";
 import { UserContext } from '../../App';
-import { useContext, useRef } from 'react';
+import { useContext, useRef, useState, useEffect } from 'react';
 import { likePost } from '../../services/user.service'
 import { Link } from 'react-router-dom';
 
 
 const NewsPost = (props) => {
 
-    const { post } = props;
+    const { post, updatePost } = props;
 
     // Grab UserContext from app.js and destructure currentUser from it
     const userContext = useContext(UserContext);
     const { currentUser } = userContext;
 
-    // Container to hold the ref
+    // Container to hold the ref and function that provides focus to the ref 
     const commentRef = useRef(null);
-
     const changeFocus = () => {
             commentRef.current.focus();
     }
 
+    //-----------------------------------------------------------------------
+    // Section for liking a post
+    // State to hold whether a user has liked a post or not
+    const [ liked, setLiked ] = useState(false);
+
+    // Function to toggle a like. It sends the request to the db, which returns the post
+    // data. Then, this data is sent to Home.js to update state
     const toggleLike = () => {
         likePost(post._id)
         .then(response => {
-            console.log(response)
+            // Post has been updated in the db, now update state in Home.js
+            updatePost(response.data.results);
+            setLiked(false);
         })
         .catch(error => {
             console.log(error.response)
         })
-        // A user can add a like or remove a like...
-        // the API checks if the user has like the post before or not. So all I need to do 
-        // is send that data to the API, and update the DOM...
-        //For simplicity, just trigger another API call
     }
+
+    // useEffect to check if the user has liked the post
+    useEffect(() => {
+        post.likes.forEach(authId => {
+            if (authId === currentUser.id) {
+                setLiked(true);
+            }
+        })
+    }, [post.likes, currentUser.id])
+    //-----------------------------------------------------------------------
+
 
     return (
         
@@ -53,7 +68,7 @@ const NewsPost = (props) => {
                 <hr />
             </div>
             <div className='news-button-wrapper'>
-                <button onClick={toggleLike}>Like</button>
+                <button onClick={toggleLike} id={liked? 'liked' : null}>{liked? 'Liked' : 'Like'}</button>
                 <button onClick={changeFocus}>Comment</button>
                 {/* This button just adds focus to the text input */}
             </div>

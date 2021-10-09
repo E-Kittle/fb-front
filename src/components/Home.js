@@ -1,7 +1,7 @@
 import '../styles/style.css';
 import '../styles/home.css';
 import { useState, useEffect, useContext } from 'react';
-import { getCurrentFriends, getFriendRequests, getNewsFeed } from '../services/user.service';
+import { getNewsFeed } from '../services/user.service';
 import { UserContext } from '../App';
 import { Link } from 'react-router-dom';
 import NewPost from './modal/NewPost';
@@ -34,6 +34,24 @@ const Home = () => {
 
     const toggleModal = () => {
         setModal(!modal);
+    }
+
+    // Function to update a post following an update to its likes or comments
+    const updatePost = (post) => {
+        console.log('post to be updated')
+        console.log(post)
+
+        console.log('newsfeed in state')
+        console.log(newsFeed)
+
+        let index = newsFeed.findIndex(oldPost => {
+            return oldPost._id === post._id;
+        })
+
+        console.log(`post found at index: ${index}`)
+        let feed = newsFeed;
+        feed.splice(index, 1, post)
+        setNewsFeed([...feed])
     }
 
 
@@ -99,7 +117,7 @@ const Home = () => {
                 </div>
                 <div className='news-feed'>
                     {loading ? <div><h3>Loading...</h3></div> :
-                        newsFeed.length === 0? <div><h3>Add some friends to see some content!</h3> <h3>(Hint: Use the 'find friend' search bar!)</h3></div> : newsFeed.map(post => { return <NewsPost post={post} key={post._id} setUpdateNewsFeed={setUpdateNewsFeed} /> })}
+                        newsFeed.length === 0? <div><h3>Add some friends to see some content!</h3> <h3>(Hint: Use the 'find friend' search bar!)</h3></div> : newsFeed.map(post => { return <NewsPost post={post} key={post._id} setUpdateNewsFeed={setUpdateNewsFeed} updatePost={updatePost}/> })}
                 </div>
 
 
@@ -108,7 +126,7 @@ const Home = () => {
                 <div id='home-friend-requests'>
                     <div>
                         <h2>Friend Requests</h2>
-                        <Link to='/friends' id='see-all'>See All</Link>
+                        <Link to='/friends' className='see-all'>See All</Link>
                     </div>
                     {currentUser.friendRequests.map(contact => { return <PendingFriendReq contact={contact} key={contact._id} /> })}
                 </div>

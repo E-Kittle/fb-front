@@ -50,6 +50,7 @@
     width: 100%;
 }
 
+
 .news-feed h3 {
     font-size: 2rem;
     text-align: center;
@@ -113,6 +114,10 @@
     cursor: pointer;
 }
 
+#liked {
+    color: #1877f2;
+}
+
 .news-button-wrapper button:hover{
     background-color: #5c5d5e;
 }
@@ -166,7 +171,7 @@
     align-items: center;
 }
 
-#see-all {
+.see-all {
     color: #1877f2;
     padding-left: 20px;
 }
@@ -224,6 +229,7 @@
     border-radius: 6px;
     padding: 10px;
 }
+
 
 /* Add a shadow */
 .friend-container h3 {
@@ -310,6 +316,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.profile-header .see-all {
+    margin-top: 10px;
 }
 
 .profile-header p {

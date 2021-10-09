@@ -148,7 +148,7 @@ const Profile = (props) => {
             return null; // The current user is the profile user
         } else if (pendingRequest) {
             //The user is not a current friend but they already have a pending request, display a link to friends page
-            return <Link to='/friends'>See Pending Friend Request</Link>
+            return <Link to='/friends' className='see-all'>See Pending Friend Request</Link>
         } else if (!currentFriend && !pendingRequest) {
             return <button className='friend-container-button' onClick={addNewFriend}>ADD FRIEND</button>
         } else {
