@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../App';
-import { getProfile, getProfileFeed, addFriend } from '../services/user.service'
+import { getProfile, getProfileFeed, addFriend, getFriendRequests } from '../services/user.service'
 import NewsPost from './mini-components/NewsPost';
 // import Friend from './mini-components/Friend';
 import { Link, useHistory } from 'react-router-dom';
@@ -20,10 +20,10 @@ const Profile = (props) => {
         first_name: '',
         last_name: '',
         email: '',
-        bio: ''
+        bio: '',
+        friends: []
     });
     const [posts, setPosts] = useState([]);
-    const [friends, setFriends] = useState([]);
 
     // State and function to toggle whether the user is viewing
     // the newsfeed or the friends list
@@ -40,8 +40,15 @@ const Profile = (props) => {
     useEffect(() => {
         getProfile(props.match.params.id)
             .then(results => {
-                setProfileUser(results.data.user);
-                setFriends(results.data.friends);
+                let user = {
+                    id: results.data.user._id,
+                    first_name: results.data.user.first_name,
+                    last_name: results.data.user.last_name,
+                    email: results.data.user.email,
+                    bio: results.data.user.bio,
+                    friends: results.data.friends
+                }
+                setProfileUser(user);
             })
             .catch(error => {
                 console.log(error)
@@ -78,8 +85,8 @@ const Profile = (props) => {
     const ProfileFriends = (props) => {
         return (
             <div>
-                {friends.length === 0 ? <h2>User has no friends</h2> : null}
-                {friends.map(friend => {
+                {profileUser.friends.length === 0 ? <h2>User has no friends</h2> : null}
+                {profileUser.friends.map(friend => {
                     return (
                         <div className='profile-friend' key={friend._id}>
                             <button className='user-img'>{friend.first_name[0]}{friend.last_name[0]}</button>
@@ -91,7 +98,6 @@ const Profile = (props) => {
         )
     }
 
-    // Router method for re-routing user after successful logout
     let history = useHistory();
     const addNewFriend = () => {
         console.log(props.match.params.id + ' Added as friend')
@@ -99,10 +105,17 @@ const Profile = (props) => {
         addFriend(props.match.params.id)
             .then(results => {
                 console.log('success!')
-                history.push('/friends')
+                getFriendRequests()
+                    .then(result => {
+                        userContext.userDispatch({ type: 'updateAllFriends', payload: {friends: result.data.friends, friendRequests: result.data.friend_requests }})
+                        history.push('/friends')
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
             })
             .catch(error => {
-                if (error.response.status===400) {
+                if (error.response.status === 400) {
                     history.push('/friends')
                 }
                 console.log(error.response)
@@ -112,21 +125,34 @@ const Profile = (props) => {
 
     }
 
-    console.log(currentUser)
-    console.log(friends)
+    // Function to display the 'add friend' button if the user is not already a friend
     const NewFriend = () => {
-        let test = true;
-        currentUser.friends.forEach(currentFriend => {
-            friends.forEach(profileFriend => {
-                if (currentFriend === profileFriend._id) {
-                    test = false;
-                }
-            })
+        //Test to check if the profile belongs to a friend of the currentUser
+        let currentFriend = false;
+        currentUser.friends.forEach(friend => {
+            if (friend._id === profileUser.id) {
+                currentFriend = true; //If they match, the profile user is a friend of the current user
+            }
         })
-        if (test) {
-            return null;
-        } else {
+        //Test to check if the profile belongs to someone with a pending friend request
+        let pendingRequest = false;
+        currentUser.friendRequests.forEach(friendRequest => {
+            if (friendRequest.requestee._id === profileUser.id || friendRequest.requested._id === profileUser.id) {
+                pendingRequest = true;  //They match, the profile user has a pending friend request
+            }
+        })
+
+        if (currentFriend) {
+            return null;    //Users are already friends
+        } else if (currentUser.id === profileUser.id) {
+            return null; // The current user is the profile user
+        } else if (pendingRequest) {
+            //The user is not a current friend but they already have a pending request, display a link to friends page
+            return <Link to='/friends'>See Pending Friend Request</Link>
+        } else if (!currentFriend && !pendingRequest) {
             return <button className='friend-container-button' onClick={addNewFriend}>ADD FRIEND</button>
+        } else {
+            return null;
         }
     }
 

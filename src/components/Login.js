@@ -5,6 +5,7 @@ import SignUp from './modal/SignUp';
 import { useState, useContext } from 'react';
 import { login } from '../services/auth.service';
 import { UserContext } from '../App';
+import { getFriendRequests } from '../services/user.service';
 
 const Login = () => {
 
@@ -63,9 +64,14 @@ const Login = () => {
             .then(response => {
                 if (response.status === 200) {
                     setError(false);
-
+                    getFriendRequests()
+                    .then(results => {
+                        userContext.userDispatch({ type: 'setUser', payload: {user: response.data.user, friendRequests: results.data.results }})
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
                     // Sets the new user in App.js and 'redirects' them to the homepage
-                    userContext.userDispatch({ type: 'setUser', payload: response.data.user })
                 } else if (response.status === 400) {
                     // Inform user that email or password is incorrect
                     setError(true);

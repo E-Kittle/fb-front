@@ -25,8 +25,6 @@ const Home = () => {
     const { currentUser } = userContext;
 
     // State to hold each piece of data for the current user
-    const [friendsList, setFriendsList] = useState([]);
-    const [friendReq, setFriendReq] = useState([]);
     const [newsFeed, setNewsFeed] = useState([]);
     const [updateNewsFeed, setUpdateNewsFeed] = useState(false);
 
@@ -37,34 +35,6 @@ const Home = () => {
         setModal(!modal);
     }
 
-
-    useEffect(() => {
-        // Grabs current users friends
-        getCurrentFriends()
-            .then(result => {
-                if(result.data.friends === undefined) {
-                    return;
-                } else {
-                    setFriendsList(result.data.friends);
-                }
-            })
-            .catch(err => {
-                console.log(err.result)
-            });
-
-
-    }, [])
-
-    useEffect(() => {
-        // Grabs current users friend requests
-        getFriendRequests()
-            .then(result => {
-                setFriendReq(result.data.results);
-            })
-            .catch(err => {
-                console.log(err.result)
-            });
-    }, []);
 
     useEffect(() => {
         getNewsFeed()
@@ -137,11 +107,11 @@ const Home = () => {
                         <h2>Friend Requests</h2>
                         <Link to='/friends' id='see-all'>See All</Link>
                     </div>
-                    {friendReq.map(contact => { return <PendingFriendReq contact={contact} key={contact._id}/> })}
+                    {currentUser.friendRequests.map(contact => { return <PendingFriendReq contact={contact} key={contact._id}/> })}
                 </div>
                 <div id='home-friends' >
                     <h2>Friends</h2>
-                    {friendsList.map(contact => {
+                    {currentUser.friends.map(contact => {  
                         return (<div className='friend-aside-wrapper friends-style' key={contact._id}>
                             <button className='user-img'>{contact.first_name[0]}{contact.last_name[0]}</button>
                             <Link to={`/profile/${contact._id}`}>{contact.first_name} {contact.last_name}</Link>

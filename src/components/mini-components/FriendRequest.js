@@ -15,10 +15,9 @@ const FriendRequest = (props) => {
 
     // Event handler to reject a friend request
     const handleRejection = (e) => {
-        console.log(`would reject request for request: ${e.target.id}`)
         rejectFriendRequest(e.target.id)
         .then(response => {
-            props.grabFriendRequests();
+            props.updateAllFriends();
         })
         .catch(error => {
             console.log(error)
@@ -27,12 +26,9 @@ const FriendRequest = (props) => {
 
     // Event handler to accept a friend request
     const handleAcceptance = (e) => {
-        console.log(`would accept request for request: ${e.target.id}`)
         acceptFriendRequest(e.target.id)
         .then(response => {
-            console.log('worked')
-            props.grabFriends();
-            props.grabFriendRequests();
+            props.updateAllFriends();
         })
         .catch(error => {
             console.log(error)

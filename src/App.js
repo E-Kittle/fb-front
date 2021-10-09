@@ -1,10 +1,11 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import Routes from './Routes';
 import { BrowserRouter as Router } from 'react-router-dom'
 import './styles/style.css';
 import { authenticateUser } from './services/auth.service'
-import Nav from './components/Nav'
-
+import Nav from './components/Nav';
+import { getFriendRequests, getCurrentFriends } from './services/user.service';
+import { logout } from './services/auth.service';
 
 // Export context for the user reducerhook
 export const UserContext = React.createContext();
@@ -14,35 +15,44 @@ const initialState = {
   id: '',
   first_name: '',
   last_name: '',
-  email: ''
+  email: '',
+  friends: [],
+  friendRequests: []
 }
 
 // Reducer method to either set the user in state or logout the user
 const reducer = (state, action) => {
   switch (action.type) {
     case 'setUser':
-      console.log('in SetUser')
-      console.log(action.payload)
       return {
-        id: action.payload.id,
-        first_name: action.payload.first_name,
-        last_name: action.payload.last_name,
-        email: action.payload.email,
-        friends: action.payload.friends
+        id: action.payload.user.id,
+        first_name: action.payload.user.first_name,
+        last_name: action.payload.user.last_name,
+        email: action.payload.user.email,
+        friends: action.payload.user.friends,
+        friendRequests: action.payload.friendRequests
       }
+
     case 'logoutUser':
       return initialState
 
+    case 'updateAllFriends':
+      return {
+        ...state,
+        friendRequests: action.payload.friendRequests,
+        friends: action.payload.friends
+      }
+
+    case 'updateFriendRequests':
+      return {
+        ...state,
+        friendRequests: action.payload.friendRequests
+      }
     default:
       return state
 
   }
 }
-
-
-
-
-
 
 
 function App() {
@@ -53,7 +63,26 @@ function App() {
   // to check if the session is still active and 'logs in' the user on client side
   // Additionally, catches any page refresh that would 'logout' the user
   useEffect(() => {
-    authenticateUser(dispatch);
+    authenticateUser()
+      .then(response => {
+        //User was successfully authenticated. 
+        //Now grab their friend request list
+        getFriendRequests()
+          .then(result => {
+            // Now, update the context/reducer with the data
+            dispatch({ type: 'setUser', payload: {user: response.data.user, friendRequests: result.data.results }})
+            // reducer({ type: 'setUser', payload: {user: response.data.user, friendRequests: result.data.results }})
+          })
+          .catch(err => {
+            console.log('error in app')
+            console.log(err.response)
+          });
+      })
+      .catch(err => {
+        console.log('error in app: logout')
+        // A token exists from a previous authentication but is no longer valid, remove from localStorage
+        logout();
+      })
   }, [])
 
 
@@ -63,7 +92,7 @@ function App() {
     >
       <Router>
         <div className='app'>
-          {currentUser.first_name === ''? null : <Nav /> }
+          {currentUser.first_name === '' ? null : <Nav />}
           <Routes />
         </div>
       </Router>

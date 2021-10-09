@@ -19,7 +19,7 @@ const findFriend = (id) => {
 // API uses bearer token to gran currentusers data
 const getCurrentFriends = () => {
     const config = authHeader();
-    return axios.get(`${API_URL}user/friends`, config)
+    return axios.get(`${API_URL}user/friends?all=true`, config)
 }
 
 // Grab the current users friend requests
