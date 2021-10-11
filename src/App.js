@@ -77,7 +77,7 @@ function App() {
           });
       })
       .catch(err => {
-        console.log('error in app: logout')
+        console.log('error in app/expired token: logout')
         // A token exists from a previous authentication but is no longer valid, remove from localStorage
         logout();
       })

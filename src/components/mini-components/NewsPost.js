@@ -75,7 +75,7 @@ const NewsPost = (props) => {
             </div>
             <hr />
             <div className='comment-container'>
-                {post.comments.length === 0 ? <p>No comments yet!</p> : <Comments comments={post.comments} />}
+                {post.comments.length === 0 ? <p>No comments yet!</p> : <Comments comments={post.comments} key={`comments:${post._id}`}/>}
                 <form className='new-comment-form'>
                     <label htmlFor='new-comment' >New Comment</label>
                     <button className='user-img'>{currentUser.first_name[0]}{currentUser.last_name[0]}</button>
