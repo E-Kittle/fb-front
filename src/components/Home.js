@@ -38,20 +38,28 @@ const Home = () => {
 
     // Function to update a post following an update to its likes or comments
     const updatePost = (post) => {
-        console.log('post to be updated')
-        console.log(post)
-
-        console.log('newsfeed in state')
-        console.log(newsFeed)
-
         let index = newsFeed.findIndex(oldPost => {
             return oldPost._id === post._id;
         })
 
-        console.log(`post found at index: ${index}`)
         let feed = newsFeed;
         feed.splice(index, 1, post)
         setNewsFeed([...feed])
+    }
+
+    const updateFeed = () => {
+        getNewsFeed()
+        .then(result => {
+            if (result.data.new === true) {
+                setNewsFeed([]);
+            } else {
+                setNewsFeed(result.data)
+            }
+            setLoading(false);
+        })
+        .catch(err => {
+            console.log(err.result)
+        });
     }
 
 
@@ -118,7 +126,7 @@ const Home = () => {
                 </div>
                 <div className='news-feed'>
                     {loading ? <div><h3>Loading...</h3></div> :
-                        newsFeed.length === 0? <div><h3>Add some friends to see some content!</h3> <h3>(Hint: Use the 'find friend' search bar!)</h3></div> : newsFeed.map(post => { return <NewsPost post={post} key={post._id} setUpdateNewsFeed={setUpdateNewsFeed} updatePost={updatePost}/> })}
+                        newsFeed.length === 0? <div><h3>Add some friends to see some content!</h3> <h3>(Hint: Use the 'find friend' search bar!)</h3></div> : newsFeed.map(post => { return <NewsPost post={post} key={post._id} setUpdateNewsFeed={setUpdateNewsFeed} updatePost={updatePost} updateFeed={updateFeed}/> })}
                 </div>
 
 

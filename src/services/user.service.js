@@ -70,6 +70,23 @@ const likePost = (postid) => {
     return axios.put(`${API_URL}post/${postid}/like`, {'data': ''}, config)
 }
 
+// SERVICE REQUESTS FOR COMMENTS
+// ------------------------------------------------------------------------------------
+
+const createComment = (content, postId) => {
+    const config = authHeader();
+    return axios.post(`${API_URL}post/${postId}/comment`, content, config)
+}
+
+
+// Adds/Removes a like on a comment - API handles removing a comment
+const likeComment = (commentId) => {
+    const config = authHeader();
+    return axios.put(`${API_URL}comment/${commentId}/like`, {'data': ''}, config)
+}
+
+
+
 // SERVICE REQUESTS FOR USER PROFILE
 // ------------------------------------------------------------------------------------
 // Grabs the users profile data and friends list
@@ -97,5 +114,7 @@ export {
     getProfile,
     getProfileFeed,
     findFriend,
-    addFriend
+    addFriend,
+    likeComment,
+    createComment
 };

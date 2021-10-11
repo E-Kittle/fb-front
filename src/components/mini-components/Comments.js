@@ -1,12 +1,19 @@
 import htmlDecode from "../../services/formatting";
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react'
-import '../../styles/home.css'
+import { useEffect, useState, useContext } from 'react';
+import { UserContext } from "../../App";
+import '../../styles/home.css';
+import { likeComment, createComment } from "../../services/user.service";
 
 const Comment = (props) => {
 
     //destructure props
-    const { comments } = props;
+    const { comments, updateComment } = props;
+
+    // Grab UserContext from app.js and destructure currentUser from it
+    const userContext = useContext(UserContext);
+    const { currentUser } = userContext;
+
 
     const commentSort = (comments) => {
         let sortedComments = [];
@@ -112,44 +119,128 @@ const Comment = (props) => {
     }
 
 
-    // State to hold the sorted comments
+    // State to hold the sorted comments and useEffect to sort the comments
     const [sorted, setSorted] = useState([]);
     useEffect(() => {
-        let sortedComments = commentSort(comments)
+        let sortedComments = commentSort(comments);
         setSorted(sortedComments);
-        console.log(sortedComments)
-    }, [])
+    }, [comments])
+
+
 
     //Component for each individual comment
     const Comment = (props) => {
-        const { comment } = props;
+        const { comment, updateComment } = props;
+        const [like, setLike] = useState(false);
+        const [dropdown, setDropdown] = useState(false);
+        const [newReply, setNewReply] = useState(false);        //State to toggle the reply text input
+        const [content, setContent] = useState('');             //State to hold the content for the reply
 
+        const manageLikes = (e) => {
+            likeComment(e.target.id)
+                .then(response => {
+                    // Update was a success, send the data to NewsPost to update state
+                    // console.log(response.data)
+                    // setLike(prevLike => !prevLike);
+                    // updateComment(response.data.results);
+                    props.updateFeed();
+                })
+                .catch(err => [
+                    console.log(err.response)
+                ])
+        }
+
+        useEffect(() => {
+            let index = comment.comment.likes.findIndex(like => {
+                if (like === currentUser.id) {
+                    return true;
+                } else {
+                    return false;
+                }
+            })
+
+            if (index === -1) {
+                // User was not found
+                // console.log('set false')
+                setLike(false);
+            } else {
+                // console.log('set true')
+                setLike(true)
+            }
+        }, [comment.comment.likes])
+
+        const toggleDropDown = () => {
+            setDropdown(!dropdown)
+        }
+
+        const toggleReply = () => {
+            setNewReply(!newReply)
+        }
+
+        const handleChange = (e) => {
+            setContent(e.target.value)
+        }
+
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            createComment({content:content, comment, commentid: e.target.id}, props.postId)
+            .then(results => {
+                console.log('success')
+                props.updateFeed();
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        }
         return (
             <>
-                <div className={props.index === 0? 'comment-wrapper' : props.index >= 3? `comment-wrapper reply3` : `comment-wrapper reply${props.index}`} >
+                <div className={props.index === 0 ? 'comment-wrapper' : props.index >= 3 ? `comment-wrapper reply3` : `comment-wrapper reply${props.index}`} >
                     <div className='comment-header'>
                         <button className='user-img'>{comment.comment.author.first_name[0]} {comment.comment.author.last_name[0]}</button>
                         <div className='comment-content-wrapper'>
-                            <Link to={`/profile/${comment.commentId}`}>{comment.commentAuthor} {props.parentAuthor===null? null: `- @${props.parentAuthor}`}</Link>
-                            <p>{htmlDecode(comment.comment.content)}</p>
+                            <div>
+                                <Link to={`/profile/${comment.commentId}`}>{comment.commentAuthor} {props.parentAuthor === null ? null : `- @${props.parentAuthor}`}</Link>
+                                <p>{htmlDecode(comment.comment.content)}</p>
+                            </div>
+                            <div>
+                                {comment.comment.author._id === currentUser.id ? <button id={comment.commentId} className='dropdown-button' onClick={toggleDropDown}>...</button> : null}
+                                {!dropdown ? null :
+                                    <div className='comment-menu'>
+                                        <ul>
+                                            <li>
+                                                <button>Edit</button>
+                                            </li>
+                                            <li>
+                                                <button>Delete</button>
+                                            </li>
+                                        </ul>
+                                    </div>}
+                            </div>
                         </div>
                     </div>
                     <div className='comment-meta'>
                         <div>
-                            <button>Like</button>
-                            <button>Reply</button>
+                            <button className={like ? 'comment-button liked-comment' : 'comment-button'} id={comment.commentId} onClick={manageLikes}>Like</button>
+                            <button className='comment-button' onClick={toggleReply}>Reply</button>
                         </div>
-                        <p>{comment.comment.likes.length} Likes</p>
+                        <p>{comment.comment.likes.length} Like{comment.comment.likes.length <= 1 ? null : 's'}</p>
                     </div>
+                    {!newReply ? null :
+                        <div className='reply-wrapper'>
+                            <form className='new-comment-form new-reply' id={comment.comment._id} onSubmit={handleSubmit}>
+                                <label htmlFor='new-reply' >New Comment</label>
+                                <input type='text' id='new-reply' name='new-reply' placeholder='write a reply...' required initialvalue={content} value={content} onChange={handleChange}/>
+                            </form>
+                        </div>}
                 </div>
-                {comment.replies.length === 0 ? null : comment.replies.map(reply => { return (<Comment comment={reply} index={props.index + 1} key={reply.commentId} parentAuthor={comment.commentAuthor}/> ) })}
+                {comment.replies.length === 0 ? null : comment.replies.map(reply => { return (<Comment comment={reply} postId={props.postId} index={props.index + 1} key={reply.commentId} updateFeed={props.updateFeed} parentAuthor={comment.commentAuthor} updateComment={updateComment} />) })}
             </ >
         )
     }
 
     return (
         sorted.map(comment => {
-            return <div className='comment-chain' key={comment.commentId}><Comment comment={comment} index={0} parentAuthor={null}/> </div>
+            return <div className='comment-chain' key={comment.commentId}><Comment comment={comment} index={0} parentAuthor={null} postId={props.postId} updateComment={updateComment} updateFeed={props.updateFeed} /> </div>
         })
     )
 

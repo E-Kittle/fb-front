@@ -1,7 +1,7 @@
 import htmlDecode from "../../services/formatting";
 import { UserContext } from '../../App';
 import { useContext, useRef, useState, useEffect } from 'react';
-import { likePost } from '../../services/user.service'
+import { likePost, createComment } from '../../services/user.service'
 import { Link } from 'react-router-dom';
 import Comments from '../mini-components/Comments';
 
@@ -31,8 +31,9 @@ const NewsPost = (props) => {
         likePost(post._id)
         .then(response => {
             // Post has been updated in the db, now update state in Home.js
-            updatePost(response.data.results);
+            // updatePost(response.data.results);
             setLiked(false);
+            props.updateFeed();
         })
         .catch(error => {
             console.log(error.response)
@@ -49,6 +50,39 @@ const NewsPost = (props) => {
     }, [post.likes, currentUser.id])
     //-----------------------------------------------------------------------
 
+    const updateComment = (comment) => {
+        let index = post.comments.findIndex(oldComment => {
+            if (oldComment._id === comment._id) {
+                return true;
+            }
+            return false;
+        })
+        let tempPost = post;
+        tempPost.comments[index] = comment;
+
+        updatePost(tempPost);
+        //Update the post here, then send it to updatePost()
+    }
+
+    const [ content, setContent ] = useState('');
+
+    const handleCommentChange = (e) => {
+        setContent(e.target.value)
+    }
+
+    const handleNewComment = (e) => {
+        e.preventDefault();
+        console.log(`Would submit: ${content} for post: ${e.target.id}`)
+        createComment({content}, e.target.id)
+        .then(response => {
+            setContent('');
+            props.updateFeed();
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+
 
     return (
         
@@ -64,7 +98,7 @@ const NewsPost = (props) => {
                 <p>{htmlDecode(post.content)}</p>
                 <div>
                     <p>{post.likes.length} Like{post.likes.length > 1? 's' : null }</p>
-                    <p>{post.comments.length} Comments</p>
+                    <p>{post.comments.length} Comment{post.comments.length > 1? 's': null}</p>
                 </div>
                 <hr />
             </div>
@@ -75,11 +109,11 @@ const NewsPost = (props) => {
             </div>
             <hr />
             <div className='comment-container'>
-                {post.comments.length === 0 ? <p>No comments yet!</p> : <Comments comments={post.comments} key={`comments:${post._id}`}/>}
-                <form className='new-comment-form'>
+                {post.comments.length === 0 ? <p>No comments yet!</p> : <Comments comments={post.comments} key={`comments:${post._id}`} postId={post._id} updateComment={updateComment} updateFeed={props.updateFeed} />}
+                <form className='new-comment-form' id={post._id} onSubmit={handleNewComment}>
                     <label htmlFor='new-comment' >New Comment</label>
                     <button className='user-img'>{currentUser.first_name[0]}{currentUser.last_name[0]}</button>
-                    <input type='text' ref={commentRef} id='new-comment' name='new-comment' placeholder='write a comment...' />
+                    <input type='text' ref={commentRef} id='new-comment' name='new-comment' placeholder='write a comment...' initialvalue={content} value={content} onChange={handleCommentChange} />
                 </form>
             </div>
         </div>

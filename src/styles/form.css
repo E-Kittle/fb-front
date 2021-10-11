@@ -97,3 +97,8 @@ form input {
     color: green;
     padding-left: 5px;
 }
+
+.new-reply {
+    width: 80%;
+    margin-left: 100px;
+}

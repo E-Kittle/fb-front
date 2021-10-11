@@ -154,18 +154,40 @@
 
 .comment-content-wrapper {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     background-color: #3a3b3c;
     border-radius: 10px;
     width: 100%;
     min-height: 60px;
-    justify-content: space-around;
     padding: 10px;
     margin-right: 50px;
+    position: relative;
+}
+
+.comment-content-wrapper div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .comment-content-wrapper p {
     font-size: 1.2rem;
+}
+
+.dropdown-button {
+    width: 30px;
+    color: white;
+    font-size: 2rem;
+    line-height: 1rem;
+    background-color: rgba(0,0,0,0);
+    border: none;
+    border-radius: 10px;
+    align-self: flex-start;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    cursor: pointer;
 }
 
 .comment-meta {
@@ -176,12 +198,13 @@
     margin-bottom: 10px;
 }
 
-.comment-meta button {
+.comment-button {
     background-color: rgba(0,0,0,0);
     border: none;
     color: white;
     font-size: 1rem;
     font-weight: 500;
+    cursor: pointer;
 }
 
 .comment-meta div {
@@ -206,6 +229,41 @@
     margin-left: 90px;
 }
 
+.liked-comment {
+    color: #1877f2;
+}
+
+/* Styling for the comment dropdown menu */
+.comment-menu {
+    /* border: solid; */
+    position: absolute;
+    top: 15px;
+    right: -60px;
+    height: 70px;
+    width: 80px;
+    border-radius: 10px;
+    background-color: #3a3b3c;
+    border: #b0b3b8 solid 2px;
+}
+
+.comment-menu ul {
+    list-style: none;
+}
+
+.comment-menu button {
+    border: none;
+    background-color: #3a3b3c;
+    color: rgb(158, 151, 151);
+    padding: 3px;
+    font-size: 1.3rem;
+    text-align: left;
+    height: 100%;
+    width: 100%;
+}
+
+.comment-menu button:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
 
 
 /* Styling for the friends/friend request sidebar */
