@@ -85,6 +85,17 @@ const likeComment = (commentId) => {
     return axios.put(`${API_URL}comment/${commentId}/like`, {'data': ''}, config)
 }
 
+// Edits a comment
+const editComment = (content, commentId) => {
+    const config = authHeader();
+    return axios.put(`${API_URL}comment/${commentId}`, content, config)
+}
+
+// 'deletes' the comment - Just replaces text with 'deleted' so that replies aren't confusing
+const deleteComment = (content, commentId) => {
+    const config = authHeader();
+    return axios.put(`${API_URL}comment/${commentId}`, content, config)
+}
 
 
 // SERVICE REQUESTS FOR USER PROFILE
@@ -116,5 +127,6 @@ export {
     findFriend,
     addFriend,
     likeComment,
-    createComment
+    createComment,
+    editComment
 };

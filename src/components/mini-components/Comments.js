@@ -4,7 +4,7 @@ import { useEffect, useState, useContext } from 'react';
 import { UserContext } from "../../App";
 import '../../styles/home.css';
 import { likeComment, createComment } from "../../services/user.service";
-
+import { editComment } from "../../services/user.service";
 const Comment = (props) => {
 
     //destructure props
@@ -135,6 +135,7 @@ const Comment = (props) => {
         const [dropdown, setDropdown] = useState(false);
         const [newReply, setNewReply] = useState(false);        //State to toggle the reply text input
         const [content, setContent] = useState('');             //State to hold the content for the reply
+        const [editting, setEditting] = useState(false);        //State to hold whether the user is editing a post or not
 
         const manageLikes = (e) => {
             likeComment(e.target.id)
@@ -183,15 +184,46 @@ const Comment = (props) => {
 
         const handleSubmit = (e) => {
             e.preventDefault();
-            createComment({content:content, comment, commentid: e.target.id}, props.postId)
+            if(editting) {
+                editComment({content}, comment.commentId)
+                .then(results => {
+                    console.log('success')
+                    props.updateFeed();
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            } else {
+                createComment({content:content, comment, commentid: e.target.id}, props.postId)
+                .then(results => {
+                    console.log('success')
+                    props.updateFeed();
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            }
+        }
+
+        // 'deletes' the comment - Just replaces text input with deleted, so as not to disturb
+        // other users replies
+        const handleDelete = (e) => {
+            editComment({content: '[Deleted]'}, comment.commentId)
             .then(results => {
-                console.log('success')
                 props.updateFeed();
             })
             .catch(error => {
                 console.log(error)
             })
         }
+
+        const editCommentToggle = () => {
+            toggleReply();
+            setEditting(true);
+            setContent(htmlDecode(comment.comment.content))
+        }
+
+
         return (
             <>
                 <div className={props.index === 0 ? 'comment-wrapper' : props.index >= 3 ? `comment-wrapper reply3` : `comment-wrapper reply${props.index}`} >
@@ -208,10 +240,10 @@ const Comment = (props) => {
                                     <div className='comment-menu'>
                                         <ul>
                                             <li>
-                                                <button>Edit</button>
+                                                <button onClick={editCommentToggle}>Edit</button>
                                             </li>
                                             <li>
-                                                <button>Delete</button>
+                                                <button onClick={handleDelete}>Delete</button>
                                             </li>
                                         </ul>
                                     </div>}
