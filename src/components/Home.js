@@ -105,7 +105,8 @@ const Home = () => {
     return (
         <div className='home-wrapper'>
             <div className='left-sidebar'>
-
+                {console.log('newsfeed')}
+        {console.log(newsFeed)}
             </div>
             <div className='news'>
                 <div className='new-post news-post'>

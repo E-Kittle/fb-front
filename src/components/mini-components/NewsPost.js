@@ -3,6 +3,7 @@ import { UserContext } from '../../App';
 import { useContext, useRef, useState, useEffect } from 'react';
 import { likePost } from '../../services/user.service'
 import { Link } from 'react-router-dom';
+import Comments from '../mini-components/Comments';
 
 
 const NewsPost = (props) => {
@@ -62,7 +63,7 @@ const NewsPost = (props) => {
             <div className='news-content'>
                 <p>{htmlDecode(post.content)}</p>
                 <div>
-                    <p>{post.likes.length} Likes</p>
+                    <p>{post.likes.length} Like{post.likes.length > 1? 's' : null }</p>
                     <p>{post.comments.length} Comments</p>
                 </div>
                 <hr />
@@ -74,26 +75,7 @@ const NewsPost = (props) => {
             </div>
             <hr />
             <div className='comment-container'>
-                {post.comments.length === 0 ? <p>No comments yet!</p> : null}
-                {post.comments.map(comment => {
-                    return (
-                        <div className='comment-wrapper' key={comment._id}>
-                            {/* Need to fix the backend not populating comment author */}
-                            {/* <button>{comment.temp_img}</button> */}
-                            <div>
-                                <Link to={`/profile/${comment._id}`}>{comment.first_name}</Link>
-                                <p>{htmlDecode(comment.content)}</p>
-                            </div>
-                            <div className='comment-meta'>
-                                <div>
-                                    <Link to='/#'>Like</Link>
-                                    <Link to='/#'>Reply</Link>
-                                </div>
-                                <p>{comment.likes}</p>
-                            </div>
-                        </div>
-                    )
-                })}
+                {post.comments.length === 0 ? <p>No comments yet!</p> : <Comments comments={post.comments} />}
                 <form className='new-comment-form'>
                     <label htmlFor='new-comment' >New Comment</label>
                     <button className='user-img'>{currentUser.first_name[0]}{currentUser.last_name[0]}</button>

@@ -2,11 +2,9 @@ import React, { useReducer, useEffect } from 'react';
 import Routes from './Routes';
 import { BrowserRouter as Router } from 'react-router-dom'
 import './styles/style.css';
-import { authenticateUser } from './services/auth.service'
 import Nav from './components/Nav';
 import { getFriendRequests } from './services/user.service';
-import { logout } from './services/auth.service';
-
+import { logout, authenticateUser } from './services/auth.service';
 // Export context for the user reducerhook
 export const UserContext = React.createContext();
 

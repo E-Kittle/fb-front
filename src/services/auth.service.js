@@ -41,28 +41,11 @@ const authenticateUser = () => {
     const config = authHeader();
     if (config.headers !== undefined) {
       //They are a returning user.
-      return axios.get(API_URL+'session', config);
+      return axios.get(`${API_URL}session`, config);
     } else {
       //The are not a returning user
       return null;
     }
-
-
-
-    // if(config.headers !== undefined) {
-    //   axios.get(API_URL+'session', config)
-    //   .then(request => {
-    //     dispatch({ type: 'setUser', payload:request.data.user })
-    //   })
-    //   .catch(err => {
-    //       // A token exists from a previous authentication but is no longer valid, remove from localStorage
-    //       logout();
-    //     console.log(err.response)
-    //   })
-    // }
-    // else {
-    //   return;
-    // }
 }
 
 
