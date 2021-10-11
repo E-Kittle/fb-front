@@ -146,6 +146,68 @@
 .comment-container {
     padding: 10px 0;
 }
+
+.comment-header {
+    display: flex;
+    align-items: center;
+}
+
+.comment-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: #3a3b3c;
+    border-radius: 10px;
+    width: 100%;
+    min-height: 60px;
+    justify-content: space-around;
+    padding: 10px;
+    margin-right: 50px;
+}
+
+.comment-content-wrapper p {
+    font-size: 1.2rem;
+}
+
+.comment-meta {
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.comment-meta button {
+    background-color: rgba(0,0,0,0);
+    border: none;
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.comment-meta div {
+    display: flex;
+    width: 100px;
+    justify-content: space-between;
+}
+
+.comment-chain {
+    border-right: solid 2px rgb(53, 50, 50);
+}
+
+.reply1{
+    margin-left: 30px;
+}
+
+.reply2 {
+    margin-left: 60px;
+}
+
+.reply3 {
+    margin-left: 90px;
+}
+
+
+
 /* Styling for the friends/friend request sidebar */
 .contact-sidebar h2{
     font-size: 2rem;

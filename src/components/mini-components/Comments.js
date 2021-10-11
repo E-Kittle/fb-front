@@ -127,10 +127,10 @@ const Comment = (props) => {
         return (
             <>
                 <div className={props.index === 0? 'comment-wrapper' : props.index >= 3? `comment-wrapper reply3` : `comment-wrapper reply${props.index}`} >
-                    <div>
+                    <div className='comment-header'>
                         <button className='user-img'>{comment.comment.author.first_name[0]} {comment.comment.author.last_name[0]}</button>
                         <div className='comment-content-wrapper'>
-                            <Link to={`/profile/${comment.commentId}`}>{comment.commentAuthor}</Link>
+                            <Link to={`/profile/${comment.commentId}`}>{comment.commentAuthor} {props.parentAuthor===null? null: `- @${props.parentAuthor}`}</Link>
                             <p>{htmlDecode(comment.comment.content)}</p>
                         </div>
                     </div>
@@ -142,14 +142,14 @@ const Comment = (props) => {
                         <p>{comment.comment.likes.length} Likes</p>
                     </div>
                 </div>
-                {comment.replies.length === 0 ? null : comment.replies.map(reply => { return (<Comment comment={reply} index={props.index + 1} key={reply.commentId} /> ) })}
+                {comment.replies.length === 0 ? null : comment.replies.map(reply => { return (<Comment comment={reply} index={props.index + 1} key={reply.commentId} parentAuthor={comment.commentAuthor}/> ) })}
             </ >
         )
     }
 
     return (
         sorted.map(comment => {
-            return <div className='comment-chain' key={comment.commentId}><Comment comment={comment} index={0} /> </div>
+            return <div className='comment-chain' key={comment.commentId}><Comment comment={comment} index={0} parentAuthor={null}/> </div>
         })
     )
 
