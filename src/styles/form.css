@@ -84,7 +84,12 @@ form input {
     width: 100%;
 }
 
-.login-button-wrapper .button-style:nth-child(odd) {
+.login-button-wrapper .button-style:nth-child(even) {
+    background-color: #36a420;
+    border-color: #36a420;
+}
+
+form button:nth-child(even) {
     background-color: #36a420;
     border-color: #36a420;
 }

@@ -81,20 +81,25 @@ const Login = () => {
 
     // State and method to toggle the signup modal - Presenting the user
     //with the signup form
-    const [modal, setModal] = useState(false);
-    const toggleModal = (e) => {
+    const [signUpModal, setSignUpModal] = useState(false);
+    const toggleSignUpModal = (e) => {
         if (e) {
             // Modal is being closed with the X button
             e.preventDefault();
             if (e.target.id === 'close-modal') {
-                setModal(false)
+                setSignUpModal(false)
             } else {
-                setModal(true);
+                setSignUpModal(true);
             }
         } else {
             // Modal is being closed by a successful new user registration
-            setModal(false)
+            setSignUpModal(false)
         }
+    }
+
+    // Function to handle logging the user in through facebook
+    const handleFBLogin = (e) => {
+        e.preventDefault();
     }
 
     return (
@@ -112,15 +117,15 @@ const Login = () => {
                     <input type='password' id='password' name='password' placeholder='Password' required onChange={handleChange} initialvalue={user.password} value={user.password} />
                     {!error ? null : <span className='error'>Email or Password is incorrect</span>}
                     <button type='submit' className='button-style'>Log In</button>
+                    <button className='button-style' onClick={handleFBLogin}>Login with Facebook</button>
                 </form>
                 <hr />
                 <div className='login-button-wrapper'>
-                    <a href='/signup' className='button-style' onClick={toggleModal}>Create New Account</a>
+                    <a href='/signup' className='button-style' onClick={toggleSignUpModal}>Create New Account</a>
                     <button className='button-style' onClick={loginTestUser}>Test Drive an Existing Account</button>
-                    <button className='button-style'>Login with Facebook</button>
                 </div>
             </div>
-            {modal ? <SignUp toggleModal={toggleModal} handleNewUser={handleNewUser} /> : null}
+            {signUpModal ? <SignUp toggleModal={toggleSignUpModal} handleNewUser={handleNewUser} /> : null}
         </div>
     )
 
