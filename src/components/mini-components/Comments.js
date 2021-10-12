@@ -5,6 +5,7 @@ import { UserContext } from "../../App";
 import '../../styles/home.css';
 import { likeComment, createComment } from "../../services/user.service";
 import { editComment } from "../../services/user.service";
+import { formatDistance } from "date-fns";
 const Comment = (props) => {
 
     //destructure props
@@ -223,6 +224,12 @@ const Comment = (props) => {
             setContent(htmlDecode(comment.comment.content))
         }
 
+        const formatDates = (date) => {
+            let oldDate = new Date(date);
+            let today = new Date();
+            let distance = formatDistance(oldDate, today)
+            return distance;
+        }
 
         return (
             <>
@@ -231,7 +238,10 @@ const Comment = (props) => {
                         <button className='user-img'>{comment.comment.author.first_name[0]} {comment.comment.author.last_name[0]}</button>
                         <div className='comment-content-wrapper'>
                             <div>
+                                <div>
                                 <Link to={`/profile/${comment.commentId}`}>{comment.commentAuthor} {props.parentAuthor === null ? null : `- @${props.parentAuthor}`}</Link>
+                                <p>{formatDates(comment.comment.date)} ago</p>
+                                </div>
                                 <p>{htmlDecode(comment.comment.content)}</p>
                             </div>
                             <div>

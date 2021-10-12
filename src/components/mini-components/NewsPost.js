@@ -4,6 +4,7 @@ import { useContext, useRef, useState, useEffect } from 'react';
 import { likePost, createComment } from '../../services/user.service'
 import { Link } from 'react-router-dom';
 import Comments from '../mini-components/Comments';
+import { formatDistance } from "date-fns";
 
 
 const NewsPost = (props) => {
@@ -83,6 +84,12 @@ const NewsPost = (props) => {
         })
     }
 
+    const formatDates = (date) => {
+        let oldDate = new Date(date);
+        let today = new Date();
+        let distance = formatDistance(oldDate, today)
+        return distance;
+    }
 
     return (
         
@@ -91,7 +98,7 @@ const NewsPost = (props) => {
                 <button className='user-img'>{post.author.first_name[0]}{post.author.last_name[0]}</button>
                 <div>
                     <Link to={`/profile/${post.author._id}`}>{post.author.first_name} {post.author.last_name}</Link>
-                    <p>{post.date}</p>
+                    <p>{formatDates(post.date)} ago</p>
                 </div>
             </div>
             <div className='news-content'>

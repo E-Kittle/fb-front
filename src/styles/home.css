@@ -164,12 +164,18 @@
     position: relative;
 }
 
-.comment-content-wrapper div {
+.comment-content-wrapper > div {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
+.comment-content-wrapper > div > div {
+    display: flex;
+}
+.comment-content-wrapper > div > div > p {
+    margin-left: 20px;
+}
 .comment-content-wrapper p {
     font-size: 1.2rem;
 }

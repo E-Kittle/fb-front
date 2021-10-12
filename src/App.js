@@ -61,27 +61,33 @@ function App() {
   // to check if the session is still active and 'logs in' the user on client side
   // Additionally, catches any page refresh that would 'logout' the user
   useEffect(() => {
-    authenticateUser()
+    if (authenticateUser() === null) {
+      // User has expired token, log them out
+      logout();
+    } else {
+
+      authenticateUser()
       .then(response => {
         //User was successfully authenticated. 
         //Now grab their friend request list
         getFriendRequests()
-          .then(result => {
-            // Now, update the context/reducer with the data
-            dispatch({ type: 'setUser', payload: {user: response.data.user, friendRequests: result.data.results }})
-            // reducer({ type: 'setUser', payload: {user: response.data.user, friendRequests: result.data.results }})
-          })
-          .catch(err => {
-            console.log('error in app')
-            console.log(err.response)
-          });
+        .then(result => {
+          // Now, update the context/reducer with the data
+          dispatch({ type: 'setUser', payload: {user: response.data.user, friendRequests: result.data.results }})
+          // reducer({ type: 'setUser', payload: {user: response.data.user, friendRequests: result.data.results }})
+        })
+        .catch(err => {
+          console.log('error in app')
+          console.log(err.response)
+        });
       })
       .catch(err => {
         console.log('error in app/expired token: logout')
         // A token exists from a previous authentication but is no longer valid, remove from localStorage
         logout();
       })
-  }, [])
+    }
+    }, [])
 
 
   return (
