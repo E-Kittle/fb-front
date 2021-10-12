@@ -116,6 +116,8 @@ const NewsPost = (props) => {
             </div>
             <hr />
             <div className='comment-container'>
+                {console.log('comments')}
+                {console.log(post.comments)}
                 {post.comments.length === 0 ? <p>No comments yet!</p> : <Comments comments={post.comments} key={`comments:${post._id}`} postId={post._id} updateComment={updateComment} updateFeed={props.updateFeed} />}
                 <form className='new-comment-form' id={post._id} onSubmit={handleNewComment}>
                     <label htmlFor='new-comment' >New Comment</label>

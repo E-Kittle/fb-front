@@ -271,7 +271,7 @@ const Comment = (props) => {
                         <div className='reply-wrapper'>
                             <form className='new-comment-form new-reply' id={comment.comment._id} onSubmit={handleSubmit}>
                                 <label htmlFor='new-reply' >New Comment</label>
-                                <input type='text' id='new-reply' name='new-reply' placeholder='write a reply...' required initialvalue={content} value={content} onChange={handleChange}/>
+                                <input type='text' id='new-reply' name='new-reply' autoFocus placeholder='write a reply...' required initialvalue={content} value={content} onChange={handleChange}/>
                             </form>
                         </div>}
                 </div>

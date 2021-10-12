@@ -5,6 +5,7 @@ import './styles/style.css';
 import Nav from './components/Nav';
 import { getFriendRequests } from './services/user.service';
 import { logout, authenticateUser } from './services/auth.service';
+import Footer from './components/Footer';
 // Export context for the user reducerhook
 export const UserContext = React.createContext();
 
@@ -98,6 +99,7 @@ function App() {
         <div className='app'>
           {currentUser.first_name === '' ? null : <Nav />}
           <Routes />
+          <Footer />
         </div>
       </Router>
     </UserContext.Provider>
