@@ -117,12 +117,12 @@ const Login = () => {
                     <input type='password' id='password' name='password' placeholder='Password' required onChange={handleChange} initialvalue={user.password} value={user.password} />
                     {!error ? null : <span className='error'>Email or Password is incorrect</span>}
                     <button type='submit' className='button-style'>Log In</button>
-                    <button className='button-style' onClick={handleFBLogin}>Login with Facebook</button>
+                    <button className='button-style green-style' onClick={handleFBLogin}>Login with Facebook</button>
                 </form>
                 <hr />
                 <div className='login-button-wrapper'>
                     <a href='/signup' className='button-style' onClick={toggleSignUpModal}>Create New Account</a>
-                    <button className='button-style' onClick={loginTestUser}>Test Drive an Existing Account</button>
+                    <button className='button-style green-style' onClick={loginTestUser}>Test Drive an Existing Account</button>
                 </div>
             </div>
             {signUpModal ? <SignUp toggleModal={toggleSignUpModal} handleNewUser={handleNewUser} /> : null}

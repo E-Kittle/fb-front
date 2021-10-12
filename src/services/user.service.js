@@ -9,6 +9,13 @@ const API_URL = "http://localhost:5000/";
 // SERVICE REQUESTS FOR FRIENDS
 // ------------------------------------------------------------------------------------
 
+//Grab all users
+const getUsers = () => {
+    const config = authHeader();
+    return axios.get(`${API_URL}users`, config)
+}
+
+
 // Users by the 'Find Friend' search bar to look for users matching the search query
 const findFriend = (id) => {
     const config = authHeader();
@@ -128,5 +135,6 @@ export {
     addFriend,
     likeComment,
     createComment,
-    editComment
+    editComment,
+    getUsers
 };

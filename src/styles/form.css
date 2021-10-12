@@ -89,7 +89,7 @@ form input {
     border-color: #36a420;
 }
 
-form button:nth-child(even) {
+.green-style {
     background-color: #36a420;
     border-color: #36a420;
 }
