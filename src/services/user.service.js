@@ -2,7 +2,7 @@
 // to user authentication/registration
 
 import axios from "axios";
-import authHeader from './auth-header';
+import {authHeader, authHeaderWithContent} from './auth-header';
 
 const API_URL = "http://localhost:5000/";
 
@@ -67,8 +67,17 @@ const getNewsFeed = () => {
 
 // Creates a new post
 const createNewPost = (post) => {
-    const config = authHeader();
-    return axios.post(`${API_URL}posts`, {'content': post}, config)
+    let config = authHeaderWithContent();
+
+    //Create the FormData object and append the images to it. 
+    const formData = new FormData();
+    const arr = Array.from(post.images);
+    arr.forEach(file => {
+        formData.append("images", file)
+    })
+
+
+    return axios.post(`${API_URL}posts`, {content: post.content, images: formData}, config)
 } 
 
 // Adds/Removes a like on a post - API handles removing a post

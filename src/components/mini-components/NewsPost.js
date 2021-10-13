@@ -9,6 +9,8 @@ import { formatDistance } from "date-fns";
 
 const NewsPost = (props) => {
 
+    const API_URL = "http://localhost:5000/";
+
     const { post, updatePost } = props;
 
     // Grab UserContext from app.js and destructure currentUser from it
@@ -103,6 +105,9 @@ const NewsPost = (props) => {
             </div>
             <div className='news-content'>
                 <p>{htmlDecode(post.content)}</p>
+                {console.log(post)}
+                {post.images.length === 0? null: post.images.map(image => {return <img src={`${API_URL}${image}`} alt='User Content'></img>})}
+                {console.log(post.images.length)}
                 <div>
                     <p>{post.likes.length} Like{post.likes.length > 1? 's' : null }</p>
                     <p>{post.comments.length} Comment{post.comments.length > 1? 's': null}</p>
@@ -116,8 +121,6 @@ const NewsPost = (props) => {
             </div>
             <hr />
             <div className='comment-container'>
-                {console.log('comments')}
-                {console.log(post.comments)}
                 {post.comments.length === 0 ? <p>No comments yet!</p> : <Comments comments={post.comments} key={`comments:${post._id}`} postId={post._id} updateComment={updateComment} updateFeed={props.updateFeed} />}
                 <form className='new-comment-form' id={post._id} onSubmit={handleNewComment}>
                     <label htmlFor='new-comment' >New Comment</label>

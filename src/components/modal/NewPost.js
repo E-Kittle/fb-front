@@ -9,18 +9,28 @@ function NewPost(props) {
     const { currentUser } = userContext;
 
     // State to hold the new post content
-    const [newPost, setNewPost] = useState('');
+    const [newPost, setNewPost] = useState({
+        content: '',
+        images: []
+    });
+
+    const [error, setError] = useState('');
 
     // Function to control input for a new user
     const handleChange = (e) => {
-        setNewPost(e.target.value);
+        setNewPost({
+            ...newPost,
+            content: e.target.value
+        });
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Create the new post. If successful, close the modal
-        createNewPost(newPost)
+        if (error === '') {
+
+            // Create the new post. If successful, close the modal
+            createNewPost(newPost)
             .then(response => {
                 props.setUpdateNewsFeed(true);
                 props.toggleModal();
@@ -28,6 +38,9 @@ function NewPost(props) {
             .catch(err => {
                 console.log(err)
             })
+        } else {
+            return;
+        }
     }
 
 
@@ -38,7 +51,17 @@ function NewPost(props) {
         }
     }
 
-
+    const handleImages = (e) => {
+        if(e.target.files.length > 4) {
+            setError('Choose up to 4 images')
+        } else {
+            setNewPost({
+                ...newPost,
+                images: e.target.files
+            });
+            setError('');
+        }
+    }
 
 
     return (
@@ -54,6 +77,8 @@ function NewPost(props) {
                 <form id='new-post-form' onSubmit={handleSubmit}>
                     <label htmlFor='new-post'>What's on your mind?</label>
                     <textarea type='text' id='new-post' name='new-post' placeholder="What's on your mind?" required onChange={handleChange}></textarea>
+                    <input type='file' id='image' name='image' accept='image/*' multiple onChange={handleImages} />
+                    {error===''? null : <span className='error'>{error}</span>}
                     <button type='submit'>Post</button>
                 </form>
             </div>
