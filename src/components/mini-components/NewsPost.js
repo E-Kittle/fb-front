@@ -105,9 +105,7 @@ const NewsPost = (props) => {
             </div>
             <div className='news-content'>
                 <p>{htmlDecode(post.content)}</p>
-                {console.log(post)}
                 {post.images.length === 0? null: post.images.map(image => {return <img src={`${API_URL}${image}`} alt='User Content'></img>})}
-                {console.log(post.images.length)}
                 <div>
                     <p>{post.likes.length} Like{post.likes.length > 1? 's' : null }</p>
                     <p>{post.comments.length} Comment{post.comments.length > 1? 's': null}</p>

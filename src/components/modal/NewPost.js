@@ -74,7 +74,7 @@ function NewPost(props) {
                     <button className='close-modal' id='x-modal' onClick={props.toggleModal}>X</button>
                 </div>
                 <hr />
-                <form id='new-post-form' onSubmit={handleSubmit}>
+                <form id='new-post-form' onSubmit={handleSubmit} encType="multipart/form-data">
                     <label htmlFor='new-post'>What's on your mind?</label>
                     <textarea type='text' id='new-post' name='new-post' placeholder="What's on your mind?" required onChange={handleChange}></textarea>
                     <input type='file' id='image' name='image' accept='image/*' multiple onChange={handleImages} />

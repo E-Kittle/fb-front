@@ -112,3 +112,7 @@ form input {
     color: white;
     border: none;
 }
+
+.new-img-form {
+    justify-content: space-between;
+}

@@ -69,15 +69,14 @@ const getNewsFeed = () => {
 const createNewPost = (post) => {
     let config = authHeaderWithContent();
 
-    //Create the FormData object and append the images to it. 
+    // Create the FormData object and append the images to it. 
     const formData = new FormData();
     const arr = Array.from(post.images);
     arr.forEach(file => {
-        formData.append("images", file)
+        formData.append("photos", file)
     })
-
-
-    return axios.post(`${API_URL}posts`, {content: post.content, images: formData}, config)
+    formData.append('content', post.content)
+    return axios.post(`${API_URL}posts`, {formData}, config)
 } 
 
 // Adds/Removes a like on a post - API handles removing a post
@@ -128,6 +127,12 @@ const getProfileFeed = (userId) => {
     return axios.get(`${API_URL}user/profile/${userId}/feed`, config)
 }
 
+const updateCover = (file) => {
+    const config = authHeaderWithContent();
+    console.log('submitting!')
+    return axios.put(`${API_URL}user/profile/cover`, {cover: file}, config)
+}
+
 
 export {
     getCurrentFriends,
@@ -145,5 +150,6 @@ export {
     likeComment,
     createComment,
     editComment,
-    getUsers
+    getUsers,
+    updateCover
 };

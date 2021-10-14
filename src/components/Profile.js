@@ -4,7 +4,8 @@ import { getProfile, getProfileFeed, addFriend, getFriendRequests } from '../ser
 import NewsPost from './mini-components/NewsPost';
 // import Friend from './mini-components/Friend';
 import { Link, useHistory } from 'react-router-dom';
-
+import defaultProfileImg from '../assets/default.jpeg';
+import NewImg from './modal/NewImg';
 
 const Profile = (props) => {
 
@@ -107,7 +108,7 @@ const Profile = (props) => {
                 console.log('success!')
                 getFriendRequests()
                     .then(result => {
-                        userContext.userDispatch({ type: 'updateAllFriends', payload: {friends: result.data.friends, friendRequests: result.data.friend_requests }})
+                        userContext.userDispatch({ type: 'updateAllFriends', payload: { friends: result.data.friends, friendRequests: result.data.friend_requests } })
                         history.push('/friends')
                     })
                     .catch(error => {
@@ -156,9 +157,27 @@ const Profile = (props) => {
         }
     }
 
+    //State to hold the modal toggle
+    const [modal, setModal] = useState(false);
+    const [modalCover, setModalCover] = useState(true);    //State to hold whether the modal is for a profile or cover image
+    const toggleModal = (e) => {
+        if(e!== undefined && e.target.id==='profile-img-button') {
+            //User is toggling the modal to create a new profile image
+            setModal(true);
+            setModalCover(true);
+        } else {
+            setModal(false)
+        }
+    }
+
+
     return (
         <div className='profile-wrapper'>
             <div className='profile-header-wrapper'>
+                <div id='profile-img-wrapper'>
+                    <img id='profile-img' src={defaultProfileImg} alt='' />
+                    {currentUser.id===profileUser.id? <button id='profile-img-button' onClick={toggleModal}>+</button> : null}
+                </div>
                 <div className='profile-header'>
                     {profileUser.first_name === '' ? <h1>Loading...</h1> : null}
                     <h1>{profileUser.first_name} {profileUser.last_name}</h1>
@@ -176,6 +195,7 @@ const Profile = (props) => {
                     {feedToggle ? <ProfileFeed /> : <ProfileFriends />}
                 </div>
             </div>
+            {modal? <NewImg cover={modalCover} toggleModal={toggleModal}/> : null}
         </div>
     )
 }
