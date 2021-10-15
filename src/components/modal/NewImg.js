@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { UserContext } from '../../App';
-import { updateCover } from '../../services/user.service'
+import { updateCover, updateProfile } from '../../services/user.service'
 
 function NewImg(props) {
 
@@ -31,10 +31,10 @@ function NewImg(props) {
 
             // Update the cover photo
             updateCover(image, currentUser.id)
-            .then(response => {                console.log(response.data)
+            .then(response => {              
                 userContext.userDispatch({ type: 'updateUser', payload: {cover:response.data.cover_img }})
                 props.updateProfile({cover:response.data.cover_img});
-                props.toggleModal();
+                props.closeModal();
             })
             .catch(error => {
                 console.log('error')
@@ -44,6 +44,15 @@ function NewImg(props) {
             //if props.cover===false, the image is for a profile image
             setError('');
             console.log('would submit profile image')
+            updateProfile(image, currentUser.id)
+            .then(response => {                
+                props.updateProfile({profile:response.data.profile_img});
+                props.closeModal();
+            })
+            .catch(error => {
+                console.log('error')
+                console.log(error)
+            })
         }
 
 

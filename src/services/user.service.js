@@ -133,6 +133,12 @@ const updateCover = (file, id) => {
     return axios.put(`${API_URL}user/profile/${id}/cover`, data, {headers: {"Content-Type": "multipart/form-data"}})
 }
 
+const updateProfile = (file, id) => {
+    let data = new FormData();
+    data.append("profile", file);
+    return axios.put(`${API_URL}user/profile/${id}/profileupdate`, data, {headers: {"Content-Type": "multipart/form-data"}})
+}
+
 
 const formatURL = (end) => {
     return `${API_URL}${end}`
@@ -156,5 +162,6 @@ export {
     editComment,
     getUsers,
     updateCover,
+    updateProfile,
     formatURL
 };

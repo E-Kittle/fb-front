@@ -25,8 +25,14 @@ const Profile = (props) => {
         bio: '',
         friends: [],
         cover_img: '',
+        profile_img: '',
     });
     const [posts, setPosts] = useState([]);
+
+    // Styling for the background image, if user has one
+    const styling = {
+        backgroundImage: `url(${formatURL(profileUser.profile_img)})`
+    };
 
     // State and function to toggle whether the user is viewing
     // the newsfeed or the friends list
@@ -50,7 +56,8 @@ const Profile = (props) => {
                     email: results.data.user.email,
                     bio: results.data.user.bio,
                     friends: results.data.friends,
-                    cover_img: results.data.user.cover_img
+                    cover_img: results.data.user.cover_img,
+                    profile_img: results.data.user.profile_img
                 }
                 setProfileUser(user);
             })
@@ -163,14 +170,22 @@ const Profile = (props) => {
     //State to hold the modal toggle
     const [modal, setModal] = useState(false);
     const [modalCover, setModalCover] = useState(true);    //State to hold whether the modal is for a profile or cover image
+
     const toggleModal = (e) => {
-        if(e!== undefined && e.target.id==='profile-img-button') {
-            //User is toggling the modal to create a new profile image
+        if (e.target.id === 'cover-img-button') {
+            //User is toggling the modal to create a new cover image
             setModal(true);
             setModalCover(true);
+        } else if (e.target.id === 'profile-img-button') {
+            setModal(true)
+            setModalCover(false)
         } else {
             setModal(false)
         }
+    }
+
+    const closeModal = () => {
+        setModal(false)
     }
 
     const updateProfile = (data) => {
@@ -183,27 +198,35 @@ const Profile = (props) => {
             }))
         } else {
             console.log('updating profile image')
+            setProfileUser(prevState => ({
+                ...prevState,
+                profile_img: data.profile
+            }))
         }
-    } 
+    }
 
 
     return (
         <div className='profile-wrapper'>
+            {console.log('profile user')}
             {console.log(profileUser)}
             <div className='profile-header-wrapper'>
-                <div id='profile-img-wrapper'>
-                    {profileUser.cover_img === undefined || profileUser.cover_img===''? 
-                    <img id='profile-img' src={defaultProfileImg} alt='Cover' /> :
-                    <img id='profile-img' src={formatURL(profileUser.cover_img)} alt='Cover' />
-                }
-                    {currentUser.id===profileUser.id? <button id='profile-img-button' onClick={toggleModal}>+</button> : null}
-                </div>
-                <div className='profile-header'>
-                    {profileUser.first_name === '' ? <h1>Loading...</h1> : null}
-                    <h1>{profileUser.first_name} {profileUser.last_name}</h1>
-                    <p>{profileUser.bio}</p>
-                    {profileUser.id === currentUser.id ? null : <NewFriend />}
-                    {profileUser.id === currentUser.id ? <button className='friend-container-button'>Edit Profile Photo</button> : null}
+                <div className={profileUser.profile_img === '' || profileUser.profile_img === undefined ? 'top-profile-header' : 'top-profile-header profile-banner'} style={profileUser.profile_img === '' || profileUser.profile_img === undefined ? { backgroundImage: 'none' } : { backgroundImage: `url(${formatURL(profileUser.profile_img)})` }}>
+
+                    <div id='profile-img-wrapper'>
+                        {profileUser.cover_img === undefined || profileUser.cover_img === '' ?
+                            <img id='profile-img' src={defaultProfileImg} alt='Cover' /> :
+                            <img id='profile-img' src={formatURL(profileUser.cover_img)} alt='Cover' />
+                        }
+                        {currentUser.id === profileUser.id ? <button id='cover-img-button' onClick={toggleModal}>+</button> : null}
+                    </div>
+                    <div className='profile-header'>
+                        {profileUser.first_name === '' ? <h1>Loading...</h1> : null}
+                        <h1>{profileUser.first_name} {profileUser.last_name}</h1>
+                        <p>{profileUser.bio}</p>
+                        {profileUser.id === currentUser.id ? null : <NewFriend />}
+                        {profileUser.id === currentUser.id ? <button className='friend-container-button' id='profile-img-button' onClick={toggleModal}>Edit Profile Photo</button> : null}
+                    </div>
                 </div>
                 <hr />
                 <div className='profile-buttons'>
@@ -216,7 +239,7 @@ const Profile = (props) => {
                     {feedToggle ? <ProfileFeed /> : <ProfileFriends />}
                 </div>
             </div>
-            {modal? <NewImg cover={modalCover} toggleModal={toggleModal} updateProfile={updateProfile}/> : null}
+            {modal ? <NewImg cover={modalCover} toggleModal={toggleModal} updateProfile={updateProfile} closeModal={closeModal} /> : null}
         </div>
     )
 }
