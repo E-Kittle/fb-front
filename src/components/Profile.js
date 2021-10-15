@@ -1,12 +1,11 @@
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../App';
-import { getProfile, getProfileFeed, addFriend, getFriendRequests } from '../services/user.service'
+import { getProfile, getProfileFeed, addFriend, getFriendRequests, formatURL } from '../services/user.service'
 import NewsPost from './mini-components/NewsPost';
 // import Friend from './mini-components/Friend';
 import { Link, useHistory } from 'react-router-dom';
 import defaultProfileImg from '../assets/default.jpeg';
 import NewImg from './modal/NewImg';
-const API_URL = "http://localhost:5000/";
 
 
 const Profile = (props) => {
@@ -174,6 +173,19 @@ const Profile = (props) => {
         }
     }
 
+    const updateProfile = (data) => {
+        if (data.cover) {
+            console.log('updating coverphoto')
+
+            setProfileUser(prevState => ({
+                ...prevState,
+                cover_img: data.cover
+            }))
+        } else {
+            console.log('updating profile image')
+        }
+    } 
+
 
     return (
         <div className='profile-wrapper'>
@@ -182,7 +194,7 @@ const Profile = (props) => {
                 <div id='profile-img-wrapper'>
                     {profileUser.cover_img === undefined || profileUser.cover_img===''? 
                     <img id='profile-img' src={defaultProfileImg} alt='Cover' /> :
-                    <img id='profile-img' src={`${API_URL}${profileUser.cover_img}`} alt='Cover' />
+                    <img id='profile-img' src={formatURL(profileUser.cover_img)} alt='Cover' />
                 }
                     {currentUser.id===profileUser.id? <button id='profile-img-button' onClick={toggleModal}>+</button> : null}
                 </div>
@@ -204,7 +216,7 @@ const Profile = (props) => {
                     {feedToggle ? <ProfileFeed /> : <ProfileFriends />}
                 </div>
             </div>
-            {modal? <NewImg cover={modalCover} toggleModal={toggleModal}/> : null}
+            {modal? <NewImg cover={modalCover} toggleModal={toggleModal} updateProfile={updateProfile}/> : null}
         </div>
     )
 }

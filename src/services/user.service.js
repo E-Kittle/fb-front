@@ -134,6 +134,10 @@ const updateCover = (file, id) => {
 }
 
 
+const formatURL = (end) => {
+    return `${API_URL}${end}`
+}
+
 export {
     getCurrentFriends,
     getFriendRequests,
@@ -151,5 +155,6 @@ export {
     createComment,
     editComment,
     getUsers,
-    updateCover
+    updateCover,
+    formatURL
 };

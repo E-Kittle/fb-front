@@ -12,6 +12,7 @@ function NewImg(props) {
     const [image, setImage] = useState(null);
     const [error, setError] = useState('');
 
+    // Function to update 
     // Function to control input for a new user
     const handleChange = (e) => {
         setImage(e.target.files[0])
@@ -28,9 +29,11 @@ function NewImg(props) {
             setError('');
             console.log('would submit cover image')
 
+            // Update the cover photo
             updateCover(image, currentUser.id)
-            .then(response => {
-                console.log(response.data)
+            .then(response => {                console.log(response.data)
+                userContext.userDispatch({ type: 'updateUser', payload: {cover:response.data.cover_img }})
+                props.updateProfile({cover:response.data.cover_img});
                 props.toggleModal();
             })
             .catch(error => {

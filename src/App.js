@@ -16,24 +16,34 @@ const initialState = {
   last_name: '',
   email: '',
   friends: [],
-  friendRequests: []
+  friendRequests: [],
+  cover_img: ''
 }
 
 // Reducer method to either set the user in state or logout the user
 const reducer = (state, action) => {
   switch (action.type) {
     case 'setUser':
+      console.log('setting user')
+      console.log(action.payload)
       return {
         id: action.payload.user.id,
         first_name: action.payload.user.first_name,
         last_name: action.payload.user.last_name,
         email: action.payload.user.email,
         friends: action.payload.user.friends,
-        friendRequests: action.payload.friendRequests
+        friendRequests: action.payload.friendRequests,
+        cover_img: action.payload.user.cover_img
       }
 
     case 'logoutUser':
       return initialState
+
+    case 'updateUser':
+      return {
+        ...state,
+        cover_img: action.payload.cover
+      }
 
     case 'updateAllFriends':
       return {

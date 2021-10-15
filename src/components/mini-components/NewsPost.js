@@ -1,11 +1,11 @@
 import htmlDecode from "../../services/formatting";
 import { UserContext } from '../../App';
 import { useContext, useRef, useState, useEffect } from 'react';
-import { likePost, createComment } from '../../services/user.service'
+import { likePost, createComment, formatURL } from '../../services/user.service'
 import { Link } from 'react-router-dom';
 import Comments from '../mini-components/Comments';
 import { formatDistance } from "date-fns";
-
+import defaultProfileImg from '../../assets/default.jpeg'
 
 const NewsPost = (props) => {
 
@@ -20,27 +20,27 @@ const NewsPost = (props) => {
     // Container to hold the ref and function that provides focus to the ref 
     const commentRef = useRef(null);
     const changeFocus = () => {
-            commentRef.current.focus();
+        commentRef.current.focus();
     }
 
     //-----------------------------------------------------------------------
     // Section for liking a post
     // State to hold whether a user has liked a post or not
-    const [ liked, setLiked ] = useState(false);
+    const [liked, setLiked] = useState(false);
 
     // Function to toggle a like. It sends the request to the db, which returns the post
     // data. Then, this data is sent to Home.js to update state
     const toggleLike = () => {
         likePost(post._id)
-        .then(response => {
-            // Post has been updated in the db, now update state in Home.js
-            // updatePost(response.data.results);
-            setLiked(false);
-            props.updateFeed();
-        })
-        .catch(error => {
-            console.log(error.response)
-        })
+            .then(response => {
+                // Post has been updated in the db, now update state in Home.js
+                // updatePost(response.data.results);
+                setLiked(false);
+                props.updateFeed();
+            })
+            .catch(error => {
+                console.log(error.response)
+            })
     }
 
     // useEffect to check if the user has liked the post
@@ -67,7 +67,7 @@ const NewsPost = (props) => {
         //Update the post here, then send it to updatePost()
     }
 
-    const [ content, setContent ] = useState('');
+    const [content, setContent] = useState('');
 
     const handleCommentChange = (e) => {
         setContent(e.target.value)
@@ -76,14 +76,14 @@ const NewsPost = (props) => {
     const handleNewComment = (e) => {
         e.preventDefault();
         console.log(`Would submit: ${content} for post: ${e.target.id}`)
-        createComment({content}, e.target.id)
-        .then(response => {
-            setContent('');
-            props.updateFeed();
-        })
-        .catch(error => {
-            console.log(error)
-        })
+        createComment({ content }, e.target.id)
+            .then(response => {
+                setContent('');
+                props.updateFeed();
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     const formatDates = (date) => {
@@ -93,11 +93,14 @@ const NewsPost = (props) => {
         return distance;
     }
 
+
     return (
-        
+
         <div className='news-post' key={post._id}>
             <div className='news-header'>
-                <button className='user-img'>{post.author.first_name[0]}{post.author.last_name[0]}</button>
+                <Link to={`/profile/${post.author._id}`} className='cover-img'>
+                    <img src={post.author.cover_img === undefined || post.author.cover_img === '' ? defaultProfileImg : post.author._id===currentUser.id? formatURL(currentUser.cover_img) : formatURL(post.author.cover_img)} alt='to profile'></img>
+                </Link>
                 <div>
                     <Link to={`/profile/${post.author._id}`}>{post.author.first_name} {post.author.last_name}</Link>
                     <p>{formatDates(post.date)} ago</p>
@@ -105,15 +108,15 @@ const NewsPost = (props) => {
             </div>
             <div className='news-content'>
                 <p>{htmlDecode(post.content)}</p>
-                {post.images.length === 0? null: post.images.map(image => {return <img src={`${API_URL}${image}`} alt='User Content'></img>})}
+                {post.images.length === 0 ? null : post.images.map(image => { return <img src={`${API_URL}${image}`} alt='User Content'></img> })}
                 <div>
-                    <p>{post.likes.length} Like{post.likes.length > 1? 's' : null }</p>
-                    <p>{post.comments.length} Comment{post.comments.length > 1? 's': null}</p>
+                    <p>{post.likes.length} Like{post.likes.length > 1 ? 's' : null}</p>
+                    <p>{post.comments.length} Comment{post.comments.length > 1 ? 's' : null}</p>
                 </div>
                 <hr />
             </div>
             <div className='news-button-wrapper'>
-                <button onClick={toggleLike} id={liked? 'liked' : null}>{liked? 'Liked' : 'Like'}</button>
+                <button onClick={toggleLike} id={liked ? 'liked' : null}>{liked ? 'Liked' : 'Like'}</button>
                 <button onClick={changeFocus}>Comment</button>
                 {/* This button just adds focus to the text input */}
             </div>
@@ -122,7 +125,9 @@ const NewsPost = (props) => {
                 {post.comments.length === 0 ? <p>No comments yet!</p> : <Comments comments={post.comments} key={`comments:${post._id}`} postId={post._id} updateComment={updateComment} updateFeed={props.updateFeed} />}
                 <form className='new-comment-form' id={post._id} onSubmit={handleNewComment}>
                     <label htmlFor='new-comment' >New Comment</label>
-                    <button className='user-img'>{currentUser.first_name[0]}{currentUser.last_name[0]}</button>
+                    <Link to={`/profile/${currentUser._id}`} className='cover-img'>
+                        <img src={currentUser.cover_img === undefined || currentUser.cover_img === '' ? defaultProfileImg : formatURL(currentUser.cover_img)} alt='to profile'></img>
+                    </Link>
                     <input type='text' ref={commentRef} id='new-comment' name='new-comment' placeholder='write a comment...' initialvalue={content} value={content} onChange={handleCommentChange} />
                 </form>
             </div>

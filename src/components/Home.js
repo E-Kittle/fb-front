@@ -1,10 +1,11 @@
 import '../styles/style.css';
 import '../styles/home.css';
 import { useState, useEffect, useContext } from 'react';
-import { getNewsFeed } from '../services/user.service';
+import { getNewsFeed, formatURL } from '../services/user.service';
 import { UserContext } from '../App';
 import { Link } from 'react-router-dom';
 import NewPost from './modal/NewPost';
+import defaultProfileImg from '../assets/default.jpeg';
 // import htmlDecode from '../services/formatting';
 import NewsPost from './mini-components/NewsPost';
 
@@ -49,19 +50,18 @@ const Home = () => {
 
     const updateFeed = () => {
         getNewsFeed()
-        .then(result => {
-            if (result.data.new === true) {
-                setNewsFeed([]);
-            } else {
-                setNewsFeed(result.data)
-            }
-            setLoading(false);
-        })
-        .catch(err => {
-            console.log(err.result)
-        });
+            .then(result => {
+                if (result.data.new === true) {
+                    setNewsFeed([]);
+                } else {
+                    setNewsFeed(result.data)
+                }
+                setLoading(false);
+            })
+            .catch(err => {
+                console.log(err.result)
+            });
     }
-
 
     useEffect(() => {
         getNewsFeed()
@@ -103,7 +103,9 @@ const Home = () => {
         } else {
             return (
                 <div className='friend-aside-wrapper friends-style' key={contact._id}>
-                    <button className='user-img'>{contact.requestee.first_name[0]}{contact.requestee.last_name[0]}</button>
+                    <Link to={`/profile/${contact._id}`} className='cover-img'>
+                        <img src={contact.cover_img === undefined || contact.cover_img === '' ? defaultProfileImg : formatURL(contact.cover_img)} alt='to profile'></img>
+                    </Link>
                     <Link to={`/profile/${contact.requestee._id}`}>{contact.requestee.first_name} {contact.requestee.last_name}</Link>
                 </div>
             )
@@ -117,14 +119,14 @@ const Home = () => {
             <div className='news'>
                 <div className='new-post news-post'>
                     {/* Triggers a modal */}
-                    <button className='user-img'>
-                        {currentUser.first_name[0]}{currentUser.last_name[0]}
-                    </button >
+                    <Link to={`/profile/${currentUser._id}`} className='cover-img'>
+                        <img src={currentUser.cover_img === undefined || currentUser.cover_img === '' ? defaultProfileImg : formatURL(currentUser.cover_img)} alt='to profile'></img>
+                    </Link>
                     <button onClick={toggleModal}>{`What's on your mind, ${currentUser.first_name}?`}</button>
                 </div>
                 <div className='news-feed'>
                     {loading ? <div><h3>Loading...</h3></div> :
-                        newsFeed.length === 0? <div><h3>Add some friends to see some content!</h3> <h3>(Hint: Use the 'find friend' search bar!)</h3></div> : newsFeed.map(post => { return <NewsPost post={post} key={post._id} setUpdateNewsFeed={setUpdateNewsFeed} updatePost={updatePost} updateFeed={updateFeed}/> })}
+                        newsFeed.length === 0 ? <div><h3>Add some friends to see some content!</h3> <h3>(Hint: Use the 'find friend' search bar!)</h3></div> : newsFeed.map(post => { return <NewsPost post={post} key={post._id} setUpdateNewsFeed={setUpdateNewsFeed} updatePost={updatePost} updateFeed={updateFeed} /> })}
                 </div>
 
 
@@ -141,7 +143,10 @@ const Home = () => {
                     <h2>Friends</h2>
                     {currentUser.friends.map(contact => {
                         return (<div className='friend-aside-wrapper friends-style' key={contact._id}>
-                            <button className='user-img'>{contact.first_name[0]}{contact.last_name[0]}</button>
+                            <Link to={`/profile/${contact._id}`} className='cover-img'>
+                                {console.log(contact)}
+                                <img src={contact.cover_img === undefined || contact.cover_img === '' ? defaultProfileImg : formatURL(contact.cover_img)} alt='to profile'></img>
+                            </Link>
                             <Link to={`/profile/${contact._id}`}>{contact.first_name} {contact.last_name}</Link>
                         </div>)
                     })}

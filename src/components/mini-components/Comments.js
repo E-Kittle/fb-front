@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import { UserContext } from "../../App";
 import '../../styles/home.css';
-import { likeComment, createComment } from "../../services/user.service";
-import { editComment } from "../../services/user.service";
+import { likeComment, createComment, editComment, formatURL } from "../../services/user.service";
 import { formatDistance } from "date-fns";
+import defaultProfileImg from '../../assets/default.jpeg'
+
 const Comment = (props) => {
 
     //destructure props
@@ -185,37 +186,37 @@ const Comment = (props) => {
 
         const handleSubmit = (e) => {
             e.preventDefault();
-            if(editting) {
-                editComment({content}, comment.commentId)
-                .then(results => {
-                    console.log('success')
-                    props.updateFeed();
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            if (editting) {
+                editComment({ content }, comment.commentId)
+                    .then(results => {
+                        console.log('success')
+                        props.updateFeed();
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
             } else {
-                createComment({content:content, comment, commentid: e.target.id}, props.postId)
-                .then(results => {
-                    console.log('success')
-                    props.updateFeed();
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+                createComment({ content: content, comment, commentid: e.target.id }, props.postId)
+                    .then(results => {
+                        console.log('success')
+                        props.updateFeed();
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
             }
         }
 
         // 'deletes' the comment - Just replaces text input with deleted, so as not to disturb
         // other users replies
         const handleDelete = (e) => {
-            editComment({content: '[Deleted]'}, comment.commentId)
-            .then(results => {
-                props.updateFeed();
-            })
-            .catch(error => {
-                console.log(error)
-            })
+            editComment({ content: '[Deleted]' }, comment.commentId)
+                .then(results => {
+                    props.updateFeed();
+                })
+                .catch(error => {
+                    console.log(error)
+                })
         }
 
         const editCommentToggle = () => {
@@ -235,12 +236,14 @@ const Comment = (props) => {
             <>
                 <div className={props.index === 0 ? 'comment-wrapper' : props.index >= 3 ? `comment-wrapper reply3` : `comment-wrapper reply${props.index}`} >
                     <div className='comment-header'>
-                        <button className='user-img'>{comment.comment.author.first_name[0]} {comment.comment.author.last_name[0]}</button>
+                        <Link to={`/profile/${comment.comment.author._id}`} className='cover-img'>
+                            <img src={comment.comment.author.cover_img === undefined || comment.comment.author.cover_img === '' ? defaultProfileImg : formatURL(comment.comment.author.cover_img)} alt='to profile'></img>
+                        </Link>
                         <div className='comment-content-wrapper'>
                             <div>
                                 <div>
-                                <Link to={`/profile/${comment.commentId}`}>{comment.commentAuthor} {props.parentAuthor === null ? null : `- @${props.parentAuthor}`}</Link>
-                                <p>{formatDates(comment.comment.date)} ago</p>
+                                    <Link to={`/profile/${comment.commentId}`}>{comment.commentAuthor} {props.parentAuthor === null ? null : `- @${props.parentAuthor}`}</Link>
+                                    <p>{formatDates(comment.comment.date)} ago</p>
                                 </div>
                                 <p>{htmlDecode(comment.comment.content)}</p>
                             </div>
@@ -271,7 +274,7 @@ const Comment = (props) => {
                         <div className='reply-wrapper'>
                             <form className='new-comment-form new-reply' id={comment.comment._id} onSubmit={handleSubmit}>
                                 <label htmlFor='new-reply' >New Comment</label>
-                                <input type='text' id='new-reply' name='new-reply' autoFocus placeholder='write a reply...' required initialvalue={content} value={content} onChange={handleChange}/>
+                                <input type='text' id='new-reply' name='new-reply' autoFocus placeholder='write a reply...' required initialvalue={content} value={content} onChange={handleChange} />
                             </form>
                         </div>}
                 </div>

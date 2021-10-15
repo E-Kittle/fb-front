@@ -540,3 +540,11 @@
 #profile-img-button:hover {
     background-color: #679fe9;
 }
+
+.cover-img img{
+
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    margin-right: 20px;
+}
