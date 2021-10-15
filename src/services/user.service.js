@@ -65,19 +65,35 @@ const getNewsFeed = () => {
     return axios.get(`${API_URL}posts`, config)
 }
 
+
+// const updateProfile = (file, id) => {
+//     let data = new FormData();
+//     data.append("profile", file);
+//     return axios.put(`${API_URL}user/profile/${id}/profileupdate`, data, {headers: {"Content-Type": "multipart/form-data"}})
+// }
+
+
 // Creates a new post
 const createNewPost = (post) => {
-    let config = authHeaderWithContent();
+    const config = authHeader();
+    return axios.post(`${API_URL}posts`, {content: post.content}, config)
+} 
 
+const updatePost = (post, id) => {
     // Create the FormData object and append the images to it. 
     const formData = new FormData();
     const arr = Array.from(post.images);
     arr.forEach(file => {
         formData.append("photos", file)
     })
-    formData.append('content', post.content)
-    return axios.post(`${API_URL}posts`, {formData}, config)
-} 
+    // formData.append('content', post.content)
+    return axios.put(`${API_URL}post/${id}/photos`, formData)
+}
+
+const editPost = (post, id) => {
+    const config = authHeader();
+    return axios.put(`${API_URL}post/${id}`, {content: post.content}, config)
+}
 
 // Adds/Removes a like on a post - API handles removing a post
 const likePost = (postid) => {
@@ -149,7 +165,9 @@ export {
     getFriendRequests,
     getNewsFeed,
     createNewPost,
+    updatePost,
     likePost,
+    editPost,
     rejectFriendRequest,
     acceptFriendRequest,
     deleteFriend,

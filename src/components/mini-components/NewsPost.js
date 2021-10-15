@@ -1,11 +1,12 @@
 import htmlDecode from "../../services/formatting";
 import { UserContext } from '../../App';
 import { useContext, useRef, useState, useEffect } from 'react';
-import { likePost, createComment, formatURL } from '../../services/user.service'
+import { likePost, createComment, formatURL, editPost } from '../../services/user.service'
 import { Link } from 'react-router-dom';
 import Comments from '../mini-components/Comments';
 import { formatDistance } from "date-fns";
 import defaultProfileImg from '../../assets/default.jpeg'
+import NewPost from "../modal/NewPost";
 
 const NewsPost = (props) => {
 
@@ -94,22 +95,69 @@ const NewsPost = (props) => {
     }
 
 
+    // State to hold the dropdown menu and function to toggle it
+    const [dropdown, setDropdown] = useState(false);
+    const [edit, setEdit] = useState(false);
+    const toggleDropDown = () => {
+        setDropdown(!dropdown)
+    }
+
+    const toggleModal = () => {
+        setEdit(false);
+    }
+
+    const handleDelete = (e) => {
+        console.log('would delete post ' + e.target.id)
+        editPost({content:'Deleted'}, e.target.id)
+        .then(response => {
+            toggleDropDown();
+            props.updateFeed();
+        })
+        .catch(error => {
+            console.log('error')
+            console.log(error)
+        })
+    }
+
+    const editPostToggle = (e) => {
+        console.log('would edit post ' + e.target.id)
+        setEdit(true);
+    }
+
     return (
 
         <div className='news-post' key={post._id}>
             <div className='news-header'>
-                <Link to={`/profile/${post.author._id}`} className='cover-img'>
-                    <img src={post.author.cover_img === undefined || post.author.cover_img === '' ? defaultProfileImg : post.author._id===currentUser.id? formatURL(currentUser.cover_img) : formatURL(post.author.cover_img)} alt='to profile'></img>
-                </Link>
-                <div>
-                    <Link to={`/profile/${post.author._id}`}>{post.author.first_name} {post.author.last_name}</Link>
-                    <p>{formatDates(post.date)} ago</p>
+                <div className='news-header-wrapper'>
+                    <Link to={`/profile/${post.author._id}`} className='cover-img'>
+                        <img src={post.author.cover_img === undefined || post.author.cover_img === '' ? defaultProfileImg : post.author._id === currentUser.id ? formatURL(currentUser.cover_img) : formatURL(post.author.cover_img)} alt='to profile'></img>
+                    </Link>
+                    <div>
+                        <Link to={`/profile/${post.author._id}`}>{post.author.first_name} {post.author.last_name}</Link>
+                        <p>{formatDates(post.date)} ago</p>
+                    </div>
+                </div>
+                <div className='post-dropdown-wrapper'>
+                    {post.author._id === currentUser.id ? <button id={post._id} className='post-dropdown-button' onClick={toggleDropDown}>...</button> : null}
+                    {!dropdown ? null :
+                        <div className='post-menu'>
+                            <ul>
+                                <li>
+                                    <button onClick={editPostToggle} id={post._id}>Edit Text</button>
+                                </li>
+                                <li>
+                                    <button onClick={handleDelete} id={post._id}>Delete</button>
+                                </li>
+                            </ul>
+                        </div>}
                 </div>
             </div>
             <div className='news-content'>
                 <p>{htmlDecode(post.content)}</p>
-                {post.images.length === 0 ? null : post.images.map(image => { return <img src={`${API_URL}${image}`} alt='User Content'></img> })}
-                <div>
+                <div className='news-image-contaner'>
+                    {post.images.length === 0 ? null : post.images.map(image => { return <img src={`${API_URL}${image}`} alt='User Content' key={image}></img> })}
+                </div>
+                <div className='news-content-meta'>
                     <p>{post.likes.length} Like{post.likes.length > 1 ? 's' : null}</p>
                     <p>{post.comments.length} Comment{post.comments.length > 1 ? 's' : null}</p>
                 </div>
@@ -131,6 +179,7 @@ const NewsPost = (props) => {
                     <input type='text' ref={commentRef} id='new-comment' name='new-comment' placeholder='write a comment...' initialvalue={content} value={content} onChange={handleCommentChange} />
                 </form>
             </div>
+            {edit? <NewPost post={post} edit={edit} toggleModal={toggleModal} toggleDropDown={toggleDropDown} updateFeed={props.updateFeed}/> : null}
         </div>
     );
 }

@@ -1,6 +1,6 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../../App';
-import { createNewPost } from '../../services/user.service';
+import { createNewPost, updatePost, editPost } from '../../services/user.service';
 
 function NewPost(props) {
 
@@ -16,6 +16,13 @@ function NewPost(props) {
 
     const [error, setError] = useState('');
 
+    // UseEffect to edit a post. If user is editing a post, we'll update it here in state
+    useEffect(() => {
+        if (props.edit) {
+            setNewPost(props.post)
+        }
+    }, [props.post, props.edit])
+
     // Function to control input for a new user
     const handleChange = (e) => {
         setNewPost({
@@ -28,16 +35,35 @@ function NewPost(props) {
         e.preventDefault();
 
         if (error === '') {
-
-            // Create the new post. If successful, close the modal
-            createNewPost(newPost)
-            .then(response => {
-                props.setUpdateNewsFeed(true);
-                props.toggleModal();
-            })
-            .catch(err => {
-                console.log(err)
-            })
+            if (props.edit) {
+                // User is editing a post. 
+                editPost(newPost, newPost._id)
+                .then(response => {
+                    props.toggleDropDown();
+                    props.toggleModal();
+                    props.updateFeed();
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+            } else {
+                // Create the new post. If successful, close the modal
+                createNewPost(newPost)
+                    .then(response => {
+                        // Post was successfully created, now add the photos
+                        updatePost(newPost, response.data.post._id)
+                            .then(result => {
+                            })
+                        props.setUpdateNewsFeed(true);
+                        props.toggleModal();
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            }
         } else {
             return;
         }
@@ -52,7 +78,7 @@ function NewPost(props) {
     }
 
     const handleImages = (e) => {
-        if(e.target.files.length > 4) {
+        if (e.target.files.length > 4) {
             setError('Choose up to 4 images')
         } else {
             setNewPost({
@@ -76,9 +102,9 @@ function NewPost(props) {
                 <hr />
                 <form id='new-post-form' onSubmit={handleSubmit} encType="multipart/form-data">
                     <label htmlFor='new-post'>What's on your mind?</label>
-                    <textarea type='text' id='new-post' name='new-post' placeholder="What's on your mind?" required onChange={handleChange}></textarea>
-                    <input type='file' id='image' name='image' accept='image/*' multiple onChange={handleImages} />
-                    {error===''? null : <span className='error'>{error}</span>}
+                    <textarea type='text' id='new-post' name='new-post' placeholder="What's on your mind?" required initialvalue={newPost.content} value={newPost.content} onChange={handleChange} ></textarea>
+                    {props.edit ? null : <input type='file' id='image' name='image' accept='image/*' multiple onChange={handleImages} />}
+                    {error === '' ? null : <span className='error'>{error}</span>}
                     <button type='submit'>Post</button>
                 </form>
             </div>

@@ -54,7 +54,7 @@ const Home = () => {
                 if (result.data.new === true) {
                     setNewsFeed([]);
                 } else {
-                    setNewsFeed(result.data)
+                    setNewsFeed(result.data.reverse())
                 }
                 setLoading(false);
             })
@@ -69,7 +69,7 @@ const Home = () => {
                 if (result.data.new === true) {
                     setNewsFeed([]);
                 } else {
-                    setNewsFeed(result.data)
+                    setNewsFeed(result.data.reverse())
                 }
                 setLoading(false);
             })
@@ -86,7 +86,7 @@ const Home = () => {
                 if (result.data.new === true) {
                     setNewsFeed([]);
                 } else {
-                    setNewsFeed(result.data)
+                    setNewsFeed(result.data.reverse())
                 }
             })
             .catch(err => {
@@ -144,7 +144,6 @@ const Home = () => {
                     {currentUser.friends.map(contact => {
                         return (<div className='friend-aside-wrapper friends-style' key={contact._id}>
                             <Link to={`/profile/${contact._id}`} className='cover-img'>
-                                {console.log(contact)}
                                 <img src={contact.cover_img === undefined || contact.cover_img === '' ? defaultProfileImg : formatURL(contact.cover_img)} alt='to profile'></img>
                             </Link>
                             <Link to={`/profile/${contact._id}`}>{contact.first_name} {contact.last_name}</Link>
