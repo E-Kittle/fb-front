@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#" lang="en"><head>
+<title>Express body-parser middleware</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="og:image" content="https://expressjs.com/images/express-facebook-share.png">
+<link rel="icon" type="image/png" href="http://expressjs.com/images/favicon.png">
+<link rel="stylesheet" href="cxv||else%20if%20(pa_files/style.css">
+<link rel="stylesheet" href="cxv||else%20if%20(pa_files/dropit.css">
+<link rel="stylesheet" href="cxv||else%20if%20(pa_files/prism.css">
+<link rel="stylesheet" href="cxv||else%20if%20(pa_files/font-awesome.css">
+<link rel="stylesheet" href="cxv||else%20if%20(pa_files/css.css">
+<link rel="stylesheet" href="cxv||else%20if%20(pa_files/en.css">
+<link rel="stylesheet" href="cxv||else%20if%20(pa_files/nodeinteractive.css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script data-cfasync="false" src="cxv||else%20if%20(pa_files/jquery.js"></script>
+<script data-cfasync="false" src="cxv||else%20if%20(pa_files/ismobile.js"></script>
+<script data-cfasync="false" src="cxv||else%20if%20(pa_files/app.js"></script>
+<script data-cfasync="false" src="cxv||else%20if%20(pa_files/retina.js"></script>
+<script data-cfasync="false" src="cxv||else%20if%20(pa_files/dropit.js"></script>
+<script data-cfasync="false" src="cxv||else%20if%20(pa_files/prism.js"></script>
+<link rel="stylesheet" href="cxv||else%20if%20(pa_files/docsearch.css">
+</head>
+<body class="en-doc scroll">
+<section class="page content">
+<header>
+<div id="blm-banner">
+Black Lives Matter. <br>
+<a id="blm-donate" href="https://support.eji.org/give/153413/#!/donation/checkout">Support the Equal Justice Initiative</a>.
+</div>
+<div id="mobile-menu">
+<div id="nav-button" class="fa fa-bars fa-2x button"></div>
+</div>
+<section id="logo"><a href="http://expressjs.com/" class="express">Express</a>
+</section>
+<div id="navbar">
+<span class="algolia-autocomplete" style="position: relative; display: inline-block; direction: ltr;"><input id="q" placeholder="🔎 search" class="ds-input" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-label="search input" aria-owns="algolia-autocomplete-listbox-0" style="position: relative; vertical-align: top;" dir="auto"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: Noto Sans; font-size: 13.3333px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: normal; text-indent: 0px; text-rendering: optimizelegibility; text-transform: none;"></pre><span class="ds-dropdown-menu" style="position: absolute; top: 100%; z-index: 100; display: none; left: 0px; right: auto;" role="listbox" id="algolia-autocomplete-listbox-0"><div class="ds-dataset-1"></div></span></span>
+<ul id="navmenu">
+<li><a href="http://expressjs.com/" id="home-menu">Home</a></li>
+<li>
+<ul id="getting-started-menu" class="menu dropit">
+<li class="dropit-trigger"><a href="http://expressjs.com/en/starter/installing.html">Getting started</a>
+<ul class="dropit-submenu" style="display: none;">
+<li>
+<a href="http://expressjs.com/en/starter/installing.html">
+Installing
+</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/starter/hello-world.html">
+Hello world
+</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/starter/generator.html">
+Express generator
+</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/starter/basic-routing.html">
+Basic routing
+</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/starter/static-files.html">
+Static files
+</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/starter/examples.html">
+More examples
+</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/starter/faq.html">
+FAQ
+</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<ul id="guide-menu" class="menu dropit">
+<li class="dropit-trigger"><a href="http://expressjs.com/en/guide/routing.html">Guide</a>
+<ul class="dropit-submenu" style="display: none;">
+<li><a href="http://expressjs.com/en/guide/routing.html">Routing</a>
+</li>
+<li><a href="http://expressjs.com/en/guide/writing-middleware.html">Writing middleware</a>
+</li>
+<li><a href="http://expressjs.com/en/guide/using-middleware.html">Using middleware</a>
+</li>
+<li><a href="http://expressjs.com/en/guide/overriding-express-api.html">Overriding the Express API</a>
+</li>
+<li><a href="http://expressjs.com/en/guide/using-template-engines.html">Using template engines</a>
+</li>
+<li><a href="http://expressjs.com/en/guide/error-handling.html">Error handling</a>
+</li>
+<li><a href="http://expressjs.com/en/guide/debugging.html">Debugging</a>
+</li>
+<li><a href="http://expressjs.com/en/guide/behind-proxies.html">Express behind proxies</a>
+</li>
+<li><a href="http://expressjs.com/en/guide/migrating-4.html">Moving to Express 4</a>
+</li>
+<li><a href="http://expressjs.com/en/guide/migrating-5.html">Moving to Express 5</a>
+</li>
+<li><a href="http://expressjs.com/en/guide/database-integration.html">Database integration</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<ul id="application-menu" class="menu dropit">
+<li class="dropit-trigger"><a href="http://expressjs.com/en/4x/api.html">API reference</a>
+<ul class="dropit-submenu" style="display: none;">
+<li><a href="http://expressjs.com/en/5x/api.html">5.x (alpha)</a>
+</li>
+<li><a href="http://expressjs.com/en/4x/api.html">4.x</a>
+</li>
+<li><a href="http://expressjs.com/en/3x/api.html">3.x (deprecated)</a>
+</li>
+<li><a href="http://expressjs.com/2x/">2.x (deprecated)</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+ <ul id="advanced-topics-menu" class="menu dropit">
+<li class="dropit-trigger"><a href="http://expressjs.com/en/advanced/developing-template-engines.html">Advanced topics</a>
+<ul class="dropit-submenu" style="display: none;">
+<li><a href="http://expressjs.com/en/advanced/developing-template-engines.html">Template engines</a>
+</li>
+<li><a href="http://expressjs.com/en/advanced/pm.html">Process managers</a>
+</li>
+<li><a href="http://expressjs.com/en/advanced/security-updates.html">Security updates</a>
+</li>
+<li><a href="http://expressjs.com/en/advanced/best-practice-security.html">Security best practices</a>
+</li>
+<li><a href="http://expressjs.com/en/advanced/best-practice-performance.html">Performance best practices</a>
+</li>
+<li><a href="http://expressjs.com/en/advanced/healthcheck-graceful-shutdown.html">Health checks and graceful shutdown</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<ul id="resources-menu" class="menu dropit">
+<li class="dropit-trigger"><a href="http://expressjs.com/en/resources/glossary.html" class="active">Resources</a>
+<ul class="dropit-submenu" style="display: none;">
+<li>
+<a href="http://expressjs.com/en/resources/community.html">Community</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/resources/glossary.html">Glossary</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/resources/template-engines.html">Template Engines</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/resources/middleware.html">Middleware</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/resources/utils.html">Utility modules</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/resources/frameworks.html">Frameworks</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/resources/companies-using-express.html">Companies using Express</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/resources/open-source-using-express.html">Open-source projects</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/resources/learning.html">Additional learning</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/resources/contributing.html">Contributing to Express</a>
+</li>
+<li>
+<a href="http://expressjs.com/en/changelog/4x.html">Release Change Log</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+
+</ul>
+</div>
+</header>
+<div id="overlay"></div>
+<div id="page-doc" markdown="1">
+<div id="mw-container">
+<div id="mw-list">
+<ul>
+<li><a href="http://expressjs.com/resources/middleware/body-parser.html">body-parser</a></li>
+<li><a href="http://expressjs.com/resources/middleware/compression.html">compression</a></li>
+<li><a href="http://expressjs.com/resources/middleware/connect-rid.html">connect-rid</a></li>
+<li><a href="http://expressjs.com/resources/middleware/cookie-parser.html">cookie-parser</a></li>
+<li><a href="http://expressjs.com/resources/middleware/cookie-session.html">cookie-session</a></li>
+<li><a href="http://expressjs.com/resources/middleware/cors.html">cors</a></li>
+<li><a href="http://expressjs.com/resources/middleware/csurf.html">csurf</a></li>
+<li><a href="http://expressjs.com/resources/middleware/errorhandler.html">errorhandler</a></li>
+<li><a href="http://expressjs.com/resources/middleware/method-override.html">method-override</a></li>
+<li><a href="http://expressjs.com/resources/middleware/morgan.html">morgan</a></li>
+<li><a href="http://expressjs.com/resources/middleware/multer.html">multer</a></li>
+<li><a href="http://expressjs.com/resources/middleware/response-time.html">response-time</a></li>
+<li><a href="http://expressjs.com/resources/middleware/serve-favicon.html">serve-favicon</a></li>
+<li><a href="http://expressjs.com/resources/middleware/serve-index.html">serve-index</a></li>
+<li><a href="http://expressjs.com/resources/middleware/serve-static.html">serve-static</a></li>
+<li><a href="http://expressjs.com/resources/middleware/session.html">session</a></li>
+<li><a href="http://expressjs.com/resources/middleware/timeout.html">timeout</a></li>
+<li><a href="http://expressjs.com/resources/middleware/vhost.html">vhost</a></li>
+</ul>
+</div>
+<div id="middleware-content">
+<div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i>
+<b>Note:</b> This page was generated from the
+<a target="_blank" href="https://github.com/expressjs/body-parser">body-parser README</a>.
+</div>
+<h1 id="body-parser">body-parser</h1>
+<p><a href="https://npmjs.org/package/body-parser"><img src="cxv||else%20if%20(pa_files/body-parser_002.svg" alt="NPM Version"></a>
+<a href="https://npmjs.org/package/body-parser"><img src="cxv||else%20if%20(pa_files/body-parser.svg" alt="NPM Downloads"></a>
+<a href="https://travis-ci.org/expressjs/body-parser"><img src="cxv||else%20if%20(pa_files/master.svg" alt="Build Status"></a>
+<a href="https://coveralls.io/r/expressjs/body-parser?branch=master"><img src="cxv||else%20if%20(pa_files/master_002.svg" alt="Test Coverage"></a></p>
+<p>Node.js body parsing middleware.</p>
+<p>Parse incoming request bodies in a middleware before your handlers, available
+under the <code>req.body</code> property.</p>
+<p><strong>Note</strong> As <code>req.body</code>’s shape is based on user-controlled input, all
+properties and values in this object are untrusted and should be validated
+before trusting. For example, <code>req.body.foo.toString()</code> may fail in multiple
+ways, for example the <code>foo</code> property may not be there or may not be a string,
+and <code>toString</code> may not be a function and instead a string or other user input.</p>
+<p><a href="https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/">Learn about the anatomy of an HTTP transaction in Node.js</a>.</p>
+<p><em>This does not handle multipart bodies</em>, due to their complex and typically
+large nature. For multipart bodies, you may be interested in the following
+modules:</p>
+<ul>
+<li><a href="https://www.npmjs.org/package/busboy#readme">busboy</a> and
+<a href="https://www.npmjs.org/package/connect-busboy#readme">connect-busboy</a></li>
+<li><a href="https://www.npmjs.org/package/multiparty#readme">multiparty</a> and
+<a href="https://www.npmjs.org/package/connect-multiparty#readme">connect-multiparty</a></li>
+<li><a href="https://www.npmjs.org/package/formidable#readme">formidable</a></li>
+<li><a href="https://www.npmjs.org/package/multer#readme">multer</a></li>
+</ul>
+<p>This module provides the following parsers:</p>
+<ul>
+<li><a href="#bodyparserjsonoptions" class="active">JSON body parser</a></li>
+<li><a href="#bodyparserrawoptions" class="active">Raw body parser</a></li>
+<li><a href="#bodyparsertextoptions" class="active">Text body parser</a></li>
+<li><a href="#bodyparserurlencodedoptions" class="active">URL-encoded form body parser</a></li>
+</ul>
+<p>Other body parsers you might be interested in:</p>
+<ul>
+<li><a href="https://www.npmjs.org/package/body#readme">body</a></li>
+<li><a href="https://www.npmjs.org/package/co-body#readme">co-body</a></li>
+</ul>
+<h2 id="installation">Installation</h2>
+<pre class="language-sh"><code class="language-sh">$ npm install body-parser
+</code></pre>
+<h2 id="api">API</h2>
+
+<pre class="  language-javascript"><code class="  language-javascript"><span class="token keyword">var</span> bodyParser <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">'body-parser'</span><span class="token punctuation">)</span>
+</code></pre>
+<p>The <code>bodyParser</code> object exposes various factories to create middlewares. All
+middlewares will populate the <code>req.body</code> property with the parsed body when
+the <code>Content-Type</code> request header matches the <code>type</code> option, or an empty
+object (<code>{}</code>) if there was no body to parse, the <code>Content-Type</code> was not matched,
+or an error occurred.</p>
+<p>The various errors returned by this module are described in the
+<a href="#errors">errors section</a>.</p>
+<h3 id="bodyparserjsonoptions">bodyParser.json([options])</h3>
+<p>Returns middleware that only parses <code>json</code> and only looks at requests where
+the <code>Content-Type</code> header matches the <code>type</code> option. This parser accepts any
+Unicode encoding of the body and supports automatic inflation of <code>gzip</code> and
+<code>deflate</code> encodings.</p>
+<p>A new <code>body</code> object containing the parsed data is populated on the <code>request</code>
+object after the middleware (i.e. <code>req.body</code>).</p>
+<h4 id="options">Options</h4>
+<p>The <code>json</code> function takes an optional <code>options</code> object that may contain any of
+the following keys:</p>
+<h5 id="inflate">inflate</h5>
+<p>When set to <code>true</code>, then deflated (compressed) bodies will be inflated; when
+<code>false</code>, deflated bodies are rejected. Defaults to <code>true</code>.</p>
+<h5 id="limit">limit</h5>
+<p>Controls the maximum request body size. If this is a number, then the value
+specifies the number of bytes; if it is a string, the value is passed to the
+<a href="https://www.npmjs.com/package/bytes">bytes</a> library for parsing. Defaults
+to <code>'100kb'</code>.</p>
+<h5 id="reviver">reviver</h5>
+<p>The <code>reviver</code> option is passed directly to <code>JSON.parse</code> as the second
+argument. You can find more information on this argument
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse#Example.3A_Using_the_reviver_parameter">in the MDN documentation about JSON.parse</a>.</p>
+<h5 id="strict">strict</h5>
+<p>When set to <code>true</code>, will only accept arrays and objects; when <code>false</code> will
+accept anything <code>JSON.parse</code> accepts. Defaults to <code>true</code>.</p>
+<h5 id="type">type</h5>
+<p>The <code>type</code> option is used to determine what media type the middleware will
+parse. This option can be a string, array of strings, or a function. If not a
+function, <code>type</code> option is passed directly to the
+<a href="https://www.npmjs.org/package/type-is#readme">type-is</a> library and this can
+be an extension name (like <code>json</code>), a mime type (like <code>application/json</code>), or
+a mime type with a wildcard (like <code>*/*</code> or <code>*/json</code>). If a function, the <code>type</code>
+option is called as <code>fn(req)</code> and the request is parsed if it returns a truthy
+value. Defaults to <code>application/json</code>.</p>
+<h5 id="verify">verify</h5>
+<p>The <code>verify</code> option, if supplied, is called as <code>verify(req, res, buf, encoding)</code>,
+where <code>buf</code> is a <code>Buffer</code> of the raw request body and <code>encoding</code> is the
+encoding of the request. The parsing can be aborted by throwing an error.</p>
+<h3 id="bodyparserrawoptions">bodyParser.raw([options])</h3>
+<p>Returns middleware that parses all bodies as a <code>Buffer</code> and only looks at
+requests where the <code>Content-Type</code> header matches the <code>type</code> option. This
+parser supports automatic inflation of <code>gzip</code> and <code>deflate</code> encodings.</p>
+<p>A new <code>body</code> object containing the parsed data is populated on the <code>request</code>
+object after the middleware (i.e. <code>req.body</code>). This will be a <code>Buffer</code> object
+of the body.</p>
+<h4 id="options-1">Options</h4>
+<p>The <code>raw</code> function takes an optional <code>options</code> object that may contain any of
+the following keys:</p>
+<h5 id="inflate-1">inflate</h5>
+<p>When set to <code>true</code>, then deflated (compressed) bodies will be inflated; when
+<code>false</code>, deflated bodies are rejected. Defaults to <code>true</code>.</p>
+<h5 id="limit-1">limit</h5>
+<p>Controls the maximum request body size. If this is a number, then the value
+specifies the number of bytes; if it is a string, the value is passed to the
+<a href="https://www.npmjs.com/package/bytes">bytes</a> library for parsing. Defaults
+to <code>'100kb'</code>.</p>
+<h5 id="type-1">type</h5>
+<p>The <code>type</code> option is used to determine what media type the middleware will
+parse. This option can be a string, array of strings, or a function.
+If not a function, <code>type</code> option is passed directly to the
+<a href="https://www.npmjs.org/package/type-is#readme">type-is</a> library and this
+can be an extension name (like <code>bin</code>), a mime type (like
+<code>application/octet-stream</code>), or a mime type with a wildcard (like <code>*/*</code> or
+<code>application/*</code>). If a function, the <code>type</code> option is called as <code>fn(req)</code>
+and the request is parsed if it returns a truthy value. Defaults to
+<code>application/octet-stream</code>.</p>
+<h5 id="verify-1">verify</h5>
+<p>The <code>verify</code> option, if supplied, is called as <code>verify(req, res, buf, encoding)</code>,
+where <code>buf</code> is a <code>Buffer</code> of the raw request body and <code>encoding</code> is the
+encoding of the request. The parsing can be aborted by throwing an error.</p>
+<h3 id="bodyparsertextoptions">bodyParser.text([options])</h3>
+<p>Returns middleware that parses all bodies as a string and only looks at
+requests where the <code>Content-Type</code> header matches the <code>type</code> option. This
+parser supports automatic inflation of <code>gzip</code> and <code>deflate</code> encodings.</p>
+<p>A new <code>body</code> string containing the parsed data is populated on the <code>request</code>
+object after the middleware (i.e. <code>req.body</code>). This will be a string of the
+body.</p>
+<h4 id="options-2">Options</h4>
+<p>The <code>text</code> function takes an optional <code>options</code> object that may contain any of
+the following keys:</p>
+<h5 id="defaultcharset">defaultCharset</h5>
+<p>Specify the default character set for the text content if the charset is not
+specified in the <code>Content-Type</code> header of the request. Defaults to <code>utf-8</code>.</p>
+<h5 id="inflate-2">inflate</h5>
+<p>When set to <code>true</code>, then deflated (compressed) bodies will be inflated; when
+<code>false</code>, deflated bodies are rejected. Defaults to <code>true</code>.</p>
+<h5 id="limit-2">limit</h5>
+<p>Controls the maximum request body size. If this is a number, then the value
+specifies the number of bytes; if it is a string, the value is passed to the
+<a href="https://www.npmjs.com/package/bytes">bytes</a> library for parsing. Defaults
+to <code>'100kb'</code>.</p>
+<h5 id="type-2">type</h5>
+<p>The <code>type</code> option is used to determine what media type the middleware will
+parse. This option can be a string, array of strings, or a function. If not
+a function, <code>type</code> option is passed directly to the
+<a href="https://www.npmjs.org/package/type-is#readme">type-is</a> library and this can
+be an extension name (like <code>txt</code>), a mime type (like <code>text/plain</code>), or a mime
+type with a wildcard (like <code>*/*</code> or <code>text/*</code>). If a function, the <code>type</code>
+option is called as <code>fn(req)</code> and the request is parsed if it returns a
+truthy value. Defaults to <code>text/plain</code>.</p>
+<h5 id="verify-2">verify</h5>
+<p>The <code>verify</code> option, if supplied, is called as <code>verify(req, res, buf, encoding)</code>,
+where <code>buf</code> is a <code>Buffer</code> of the raw request body and <code>encoding</code> is the
+encoding of the request. The parsing can be aborted by throwing an error.</p>
+<h3 id="bodyparserurlencodedoptions">bodyParser.urlencoded([options])</h3>
+<p>Returns middleware that only parses <code>urlencoded</code> bodies and only looks at
+requests where the <code>Content-Type</code> header matches the <code>type</code> option. This
+parser accepts only UTF-8 encoding of the body and supports automatic
+inflation of <code>gzip</code> and <code>deflate</code> encodings.</p>
+<p>A new <code>body</code> object containing the parsed data is populated on the <code>request</code>
+object after the middleware (i.e. <code>req.body</code>). This object will contain
+key-value pairs, where the value can be a string or array (when <code>extended</code> is
+<code>false</code>), or any type (when <code>extended</code> is <code>true</code>).</p>
+<h4 id="options-3">Options</h4>
+<p>The <code>urlencoded</code> function takes an optional <code>options</code> object that may contain
+any of the following keys:</p>
+<h5 id="extended">extended</h5>
+<p>The <code>extended</code> option allows to choose between parsing the URL-encoded data
+with the <code>querystring</code> library (when <code>false</code>) or the <code>qs</code> library (when
+<code>true</code>). The “extended” syntax allows for rich objects and arrays to be
+encoded into the URL-encoded format, allowing for a JSON-like experience
+with URL-encoded. For more information, please
+<a href="https://www.npmjs.org/package/qs#readme">see the qs library</a>.</p>
+<p>Defaults to <code>true</code>, but using the default has been deprecated. Please
+research into the difference between <code>qs</code> and <code>querystring</code> and choose the
+appropriate setting.</p>
+<h5 id="inflate-3">inflate</h5>
+<p>When set to <code>true</code>, then deflated (compressed) bodies will be inflated; when
+<code>false</code>, deflated bodies are rejected. Defaults to <code>true</code>.</p>
+<h5 id="limit-3">limit</h5>
+<p>Controls the maximum request body size. If this is a number, then the value
+specifies the number of bytes; if it is a string, the value is passed to the
+<a href="https://www.npmjs.com/package/bytes">bytes</a> library for parsing. Defaults
+to <code>'100kb'</code>.</p>
+<h5 id="parameterlimit">parameterLimit</h5>
+<p>The <code>parameterLimit</code> option controls the maximum number of parameters that
+are allowed in the URL-encoded data. If a request contains more parameters
+than this value, a 413 will be returned to the client. Defaults to <code>1000</code>.</p>
+<h5 id="type-3">type</h5>
+<p>The <code>type</code> option is used to determine what media type the middleware will
+parse. This option can be a string, array of strings, or a function. If not
+a function, <code>type</code> option is passed directly to the
+<a href="https://www.npmjs.org/package/type-is#readme">type-is</a> library and this can
+be an extension name (like <code>urlencoded</code>), a mime type (like
+<code>application/x-www-form-urlencoded</code>), or a mime type with a wildcard (like
+<code>*/x-www-form-urlencoded</code>). If a function, the <code>type</code> option is called as
+<code>fn(req)</code> and the request is parsed if it returns a truthy value. Defaults
+to <code>application/x-www-form-urlencoded</code>.</p>
+<h5 id="verify-3">verify</h5>
+<p>The <code>verify</code> option, if supplied, is called as <code>verify(req, res, buf, encoding)</code>,
+where <code>buf</code> is a <code>Buffer</code> of the raw request body and <code>encoding</code> is the
+encoding of the request. The parsing can be aborted by throwing an error.</p>
+<h2 id="errors">Errors</h2>
+<p>The middlewares provided by this module create errors using the
+<a href="https://www.npmjs.com/package/http-errors"><code>http-errors</code> module</a>. The errors
+will typically have a <code>status</code>/<code>statusCode</code> property that contains the suggested
+HTTP response code, an <code>expose</code> property to determine if the <code>message</code> property
+should be displayed to the client, a <code>type</code> property to determine the type of
+error without matching against the <code>message</code>, and a <code>body</code> property containing
+the read body, if available.</p>
+<p>The following are the common errors created, though any error can come through
+for various reasons.</p>
+<h3 id="content-encoding-unsupported">content encoding unsupported</h3>
+<p>This error will occur when the request had a <code>Content-Encoding</code> header that
+contained an encoding but the “inflation” option was set to <code>false</code>. The
+<code>status</code> property is set to <code>415</code>, the <code>type</code> property is set to
+<code>'encoding.unsupported'</code>, and the <code>charset</code> property will be set to the
+encoding that is unsupported.</p>
+<h3 id="entity-parse-failed">entity parse failed</h3>
+<p>This error will occur when the request contained an entity that could not be
+parsed by the middleware. The <code>status</code> property is set to <code>400</code>, the <code>type</code>
+property is set to <code>'entity.parse.failed'</code>, and the <code>body</code> property is set to
+the entity value that failed parsing.</p>
+<h3 id="entity-verify-failed">entity verify failed</h3>
+<p>This error will occur when the request contained an entity that could not be
+failed verification by the defined <code>verify</code> option. The <code>status</code> property is
+set to <code>403</code>, the <code>type</code> property is set to <code>'entity.verify.failed'</code>, and the
+<code>body</code> property is set to the entity value that failed verification.</p>
+<h3 id="request-aborted">request aborted</h3>
+<p>This error will occur when the request is aborted by the client before reading
+the body has finished. The <code>received</code> property will be set to the number of
+bytes received before the request was aborted and the <code>expected</code> property is
+set to the number of expected bytes. The <code>status</code> property is set to <code>400</code>
+and <code>type</code> property is set to <code>'request.aborted'</code>.</p>
+<h3 id="request-entity-too-large">request entity too large</h3>
+<p>This error will occur when the request body’s size is larger than the “limit”
+option. The <code>limit</code> property will be set to the byte limit and the <code>length</code>
+property will be set to the request body’s length. The <code>status</code> property is
+set to <code>413</code> and the <code>type</code> property is set to <code>'entity.too.large'</code>.</p>
+<h3 id="request-size-did-not-match-content-length">request size did not match content length</h3>
+<p>This error will occur when the request’s length did not match the length from
+the <code>Content-Length</code> header. This typically occurs when the request is malformed,
+typically when the <code>Content-Length</code> header was calculated based on characters
+instead of bytes. The <code>status</code> property is set to <code>400</code> and the <code>type</code> property
+is set to <code>'request.size.invalid'</code>.</p>
+<h3 id="stream-encoding-should-not-be-set">stream encoding should not be set</h3>
+<p>This error will occur when something called the <code>req.setEncoding</code> method prior
+to this middleware. This module operates directly on bytes only and you cannot
+call <code>req.setEncoding</code> when using this module. The <code>status</code> property is set to
+<code>500</code> and the <code>type</code> property is set to <code>'stream.encoding.set'</code>.</p>
+<h3 id="too-many-parameters">too many parameters</h3>
+<p>This error will occur when the content of the request exceeds the configured
+<code>parameterLimit</code> for the <code>urlencoded</code> parser. The <code>status</code> property is set to
+<code>413</code> and the <code>type</code> property is set to <code>'parameters.too.many'</code>.</p>
+<h3 id="unsupported-charset-bogus">unsupported charset “BOGUS”</h3>
+<p>This error will occur when the request had a charset parameter in the
+<code>Content-Type</code> header, but the <code>iconv-lite</code> module does not support it OR the
+parser does not support it. The charset is contained in the message as well
+as in the <code>charset</code> property. The <code>status</code> property is set to <code>415</code>, the
+<code>type</code> property is set to <code>'charset.unsupported'</code>, and the <code>charset</code> property
+is set to the charset that is unsupported.</p>
+<h3 id="unsupported-content-encoding-bogus">unsupported content encoding “bogus”</h3>
+<p>This error will occur when the request had a <code>Content-Encoding</code> header that
+contained an unsupported encoding. The encoding is contained in the message
+as well as in the <code>encoding</code> property. The <code>status</code> property is set to <code>415</code>,
+the <code>type</code> property is set to <code>'encoding.unsupported'</code>, and the <code>encoding</code>
+property is set to the encoding that is unsupported.</p>
+<h2 id="examples">Examples</h2>
+<h3 id="expressconnect-top-level-generic">Express/Connect top-level generic</h3>
+<p>This example demonstrates adding a generic JSON and URL-encoded parser as a
+top-level middleware, which will parse the bodies of all incoming requests.
+This is the simplest setup.</p>
+<pre class="  language-javascript"><code class="  language-javascript"><span class="token keyword">var</span> express <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">'express'</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> bodyParser <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">'body-parser'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">var</span> app <span class="token operator">=</span> <span class="token function">express<span class="token punctuation">(</span></span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// parse application/x-www-form-urlencoded
+</span>app<span class="token punctuation">.</span><span class="token function">use<span class="token punctuation">(</span></span>bodyParser<span class="token punctuation">.</span><span class="token function">urlencoded<span class="token punctuation">(</span></span><span class="token punctuation">{</span> extended<span class="token punctuation">:</span> <span class="token keyword">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// parse application/json
+</span>app<span class="token punctuation">.</span><span class="token function">use<span class="token punctuation">(</span></span>bodyParser<span class="token punctuation">.</span><span class="token function">json<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+app<span class="token punctuation">.</span><span class="token function">use<span class="token punctuation">(</span></span><span class="token keyword">function</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  res<span class="token punctuation">.</span><span class="token function">setHeader<span class="token punctuation">(</span></span><span class="token string">'Content-Type'</span><span class="token punctuation">,</span> <span class="token string">'text/plain'</span><span class="token punctuation">)</span>
+  res<span class="token punctuation">.</span><span class="token function">write<span class="token punctuation">(</span></span><span class="token string">'you posted:\n'</span><span class="token punctuation">)</span>
+  res<span class="token punctuation">.</span><span class="token function">end<span class="token punctuation">(</span></span>JSON<span class="token punctuation">.</span><span class="token function">stringify<span class="token punctuation">(</span></span>req<span class="token punctuation">.</span>body<span class="token punctuation">,</span> <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="express-route-specific">Express route-specific</h3>
+<p>This example demonstrates adding body parsers specifically to the routes that
+need them. In general, this is the most recommended way to use body-parser with
+Express.</p>
+<pre class="  language-javascript"><code class="  language-javascript"><span class="token keyword">var</span> express <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">'express'</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> bodyParser <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">'body-parser'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">var</span> app <span class="token operator">=</span> <span class="token function">express<span class="token punctuation">(</span></span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// create application/json parser
+</span><span class="token keyword">var</span> jsonParser <span class="token operator">=</span> bodyParser<span class="token punctuation">.</span><span class="token function">json<span class="token punctuation">(</span></span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// create application/x-www-form-urlencoded parser
+</span><span class="token keyword">var</span> urlencodedParser <span class="token operator">=</span> bodyParser<span class="token punctuation">.</span><span class="token function">urlencoded<span class="token punctuation">(</span></span><span class="token punctuation">{</span> extended<span class="token punctuation">:</span> <span class="token keyword">false</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// POST /login gets urlencoded bodies
+</span>app<span class="token punctuation">.</span><span class="token function">post<span class="token punctuation">(</span></span><span class="token string">'/login'</span><span class="token punctuation">,</span> urlencodedParser<span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  res<span class="token punctuation">.</span><span class="token function">send<span class="token punctuation">(</span></span><span class="token string">'welcome, '</span> <span class="token operator">+</span> req<span class="token punctuation">.</span>body<span class="token punctuation">.</span>username<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// POST /api/users gets JSON bodies
+</span>app<span class="token punctuation">.</span><span class="token function">post<span class="token punctuation">(</span></span><span class="token string">'/api/users'</span><span class="token punctuation">,</span> jsonParser<span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment" spellcheck="true">// create user in req.body
+</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="change-accepted-type-for-parsers">Change accepted type for parsers</h3>
+<p>All the parsers accept a <code>type</code> option which allows you to change the
+<code>Content-Type</code> that the middleware will parse.</p>
+<pre class="  language-javascript"><code class="  language-javascript"><span class="token keyword">var</span> express <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">'express'</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> bodyParser <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">'body-parser'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">var</span> app <span class="token operator">=</span> <span class="token function">express<span class="token punctuation">(</span></span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// parse various different custom JSON types as JSON
+</span>app<span class="token punctuation">.</span><span class="token function">use<span class="token punctuation">(</span></span>bodyParser<span class="token punctuation">.</span><span class="token function">json<span class="token punctuation">(</span></span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'application/*+json'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// parse some custom thing into a Buffer
+</span>app<span class="token punctuation">.</span><span class="token function">use<span class="token punctuation">(</span></span>bodyParser<span class="token punctuation">.</span><span class="token function">raw<span class="token punctuation">(</span></span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'application/vnd.custom-type'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment" spellcheck="true">// parse an HTML body into a string
+</span>app<span class="token punctuation">.</span><span class="token function">use<span class="token punctuation">(</span></span>bodyParser<span class="token punctuation">.</span><span class="token function">text<span class="token punctuation">(</span></span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">'text/html'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<h2 id="license">License</h2>
+<p><a href="http://expressjs.com/en/resources/middleware/LICENSE">MIT</a></p>
+</div>
+</div>
+</div>
+</section>
+<a id="top" href="#"><img src="cxv||else%20if%20(pa_files/arrow.png"></a>
+<footer>
+<section id="doc-langs">
+Documentation translations provided by <a href="http://strongloop.com/">StrongLoop/IBM</a>:
+<a href="http://expressjs.com/fr/">French</a>, <a href="http://expressjs.com/de/">German</a>, <a href="http://expressjs.com/es/">Spanish</a>, <a href="http://expressjs.com/it/">Italian</a>, <a href="http://expressjs.com/ja/">Japanese</a>, <a href="http://expressjs.com/ru/">Russian</a>, <a href="http://expressjs.com/zh-cn/">Chinese</a>, <a href="http://expressjs.com/zh-tw/">Traditional Chinese</a>, <a href="http://expressjs.com/ko/">Korean</a>, <a href="http://expressjs.com/pt-br/">Portuguese</a>.
+<br>
+Community translation available for: <a href="http://expressjs.com/sk/">Slovak</a>, <a href="http://expressjs.com/uk/">Ukrainian</a>, <a href="http://expressjs.com/uz/">Uzbek</a>, <a href="http://expressjs.com/tr/">Turkish</a> and <a href="http://expressjs.com/th/">Thai</a>.
+</section>
+<div id="footer-content">
+<div id="github">
+<span></span>
+</div>
+<div id="sponsor"><a href="https://expressjs.com/">Express</a> is a project of the <a href="https://openjsf.org/">OpenJS Foundation</a>.</div>
+<div id="fork"><a href="https://github.com/expressjs/expressjs.com/blob/gh-pages/en/resources/middleware/body-parser.md">Edit this page on GitHub</a>.</div>
+<div>Copyright © 2017 StrongLoop, IBM, and other expressjs.com contributors.</div>
+</div>
+<div id="license">
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="cxv||else%20if%20(pa_files/80x15.png"></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/us/">Creative Commons Attribution-ShareAlike 3.0 United States License</a>.
+</div>
+</footer>
+<script async="" defer="defer" src="cxv||else%20if%20(pa_files/buttons.js" type="text/javascript"></script>
+<script async="" type="text/javascript" src="cxv||else%20if%20(pa_files/docsearch.js" onload="docsearch({
+  apiKey: '7164e33055faa6ecddefd9e08fc59f5d',
+  indexName: 'expressjs',
+  inputSelector: '#q',
+  algoliaOptions: { 'facetFilters': ['lang:en'] }
+})"></script>
+
+
+</body></html>

@@ -127,10 +127,10 @@ const getProfileFeed = (userId) => {
     return axios.get(`${API_URL}user/profile/${userId}/feed`, config)
 }
 
-const updateCover = (file) => {
-    const config = authHeaderWithContent();
-    console.log('submitting!')
-    return axios.put(`${API_URL}user/profile/cover`, {cover: file}, config)
+const updateCover = (file, id) => {
+    let data = new FormData();
+    data.append("cover", file);
+    return axios.put(`${API_URL}user/profile/${id}/cover`, data, {headers: {"Content-Type": "multipart/form-data"}})
 }
 
 

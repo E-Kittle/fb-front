@@ -6,6 +6,8 @@ import NewsPost from './mini-components/NewsPost';
 import { Link, useHistory } from 'react-router-dom';
 import defaultProfileImg from '../assets/default.jpeg';
 import NewImg from './modal/NewImg';
+const API_URL = "http://localhost:5000/";
+
 
 const Profile = (props) => {
 
@@ -22,7 +24,8 @@ const Profile = (props) => {
         last_name: '',
         email: '',
         bio: '',
-        friends: []
+        friends: [],
+        cover_img: '',
     });
     const [posts, setPosts] = useState([]);
 
@@ -47,7 +50,8 @@ const Profile = (props) => {
                     last_name: results.data.user.last_name,
                     email: results.data.user.email,
                     bio: results.data.user.bio,
-                    friends: results.data.friends
+                    friends: results.data.friends,
+                    cover_img: results.data.user.cover_img
                 }
                 setProfileUser(user);
             })
@@ -173,16 +177,21 @@ const Profile = (props) => {
 
     return (
         <div className='profile-wrapper'>
+            {console.log(profileUser)}
             <div className='profile-header-wrapper'>
                 <div id='profile-img-wrapper'>
-                    <img id='profile-img' src={defaultProfileImg} alt='' />
+                    {profileUser.cover_img === undefined || profileUser.cover_img===''? 
+                    <img id='profile-img' src={defaultProfileImg} alt='Cover' /> :
+                    <img id='profile-img' src={`${API_URL}${profileUser.cover_img}`} alt='Cover' />
+                }
                     {currentUser.id===profileUser.id? <button id='profile-img-button' onClick={toggleModal}>+</button> : null}
                 </div>
                 <div className='profile-header'>
                     {profileUser.first_name === '' ? <h1>Loading...</h1> : null}
                     <h1>{profileUser.first_name} {profileUser.last_name}</h1>
                     <p>{profileUser.bio}</p>
-                    {profileUser._id === currentUser.id ? null : <NewFriend />}
+                    {profileUser.id === currentUser.id ? null : <NewFriend />}
+                    {profileUser.id === currentUser.id ? <button className='friend-container-button'>Edit Profile Photo</button> : null}
                 </div>
                 <hr />
                 <div className='profile-buttons'>

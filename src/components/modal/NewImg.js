@@ -28,10 +28,10 @@ function NewImg(props) {
             setError('');
             console.log('would submit cover image')
 
-            updateCover(image)
+            updateCover(image, currentUser.id)
             .then(response => {
-                console.log('success')
                 console.log(response.data)
+                props.toggleModal();
             })
             .catch(error => {
                 console.log('error')
