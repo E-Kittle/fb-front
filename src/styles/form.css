@@ -2,7 +2,9 @@
 /* Styling for the login page */
 .login-container {
     width: 980px;
-    margin: 150px auto 0 auto;
+    height: calc(100vh - 50px);
+    margin: 0 auto;
+    padding-top: 150px;
     display: flex;
 }
 
@@ -22,6 +24,7 @@
 
 .login-wrapper {
     width: 400px;
+    height: 500px;
     background-color: white;
     border: none;
     border-radius: 8px;
@@ -115,4 +118,66 @@ form input {
 
 .new-img-form {
     justify-content: space-between;
+}
+
+@media (max-width: 1000px) {
+    .login-container {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        align-items: center;
+        width: 100vw;
+    }
+
+    .logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 0;
+        margin: 0;
+        text-align: center;
+    }
+}
+
+@media (max-width: 420px) {
+    .logo h1 {
+        color: #1877f2;
+        font-size: 2.5rem;
+    }
+    
+    .logo p {
+        font-size: 1.4rem;
+    }
+
+    .login-wrapper {
+        width: 200px;
+        height: 320px;
+    }
+
+    form input {
+        font-size: 1rem;
+        margin: 5px 0 5px 0;
+        padding: 10px;
+    }
+    
+    .button-style {
+        line-height: 1.8rem;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+
+    .login-button-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0 auto;
+        align-items: center;
+    }
+    
+    .login-button-wrapper .button-style {
+        font-size: 1rem;
+        line-height: 1.8rem;
+        width: 100%;
+    }
 }
