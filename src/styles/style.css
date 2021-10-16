@@ -22,9 +22,16 @@ img {
 }
 
 .app {
-    display: flex;
+    /* display: flex;
     flex-direction: column;
+    justify-content: space-between;
     min-height: 100vh;
+    min-height:min-content; */
+    /* position: relative; */
+}
+
+.app > div {
+    /* min-height: 100%; */
 }
 
 h1 {
@@ -147,16 +154,22 @@ nav {
 
 footer {
     position: relative;
-    overflow: none;
-    bottom: 0;
-    align-self: center;
+    /* bottom: 5px; */
+    /* position: relative;
+    bottom: 0; */
+    /* align-self: center; */
     width: 100%;
     margin-top: 10px;
     height: 40px;
-    display: flex;
+    /* display: flex;
     display: block;
-    justify-content: center;
+    justify-content: center; */
     text-align: center;
+}
+
+footer p {
+    position: absolute;
+    bottom: 5px;
 }
 
 @media (max-width: 900px) {

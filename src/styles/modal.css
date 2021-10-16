@@ -128,3 +128,23 @@
     margin: 0 auto;
     color: rgba(255, 255, 255, 0.555);
 }
+
+@media(max-width: 560px) {
+    .modal {
+        overflow: scroll;
+        z-index: 2;
+    }
+    .modal-main {
+        width: 300px;
+        max-width: 250px;
+        height: 300px;
+    }
+
+    .modal-header h1 {
+        font-size: 1.1rem;
+    }
+
+    #new-post {
+        font-size: 1.3rem;
+    }
+}

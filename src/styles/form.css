@@ -141,7 +141,36 @@ form input {
     }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 700px) {
+    .login-wrapper {
+        width: 350px;
+        /* height: 350px; */
+    }
+
+
+    .button-style {
+        line-height: 2.5rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+
+    .login-button-wrapper {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 0 auto;
+        align-items: center;
+    }
+    
+    .login-button-wrapper .button-style {
+        width: 100%;
+        padding: 2px 10px;
+    }
+
+
+}
+@media (max-width: 560px) {
 
     .new-reply {
         margin-left: 60px;
@@ -169,21 +198,16 @@ form input {
     .button-style {
         line-height: 1.8rem;
         font-size: 1rem;
-        font-weight: 600;
-        margin-top: 10px;
     }
 
-    .login-button-wrapper {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        margin: 0 auto;
-        align-items: center;
-    }
     
     .login-button-wrapper .button-style {
         font-size: 1rem;
         line-height: 1.8rem;
-        width: 100%;
     }
+
+    #login-signup-button {
+        padding: 3px 0;
+    }
+
 }

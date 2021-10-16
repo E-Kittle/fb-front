@@ -116,7 +116,7 @@ const Login = () => {
                 </form>
                 <hr />
                 <div className='login-button-wrapper'>
-                    <a href='/signup' className='button-style' onClick={toggleSignUpModal}>Create New Account</a>
+                    <a id='login-signup-button' href='/signup' className='button-style' onClick={toggleSignUpModal}>Create New Account</a>
                     <button className='button-style green-style' onClick={loginTestUser}>Test Drive an Existing Account</button>
                 </div>
             </div>
