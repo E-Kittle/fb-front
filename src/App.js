@@ -109,7 +109,7 @@ function App() {
         <div className='app'>
           {currentUser.first_name === '' ? null : <Nav />}
           <Routes />
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </Router>
     </UserContext.Provider>

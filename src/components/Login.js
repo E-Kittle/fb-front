@@ -97,10 +97,6 @@ const Login = () => {
         }
     }
 
-    // Function to handle logging the user in through facebook
-    const handleFBLogin = (e) => {
-        e.preventDefault();
-    }
 
     return (
         <div className='login-container'>
@@ -117,7 +113,6 @@ const Login = () => {
                     <input type='password' id='password' name='password' placeholder='Password' required onChange={handleChange} initialvalue={user.password} value={user.password} />
                     {!error ? null : <span className='error'>Email or Password is incorrect</span>}
                     <button type='submit' className='button-style'>Log In</button>
-                    <button className='button-style green-style' onClick={handleFBLogin}>Login with Facebook</button>
                 </form>
                 <hr />
                 <div className='login-button-wrapper'>

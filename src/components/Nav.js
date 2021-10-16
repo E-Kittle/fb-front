@@ -59,6 +59,13 @@ const Nav = () => {
         setFriendSearch('');
     }
 
+    // State and method to toggle the menu for responsive design
+    const [menu, setMenu] = useState(false);
+    const toggleMenu = () => {
+        setMenu(!menu);
+    }
+
+
     return (
         <nav>
             <div className='nav-1'>
@@ -84,19 +91,20 @@ const Nav = () => {
             </div>
 
             <div className='nav-2'>
-                <Link to='/' className='nav-element'>Home</Link>
-                <Link to='/friends' className='nav-element'>Friends</Link>
+                <div className={menu? 'menu-visible' : 'menu-invisible'}>
+                    <div className='nav-2-1'>
+                        <Link to='/' className='nav-element' onClick={toggleMenu}>Home</Link>
+                        <Link to='/friends' className='nav-element' onClick={toggleMenu}>Friends</Link>
+                        {/* Could add a dm option or possibly, an edit page option*/}
+                        <Link to={`/profile/${currentUser.id}`} onClick={toggleMenu} className='nav-element'>
+                            {currentUser.first_name} {currentUser.last_name}
+                        </Link>
+                        {/* To logout a user: delete JWT, clear user out of currentUser state */}
+                        <button className='nav-element' id='logout' onClick={logoutUser}>Logout</button>
+                    </div>
+                </div>
+                <button className='nav-dropdown' onClick={toggleMenu}>≡</button>
             </div>
-
-            <div className='nav-3'>
-                {/* Could add a dm option or possibly, an edit page option*/}
-                <Link to={`/profile/${currentUser.id}`} className='nav-element'>
-                    {currentUser.first_name} {currentUser.last_name}
-                </Link>
-                {/* To logout a user: delete JWT, clear user out of currentUser state */}
-                <button className='nav-element' id='logout' onClick={logoutUser}>Logout</button>
-            </div>
-
         </nav>
     )
 

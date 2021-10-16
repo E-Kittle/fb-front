@@ -62,10 +62,20 @@ const Friends = () => {
             })
     }
 
+    // State and function to make the friends menu responsive
+    const [friendVisibility, setFriendVisibility] = useState(false);
+    const toggleVisibility = (e) => {
+        setFriendVisibility(!friendVisibility);
+    }
+
+
     return (
         <div className='friends-page-wrapper'>
             <div className='friends-page-sidebar'>
-                <ul>
+                {/* Initially, this is not visible. At 560px it becomes visible */}
+                <h2>Filter Friends: </h2>
+                <button className='toggle-friends' onClick={toggleVisibility}>+</button>
+                <ul className={friendVisibility? 'visible-friends' : 'invisible-friends'}> 
                     <li>
                         <button id='friend-req-toggle' className={active === 0 ? 'sidebar-button active' : 'sidebar-button'} onClick={toggleList}>Friend Requests</button>
                     </li>

@@ -114,8 +114,6 @@ const Home = () => {
 
     return (
         <div className='home-wrapper'>
-            <div className='left-sidebar'>
-            </div>
             <div className='news'>
                 <div className='new-post news-post'>
                     {/* Triggers a modal */}

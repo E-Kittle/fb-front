@@ -43,16 +43,41 @@ nav {
     background-color: #242526;
     display: flex;
     height: 50px;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+}
+.nav-1 {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
 }
 
+.nav-2 {
+    width: 100%;
+}
+
+.menu-visible {
+    width: 100%;
+    display: flex;
+}
+
+.nav-2-1 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: baseline;
+    padding-top: 20px;
+}
+
+.nav-2-1 button {
+    padding-bottom: 7px;
+}
 
 #find-friend {
     background-color: #3a3b3c;
     color: rgb(158, 151, 151);
     border-radius: 20px;
     min-width: 200px;
-    width: 240px;
     border: none;
     height: 30px;
     font-size: 1.3rem;
@@ -63,13 +88,6 @@ nav {
     padding-left: 15px;
 }
 
-nav > div {
-    display: flex;
-    width: 500px;
-    justify-content: space-around;
-    align-items: flex-end;
-    
-}
 
 #nav-title {
     font-size: 3.5rem;
@@ -123,11 +141,98 @@ nav > div {
     font-size: 1.6rem;
 }
 
+.nav-dropdown {
+     display: none;
+}
+
 footer {
+    position: relative;
+    overflow: none;
     bottom: 0;
+    align-self: center;
     width: 100%;
+    margin-top: 10px;
     height: 40px;
     display: flex;
+    display: block;
     justify-content: center;
     text-align: center;
+}
+
+@media (max-width: 900px) {
+    .menu-invisible{
+        display: none;
+    }
+
+    nav {
+        justify-content: space-between;
+    }
+
+    .nav-2 {
+        display: flex;
+        justify-content: flex-end;
+        width: 50px;
+        z-index: 1;
+    }
+
+    .nav-dropdown {
+        display: block;
+        background-color: #18191a;
+        border: 2px solid rgb(20, 20, 20);
+        color: white;
+        font-size: 3rem;
+    }
+
+    .menu-visible {
+        display: flex;
+        justify-content: center;
+    }
+
+    .nav-2-1 {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 140px;
+        background-color: #242526;
+        margin-top: 50px;
+        right: 0;
+        height: 200px;
+    }
+
+    .nav-2-1 > a, .nav-2-1 > button {
+        width: 100%;
+        height: 100%;
+        border-bottom: 1px solid #b0b3b8;
+        padding-top: 10px;
+    }
+
+    .nav-2-1 button {
+        padding: 0;
+        text-align: left;
+        cursor: pointer;
+    }
+    .nav-2-1  a:hover{
+        background-color: rgba(0,0,0,.5);
+    }
+    .nav-2-1  button:hover{
+        background-color: rgba(0,0,0,.5);
+    }
+}
+
+@media (max-width: 560px) {
+    nav {
+        height: 100px;
+    }
+
+    .nav-1 {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-left: 10px;
+        max-width: 400px;
+    }
+
+    #find-friend {
+        width: 200px;
+    }
 }

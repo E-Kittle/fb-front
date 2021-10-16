@@ -1,6 +1,6 @@
 .home-wrapper {
     display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
+    grid-template-columns: minmax(600px, 4fr) minmax(270px, 1fr);
     padding-top: 10px;
 }
 
@@ -56,12 +56,17 @@
     text-align: center;
 }
 
+.news {
+    min-width: 700px;
+    padding: 0 30px;
+    margin: 0 auto;
+    width: 60%;
+}
+
 .news-post {
     background-color: #242526;
     border-radius: 10px;
     padding: 0 20px;
-    width: 60%;
-    margin: 0 auto;
     margin-bottom: 20px;
 }
 
@@ -157,7 +162,6 @@
 .news-button-wrapper {
     display: flex;
     justify-content: space-evenly;
-    width: 80%;
     margin: 0 auto;
     padding: 10px 0;
 }
@@ -167,7 +171,6 @@
     color: white;
     border: none;
     font-size: 1.4rem;
-    width: 30%;
     border-radius: 5px;
     cursor: pointer;
 }
@@ -218,7 +221,7 @@
     width: 100%;
     min-height: 60px;
     padding: 10px;
-    margin-right: 50px;
+    margin-right: 10px;
     position: relative;
 }
 
@@ -230,6 +233,9 @@
 
 .comment-content-wrapper > div > div {
     display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(170, 167, 167, 0.486);
 }
 .comment-content-wrapper > div > div > p {
     margin-left: 20px;
@@ -282,15 +288,15 @@
 }
 
 .reply1{
-    margin-left: 30px;
+    margin-left: 25px;
 }
 
 .reply2 {
-    margin-left: 60px;
+    margin-left: 50px;
 }
 
 .reply3 {
-    margin-left: 90px;
+    margin-left: 75px;
 }
 
 .liked-comment {
@@ -366,7 +372,7 @@
 /* --------------------------------------------------------------------- */
 .friends-page-wrapper {
     display: grid;
-    grid-template-columns: 1fr 4fr;
+    grid-template-columns: minmax(140px, 1fr) 4fr;
     height: calc(100vh - 50px);
 }
 
@@ -374,6 +380,10 @@
     background-color: #242526;
     border-top: 1px solid rgba(255, 255, 255, 0.466);
     padding-top: 120px;
+}
+
+.toggle-friends {
+    display: none;
 }
 
 .sidebar-button {
@@ -424,6 +434,7 @@
 
 .friend-container div {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-evenly;
     height: 100%;
@@ -521,6 +532,7 @@
 
 .profile-header p {
     font-size: 1.5rem;
+    text-align: center;
 }
 
 .profile-header button {
@@ -620,7 +632,206 @@
     margin-right: 20px;
 }
 
-@media (max-width: 610px) {
+@media(max-width: 1100px) {
+    .news {
+        min-width: 500px;
+        width: 100%;
+        margin-right: 30px;
+    }
 
+    .profile-content-wrapper {
+        width: 80%;
+    }
+}
+
+@media(max-width: 900px) {
+    
+    .news {
+        padding: 0;
+        margin: 0 20px;
+    }
+
+    .home-wrapper {
+        display: flex;
+        justify-content: center;
+    }
+
+    .contact-sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 820px) {
+
+    .friends-container {
+        padding: 10px;
+    }
+
+    .friend-container {
+        width: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .friend-container div {
+        height: 100px;
+    }
+
+
+    /* .friend-container div {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-evenly;
+        height: 100%;
+    }
+    
+    .friend-container-button {
+        background-color: #1877f2;
+        border: #365899;
+        border-radius: 6px;
+        color: white;
+        height: 40px;
+        line-height: 1.3rem;
+        font-size: 1.3rem;
+        font-weight: bold;
+        text-align: center;
+        width: 100px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    
+    .friend-container a {
+        padding-top: 15px;
+    } */
+}
+
+@media (max-width: 600px) {
+    .profile-content-wrapper {
+        width: 95%;
+    }
+}
+
+@media (max-width: 560px) {
+    /* Formatting for a users profile image/header */
+    #profile-img-wrapper {
+        height: 100px;
+        margin-top: 10px;
+    }
+
+    #profile-img {
+        margin-top: 0;
+        height: 100px;
+        width: 100px;
+    }
+
+    #cover-img-button {
+        top: 0;
+    }
+
+    .profile-header-wrapper {
+        height: 300px;
+    }
+    
+    /* Formatting for a news post and its images */
+    .news {
+        min-width: 250px;
+    }
+
+    .news-image-contaner > img {
+        width: 120px;
+        height: 120px;
+        margin: 10px;
+    }
+
+    /* Formatting for comment indentation */
+    .reply1{
+        margin-left: 10px;
+    }
+    
+    .reply2 {
+        margin-left: 20px;
+    }
+    
+    .reply3 {
+        margin-left: 30px;
+    }
+
+    /* For 'what's on your mind' button */
+    .new-post :nth-child(2) {   
+        font-size: 1.2rem;
+    }
+
+    /* Formatting for the friends page */
+    .friends-page-wrapper {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .friends-page-wrapper div{
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .friends-page-sidebar {
+        padding-top: 50px;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    .toggle-friends {
+        display: block;
+        background-color: #1877f2;
+        margin: 0 0 2px 10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border: none;
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+
+    .invisible-friends {
+        display: none;
+    }
+    
+    .visible-friends {
+        position: absolute;
+        list-style: none;
+        right: 60px;
+        top: 80px;
+    }
+
+    .sidebar-button {
+        margin: 0;
+        font-size: 1.5rem;
+    }
+
+    .friends-page-main {
+        justify-content: center;
+    }
+
+    .friend-container {
+        margin: 5px;
+    }
+    
+    .friends-container {
+        display: flex;
+        /* flex-direction: column; */
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 350px) {
+    .new-post :nth-child(2) {
+        font-size: 1rem;
+    }
+
+    .nav-1 {
+        width: 200px;
+    }
 
 }
