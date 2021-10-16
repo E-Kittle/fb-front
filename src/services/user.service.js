@@ -2,7 +2,7 @@
 // to user authentication/registration
 
 import axios from "axios";
-import {authHeader, authHeaderWithContent} from './auth-header';
+import {authHeader} from './auth-header';
 
 const API_URL = "http://localhost:5000/";
 
@@ -116,17 +116,12 @@ const likeComment = (commentId) => {
     return axios.put(`${API_URL}comment/${commentId}/like`, {'data': ''}, config)
 }
 
-// Edits a comment
+// Edits a comment or 'deletes' a comment (Replaces comment text with 'deleted' to avoid confusing users with missing replies)
 const editComment = (content, commentId) => {
     const config = authHeader();
     return axios.put(`${API_URL}comment/${commentId}`, content, config)
 }
 
-// 'deletes' the comment - Just replaces text with 'deleted' so that replies aren't confusing
-const deleteComment = (content, commentId) => {
-    const config = authHeader();
-    return axios.put(`${API_URL}comment/${commentId}`, content, config)
-}
 
 
 // SERVICE REQUESTS FOR USER PROFILE

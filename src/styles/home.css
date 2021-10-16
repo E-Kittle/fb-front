@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: minmax(600px, 6fr) minmax(270px, 1fr);
     padding-top: 10px;
+    min-height: calc(100vh - 100px);
 }
 
 .user-img {
@@ -383,6 +384,11 @@
     padding-top: 120px;
 }
 
+.friends-page-sidebar h2 {
+    text-align: right;
+    margin-right: 10px;
+}
+
 .toggle-friends {
     display: none;
 }
@@ -517,7 +523,7 @@
 
 .profile-banner {
     background-position: center;
-    background-size: 60%;
+    background-size: 60%; 
     background-repeat: no-repeat;
 }
 
@@ -677,6 +683,10 @@
 
     .friend-container div {
         height: 100px;
+    }
+
+    .profile-banner {
+        background-size: 95% 100%; 
     }
 
 }

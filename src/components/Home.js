@@ -83,6 +83,8 @@ const Home = () => {
 
         getNewsFeed()
             .then(result => {
+                console.log('new news feed triggered')
+                console.log(result.data)
                 if (result.data.new === true) {
                     setNewsFeed([]);
                 } else {
@@ -124,7 +126,7 @@ const Home = () => {
                 </div>
                 <div className='news-feed'>
                     {loading ? <div><h3>Loading...</h3></div> :
-                        newsFeed.length === 0 ? <div><h3>Add some friends to see some content!</h3> <h3>(Hint: Use the 'find friend' search bar!)</h3></div> : newsFeed.map(post => { return <NewsPost post={post} key={post._id} setUpdateNewsFeed={setUpdateNewsFeed} updatePost={updatePost} updateFeed={updateFeed} /> })}
+                        newsFeed.length === 0 ? <div><h3>Add some friends to see some content!</h3> <h3>(Hint: Use the 'find friend' search bar or go to the 'Friends' page to see all users!)</h3></div> : newsFeed.map(post => { return <NewsPost post={post} key={post._id} setUpdateNewsFeed={setUpdateNewsFeed} updatePost={updatePost} updateFeed={updateFeed} /> })}
                 </div>
 
 

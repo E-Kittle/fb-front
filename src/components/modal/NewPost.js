@@ -1,12 +1,13 @@
-import { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../../App';
+import { useState, useEffect } from 'react';
+// import { UserContext } from '../../App';
 import { createNewPost, updatePost, editPost } from '../../services/user.service';
+import htmlDecode from '../../services/formatting';
 
 function NewPost(props) {
 
     // Grab UserContext from app.js and destructure currentUser from it
-    const userContext = useContext(UserContext);
-    const { currentUser } = userContext;
+    // const userContext = useContext(UserContext);
+    // const { currentUser } = userContext;
 
     // State to hold the new post content
     const [newPost, setNewPost] = useState({
@@ -51,9 +52,12 @@ function NewPost(props) {
                 createNewPost(newPost)
                     .then(response => {
                         // Post was successfully created, now add the photos
-                        updatePost(newPost, response.data.post._id)
+                        if(newPost.images.length !== 0) {
+
+                            updatePost(newPost, response.data.post._id)
                             .then(result => {
                             })
+                        }
                         props.setUpdateNewsFeed(true);
                         props.toggleModal();
                     })
@@ -102,7 +106,7 @@ function NewPost(props) {
                 <hr />
                 <form id='new-post-form' onSubmit={handleSubmit} encType="multipart/form-data">
                     <label htmlFor='new-post'>What's on your mind?</label>
-                    <textarea type='text' id='new-post' name='new-post' placeholder="What's on your mind?" required initialvalue={newPost.content} value={newPost.content} onChange={handleChange} ></textarea>
+                    <textarea type='text' id='new-post' name='new-post' placeholder="What's on your mind?" required initialvalue={htmlDecode(newPost.content)} value={htmlDecode(newPost.content)} onChange={handleChange} ></textarea>
                     {props.edit ? null : <input type='file' id='image' name='image' accept='image/*' multiple onChange={handleImages} />}
                     {error === '' ? null : <span className='error'>{error}</span>}
                     <button type='submit'>Post</button>

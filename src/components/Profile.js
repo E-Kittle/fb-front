@@ -2,16 +2,12 @@ import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../App';
 import { getProfile, getProfileFeed, addFriend, getFriendRequests, formatURL } from '../services/user.service'
 import NewsPost from './mini-components/NewsPost';
-// import Friend from './mini-components/Friend';
 import { Link, useHistory } from 'react-router-dom';
 import defaultProfileImg from '../assets/default.jpeg';
 import NewImg from './modal/NewImg';
 
 
 const Profile = (props) => {
-
-    // 2 ways this component will be used: for currentuser or for another users profile (props.match.params.id===undefined when for another user)
-
     // Grab UserContext from app.js and destructure currentUser from it
     const userContext = useContext(UserContext);
     const { currentUser } = userContext;
@@ -27,12 +23,8 @@ const Profile = (props) => {
         cover_img: '',
         profile_img: '',
     });
-    const [posts, setPosts] = useState([]);
-
-    // Styling for the background image, if user has one
-    const styling = {
-        backgroundImage: `url(${formatURL(profileUser.profile_img)})`
-    };
+    const [posts, setPosts] = useState([]);     //State to hold the posts
+    const [updateTheFeed, setUpdateTheFeed] = useState(false);
 
     // State and function to toggle whether the user is viewing
     // the newsfeed or the friends list
@@ -77,9 +69,11 @@ const Profile = (props) => {
             })
 
         setFeedToggle(true)
-    }, [props.match.params.id])
+    }, [props.match.params.id, updateTheFeed])
 
-
+    const updateFeed = () => {
+        setUpdateTheFeed(!updateTheFeed);
+    }
 
     const ProfileFeed = (props) => {
 
@@ -87,7 +81,7 @@ const Profile = (props) => {
             <div>
                 {posts.length === 0 ? <h2>User has no posts</h2> : null}
                 {posts.map(post => {
-                    return <NewsPost post={post} key={post._id} />
+                    return <NewsPost post={post} key={post._id} updateFeed={props.updateFeed} />
                 })}
             </div>
         )
@@ -208,8 +202,6 @@ const Profile = (props) => {
 
     return (
         <div className='profile-wrapper'>
-            {console.log('profile user')}
-            {console.log(profileUser)}
             <div className='profile-header-wrapper'>
                 <div className={profileUser.profile_img === '' || profileUser.profile_img === undefined ? 'top-profile-header' : 'top-profile-header profile-banner'} style={profileUser.profile_img === '' || profileUser.profile_img === undefined ? { backgroundImage: 'none' } : { backgroundImage: `url(${formatURL(profileUser.profile_img)})` }}>
 
@@ -236,10 +228,10 @@ const Profile = (props) => {
             </div>
             <div className='profile-content-wrapper'>
                 <div>
-                    {feedToggle ? <ProfileFeed /> : <ProfileFriends />}
+                    {feedToggle ? <ProfileFeed updateFeed={updateFeed}/> : <ProfileFriends />}
                 </div>
             </div>
-            {modal ? <NewImg cover={modalCover} toggleModal={toggleModal} updateProfile={updateProfile} closeModal={closeModal} /> : null}
+            {modal ? <NewImg cover={modalCover} toggleModal={toggleModal} updateProfile={updateProfile} closeModal={closeModal}/> : null}
         </div>
     )
 }

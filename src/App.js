@@ -24,8 +24,6 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case 'setUser':
-      console.log('setting user')
-      console.log(action.payload)
       return {
         id: action.payload.user.id,
         first_name: action.payload.user.first_name,

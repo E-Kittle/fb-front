@@ -164,12 +164,13 @@ footer {
     /* display: flex;
     display: block;
     justify-content: center; */
-    text-align: center;
 }
 
 footer p {
     position: absolute;
     bottom: 5px;
+    width: 100%;
+    text-align: center;
 }
 
 @media (max-width: 900px) {
