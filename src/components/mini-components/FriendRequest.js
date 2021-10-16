@@ -3,7 +3,7 @@ import { UserContext } from '../../App';
 import { Link } from 'react-router-dom';
 import { rejectFriendRequest, acceptFriendRequest } from '../../services/user.service';
 
-
+// Displays the friend request list on the friends page
 const FriendRequest = (props) => {
 
     //Destructure props
@@ -17,7 +17,7 @@ const FriendRequest = (props) => {
     const handleRejection = (e) => {
         rejectFriendRequest(e.target.id)
         .then(response => {
-            props.updateAllFriends();
+            props.updateAllFriends();       //Trigger context update for currentUser.friendrequests
         })
         .catch(error => {
             console.log(error)
@@ -28,7 +28,7 @@ const FriendRequest = (props) => {
     const handleAcceptance = (e) => {
         acceptFriendRequest(e.target.id)
         .then(response => {
-            props.updateAllFriends();
+            props.updateAllFriends();       //Trigger context update for currentUser.friendrequests
         })
         .catch(error => {
             console.log(error)
@@ -72,7 +72,8 @@ const FriendRequest = (props) => {
         }
     }
 
-
+    //Displays the users friend requests. Uses PendingRequest and SentRequest to differenciate whether the currentUser
+    // sent the request or if the other user did
     return (
         <div className='friend-req-wrapper'>
             {friendRequestList.length===0? <h3>Search for friends above!</h3> : null}

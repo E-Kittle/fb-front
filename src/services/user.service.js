@@ -6,6 +6,7 @@ import {authHeader} from './auth-header';
 
 const API_URL = "http://localhost:5000/";
 
+
 // SERVICE REQUESTS FOR FRIENDS
 // ------------------------------------------------------------------------------------
 
@@ -23,7 +24,7 @@ const findFriend = (id) => {
 }
 
 // Grab the current users friendslist
-// API uses bearer token to gran currentusers data
+// API uses bearer token to grab currentusers data
 const getCurrentFriends = () => {
     const config = authHeader();
     return axios.get(`${API_URL}user/friends?all=true`, config)
@@ -47,11 +48,13 @@ const acceptFriendRequest = (reqId) => {
     return axios.put(`${API_URL}user/friendreq/${reqId}`, {'data': ''}, config)
 }
 
+//Function to remove a friend from users friendlist
 const deleteFriend = (friendId) => {
     const config = authHeader();
     return axios.delete(`${API_URL}user/friend/${friendId}`, config)
 }
 
+//Function to create a new friend request
 const addFriend = (friendId) => {
     const config = authHeader();
     return axios.post(`${API_URL}user/friend/${friendId}`, {'data': ''}, config)
@@ -65,20 +68,13 @@ const getNewsFeed = () => {
     return axios.get(`${API_URL}posts`, config)
 }
 
-
-// const updateProfile = (file, id) => {
-//     let data = new FormData();
-//     data.append("profile", file);
-//     return axios.put(`${API_URL}user/profile/${id}/profileupdate`, data, {headers: {"Content-Type": "multipart/form-data"}})
-// }
-
-
 // Creates a new post
 const createNewPost = (post) => {
     const config = authHeader();
     return axios.post(`${API_URL}posts`, {content: post.content}, config)
 } 
 
+//Updates a post with images
 const updatePost = (post, id) => {
     // Create the FormData object and append the images to it. 
     const formData = new FormData();
@@ -86,10 +82,11 @@ const updatePost = (post, id) => {
     arr.forEach(file => {
         formData.append("photos", file)
     })
-    // formData.append('content', post.content)
+
     return axios.put(`${API_URL}post/${id}/photos`, formData)
 }
 
+//Function to edit a posts text content
 const editPost = (post, id) => {
     const config = authHeader();
     return axios.put(`${API_URL}post/${id}`, {content: post.content}, config)
@@ -104,11 +101,11 @@ const likePost = (postid) => {
 // SERVICE REQUESTS FOR COMMENTS
 // ------------------------------------------------------------------------------------
 
+//Function to create a comment
 const createComment = (content, postId) => {
     const config = authHeader();
     return axios.post(`${API_URL}post/${postId}/comment`, content, config)
 }
-
 
 // Adds/Removes a like on a comment - API handles removing a comment
 const likeComment = (commentId) => {
@@ -138,19 +135,21 @@ const getProfileFeed = (userId) => {
     return axios.get(`${API_URL}user/profile/${userId}/feed`, config)
 }
 
+//Function to update a users cover image
 const updateCover = (file, id) => {
     let data = new FormData();
     data.append("cover", file);
     return axios.put(`${API_URL}user/profile/${id}/cover`, data, {headers: {"Content-Type": "multipart/form-data"}})
 }
 
+//Function to update a users profile image
 const updateProfile = (file, id) => {
     let data = new FormData();
     data.append("profile", file);
     return axios.put(`${API_URL}user/profile/${id}/profileupdate`, data, {headers: {"Content-Type": "multipart/form-data"}})
 }
 
-
+//Function to return a formatted API call - used to grab images from db
 const formatURL = (end) => {
     return `${API_URL}${end}`
 }

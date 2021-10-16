@@ -6,17 +6,7 @@ import { UserContext } from '../App';
 import { Link } from 'react-router-dom';
 import NewPost from './modal/NewPost';
 import defaultProfileImg from '../assets/default.jpeg';
-// import htmlDecode from '../services/formatting';
 import NewsPost from './mini-components/NewsPost';
-
-
-
-/*
-Here is where the bulk of the data grabbing will need to be done....
-1. Grab friends list and display it on the sidebar
-2. Grab 
-*/
-
 
 
 const Home = () => {
@@ -48,6 +38,7 @@ const Home = () => {
         setNewsFeed([...feed])
     }
 
+    // Function to update the newsFeed
     const updateFeed = () => {
         getNewsFeed()
             .then(result => {
@@ -63,44 +54,23 @@ const Home = () => {
             });
     }
 
+    // useEffect to grab the news feed on load
     useEffect(() => {
-        getNewsFeed()
-            .then(result => {
-                if (result.data.new === true) {
-                    setNewsFeed([]);
-                } else {
-                    setNewsFeed(result.data.reverse())
-                }
-                setLoading(false);
-            })
-            .catch(err => {
-                console.log(err.result)
-            });
+        updateFeed()
     }, [])
 
+    //UseEffect used to refresh the page if the user has submitted a new post
     useEffect(() => {
-        //Used to refresh the page if the user has submitted a new post
-
-        getNewsFeed()
-            .then(result => {
-                console.log('new news feed triggered')
-                console.log(result.data)
-                if (result.data.new === true) {
-                    setNewsFeed([]);
-                } else {
-                    setNewsFeed(result.data.reverse())
-                }
-            })
-            .catch(err => {
-                console.log(err.result)
-            });
-
+        updateFeed();
         setUpdateNewsFeed(false)
     }, [updateNewsFeed])
 
+    // Component to display the pending friendrequests
+    //Only shows requests that have been sent to the user, not the requests the
+    //user has sent
     const PendingFriendReq = (props) => {
         const { contact } = props;
-        if (contact.requestee._id === currentUser.id) {
+        if (contact.requestee._id === currentUser.id) { //Filter out request that user sent
             return null;
         } else {
             return (

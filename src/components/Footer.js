@@ -1,3 +1,5 @@
+
+//Footer component to act as a disclaimer for website
 const Footer = () => {
     return (
         <footer>

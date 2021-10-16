@@ -9,9 +9,7 @@ import defaultProfileImg from '../../assets/default.jpeg'
 import NewPost from "../modal/NewPost";
 
 const NewsPost = (props) => {
-
-    const API_URL = "http://localhost:5000/";
-
+    //Destructure the post in props
     const { post, updatePost } = props;
 
     // Grab UserContext from app.js and destructure currentUser from it
@@ -19,6 +17,8 @@ const NewsPost = (props) => {
     const { currentUser } = userContext;
 
     // Container to hold the ref and function that provides focus to the ref 
+    // Ref is used to provide focus to the 'write a comment' text input. Triggered
+    // by pressing the 'comment' button
     const commentRef = useRef(null);
     const changeFocus = () => {
         commentRef.current.focus();
@@ -35,9 +35,8 @@ const NewsPost = (props) => {
         likePost(post._id)
             .then(response => {
                 // Post has been updated in the db, now update state in Home.js
-                // updatePost(response.data.results);
                 setLiked(false);
-                props.updateFeed();
+                props.updateFeed(); //Triggers parent component to update the feed
             })
             .catch(error => {
                 console.log(error.response)
@@ -54,39 +53,44 @@ const NewsPost = (props) => {
     }, [post.likes, currentUser.id])
     //-----------------------------------------------------------------------
 
+    // Function to update a comment within the post
     const updateComment = (comment) => {
+        //First, search through the comments for the post and find the index of the comment
         let index = post.comments.findIndex(oldComment => {
             if (oldComment._id === comment._id) {
                 return true;
             }
             return false;
         })
+        //Update the post
         let tempPost = post;
         tempPost.comments[index] = comment;
 
-        updatePost(tempPost);
-        //Update the post here, then send it to updatePost()
+        updatePost(tempPost);   //Inform parent component of updated post
     }
 
+    // State to hold the content for a new comment
     const [content, setContent] = useState('');
 
+    // Make the comment text input controlled
     const handleCommentChange = (e) => {
         setContent(e.target.value)
     }
 
+    //Submit a new comment for the post
     const handleNewComment = (e) => {
         e.preventDefault();
-        console.log(`Would submit: ${content} for post: ${e.target.id}`)
         createComment({ content }, e.target.id)
             .then(response => {
-                setContent('');
-                props.updateFeed();
+                setContent('');     //Clear the input state
+                props.updateFeed(); //Inform parent component of update
             })
             .catch(error => {
                 console.log(error)
             })
     }
 
+    //Formats dates for a post
     const formatDates = (date) => {
         let oldDate = new Date(date);
         let today = new Date();
@@ -102,15 +106,18 @@ const NewsPost = (props) => {
         setDropdown(!dropdown)
     }
 
+    //Triggered by child component to close the edit post modal
     const toggleModal = () => {
         setEdit(false);
     }
 
+    //Handles 'deleting' a post. For user friendliness, just replaces text content
+    // with 'deleting' and removes images
     const handleDelete = (e) => {
         console.log('would delete post ' + e.target.id)
         editPost({content:'Deleted'}, e.target.id)
         .then(response => {
-            toggleDropDown();
+            toggleDropDown();       //Closes dropdown
             props.updateFeed();
         })
         .catch(error => {
@@ -119,8 +126,9 @@ const NewsPost = (props) => {
         })
     }
 
+    // Toggle to set edit to true, triggers a cascade that will open
+    // a text input for user to edit post
     const editPostToggle = (e) => {
-        console.log('would edit post ' + e.target.id)
         setEdit(true);
     }
 
@@ -155,7 +163,7 @@ const NewsPost = (props) => {
             <div className='news-content'>
                 <p>{htmlDecode(post.content)}</p>
                 <div className='news-image-contaner'>
-                    {post.images.length === 0 ? null : post.images.map(image => { return <img src={`${API_URL}${image}`} alt='User Content' key={image}></img> })}
+                    {post.images.length === 0 ? null : post.images.map(image => { return <img src={formatURL(image)} alt='User Content' key={image}></img> })}
                 </div>
                 <div className='news-content-meta'>
                     <p>{post.likes.length} Like{post.likes.length > 1 ? 's' : null}</p>
@@ -166,7 +174,6 @@ const NewsPost = (props) => {
             <div className='news-button-wrapper'>
                 <button onClick={toggleLike} id={liked ? 'liked' : null}>{liked ? 'Liked' : 'Like'}</button>
                 <button onClick={changeFocus}>Comment</button>
-                {/* This button just adds focus to the text input */}
             </div>
             <hr />
             <div className='comment-container'>

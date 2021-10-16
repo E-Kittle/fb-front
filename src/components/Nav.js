@@ -16,7 +16,8 @@ const Nav = () => {
     // Router method for re-routing user after successful logout
     let history = useHistory();
 
-
+    //Function to logout the user - Triggered by the logout button
+    //Logs user out in userContext and calls logout function that removes JWT
     const logoutUser = () => {
         userContext.userDispatch({ type: 'logoutUser' })
         logout();
@@ -33,26 +34,30 @@ const Nav = () => {
     // State and function to manage searching for the 'find friend' search
     const [searchResults, setSearchResults] = useState([])
     const [searchDropDown, setSearchDropDown] = useState(false);
+
+    // Function triggered by user entering input in the find-friend search
     const manageSearch = (e) => {
         e.preventDefault();
+
+        //Clears the dropdown if the user presses 'enter' with an empty text input
         if (friendSearch === '') {
             setSearchResults([]);
             setSearchDropDown(false);
         } else {
-
+            //Send the request to the API and update the results
             let query = friendSearch.replace(' ', '+')
             findFriend(query)
                 .then((results) => {
                     setSearchResults(results.data.search)
                 })
                 .catch((error) => {
-                    console.log('error')
                     console.log(error)
                 })
-            setSearchDropDown(true)
+            setSearchDropDown(true) //Open up the dropdown with the search results
         }
     }
 
+    // Function to clear the search results and close the dropdown
     const clearDropDown = () => {
         setSearchDropDown(false);
         setSearchResults([]);

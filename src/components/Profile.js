@@ -24,6 +24,7 @@ const Profile = (props) => {
         profile_img: '',
     });
     const [posts, setPosts] = useState([]);     //State to hold the posts
+    // State used by children components to trigger whether the feed needs to be updated or not
     const [updateTheFeed, setUpdateTheFeed] = useState(false);
 
     // State and function to toggle whether the user is viewing
@@ -51,7 +52,7 @@ const Profile = (props) => {
                     cover_img: results.data.user.cover_img,
                     profile_img: results.data.user.profile_img
                 }
-                setProfileUser(user);
+                setProfileUser(user);   //Save the user in state
             })
             .catch(error => {
                 console.log(error)
@@ -71,12 +72,13 @@ const Profile = (props) => {
         setFeedToggle(true)
     }, [props.match.params.id, updateTheFeed])
 
+    // Update the 'updateTheFeed' state - This triggers a new API call for the feed
     const updateFeed = () => {
         setUpdateTheFeed(!updateTheFeed);
     }
 
+    //Component to display the NewsPosts on the profile
     const ProfileFeed = (props) => {
-
         return (
             <div>
                 {posts.length === 0 ? <h2>User has no posts</h2> : null}
@@ -87,6 +89,7 @@ const Profile = (props) => {
         )
     }
 
+    //Component to display the users friends on their profile
     const ProfileFriends = (props) => {
         return (
             <div>
@@ -103,13 +106,12 @@ const Profile = (props) => {
         )
     }
 
-    let history = useHistory();
+    let history = useHistory(); //Used to redirect users
+    //Function to add a new friend from that users profile
     const addNewFriend = () => {
-        console.log(props.match.params.id + ' Added as friend')
-
         addFriend(props.match.params.id)
             .then(results => {
-                console.log('success!')
+                //Success! Now get the updated list of friendrequests and update userContext
                 getFriendRequests()
                     .then(result => {
                         userContext.userDispatch({ type: 'updateAllFriends', payload: { friends: result.data.friends, friendRequests: result.data.friend_requests } })
@@ -120,17 +122,16 @@ const Profile = (props) => {
                     })
             })
             .catch(error => {
+                // error - redirect for friend page
                 if (error.response.status === 400) {
                     history.push('/friends')
                 }
                 console.log(error.response)
             })
-        // Add them as a friend in the db
-        // redirect for friend page
 
     }
 
-    // Function to display the 'add friend' button if the user is not already a friend
+    // Component to display the 'add friend' button if the user is not already a friend
     const NewFriend = () => {
         //Test to check if the profile belongs to a friend of the currentUser
         let currentFriend = false;
@@ -155,7 +156,7 @@ const Profile = (props) => {
             //The user is not a current friend but they already have a pending request, display a link to friends page
             return <Link to='/friends' className='see-all'>See Pending Friend Request</Link>
         } else if (!currentFriend && !pendingRequest) {
-            return <button className='friend-container-button' onClick={addNewFriend}>ADD FRIEND</button>
+            return <button className='friend-container-button' onClick={addNewFriend}>ADD FRIEND</button> //Not friends! Display add friend button
         } else {
             return null;
         }
@@ -165,12 +166,14 @@ const Profile = (props) => {
     const [modal, setModal] = useState(false);
     const [modalCover, setModalCover] = useState(true);    //State to hold whether the modal is for a profile or cover image
 
+    //Function to toggle the NewImg modal - 
     const toggleModal = (e) => {
         if (e.target.id === 'cover-img-button') {
             //User is toggling the modal to create a new cover image
             setModal(true);
             setModalCover(true);
         } else if (e.target.id === 'profile-img-button') {
+            //User is toggling the modal to add a new profile img
             setModal(true)
             setModalCover(false)
         } else {
@@ -178,20 +181,21 @@ const Profile = (props) => {
         }
     }
 
+    //Closes the modal
     const closeModal = () => {
         setModal(false)
     }
 
+    //Function to update the user profile following an img update
     const updateProfile = (data) => {
         if (data.cover) {
-            console.log('updating coverphoto')
-
+            // updating due to new cover photo
             setProfileUser(prevState => ({
                 ...prevState,
                 cover_img: data.cover
             }))
         } else {
-            console.log('updating profile image')
+            // updating due to new profile photo
             setProfileUser(prevState => ({
                 ...prevState,
                 profile_img: data.profile

@@ -1,22 +1,23 @@
 import { Link } from 'react-router-dom';
 import { deleteFriend } from '../../services/user.service';
 
-
+// Component displayed on Friends page - Displays existing friends
 const Friend = (props) => {
     // Destructure props
     const { friend } = props;
 
+    // Function to unfriend a user
     const handleRejection = (e) => {
         deleteFriend(e.target.id)
             .then(result => {
-                props.updateAllFriends();
+                props.updateAllFriends();   //Trigger update of currentUser.friends in context
             })
             .catch(error => {
                 console.log(error)
             })
     }
 
-
+    //Return the friend container
     return (
         <div className='friend-container' key={friend._id}>
             <h3>{friend.first_name} {friend.last_name}</h3>

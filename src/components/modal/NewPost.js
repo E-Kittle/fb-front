@@ -1,13 +1,8 @@
 import { useState, useEffect } from 'react';
-// import { UserContext } from '../../App';
 import { createNewPost, updatePost, editPost } from '../../services/user.service';
 import htmlDecode from '../../services/formatting';
 
 function NewPost(props) {
-
-    // Grab UserContext from app.js and destructure currentUser from it
-    // const userContext = useContext(UserContext);
-    // const { currentUser } = userContext;
 
     // State to hold the new post content
     const [newPost, setNewPost] = useState({
@@ -15,6 +10,7 @@ function NewPost(props) {
         images: []
     });
 
+    // State to hold any errors
     const [error, setError] = useState('');
 
     // UseEffect to edit a post. If user is editing a post, we'll update it here in state
@@ -32,6 +28,7 @@ function NewPost(props) {
         });
     }
 
+    // Function to handle submitting data to the api
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -40,6 +37,7 @@ function NewPost(props) {
                 // User is editing a post. 
                 editPost(newPost, newPost._id)
                 .then(response => {
+                    // Success! Close modal, close edit post modal, and trigger update newsfeed in parent
                     props.toggleDropDown();
                     props.toggleModal();
                     props.updateFeed();
@@ -48,21 +46,23 @@ function NewPost(props) {
                     console.log(error)
                 })
             } else {
-                // Create the new post. If successful, close the modal
+                // Create a new post.
                 createNewPost(newPost)
                     .then(response => {
-                        // Post was successfully created, now add the photos
+                        // Post was successfully created, now add photos if user attached any
                         if(newPost.images.length !== 0) {
 
                             updatePost(newPost, response.data.post._id)
                             .then(result => {
+                            // Success - updatenewsfeed and toggle modal
+                            props.setUpdateNewsFeed(true);
+                            props.toggleModal();
                             })
+                        } else {
+                            // Success - updatenewsfeed and toggle modal
+                            props.setUpdateNewsFeed(true);
+                            props.toggleModal();
                         }
-                        props.setUpdateNewsFeed(true);
-                        props.toggleModal();
-                    })
-                    .catch(err => {
-                        console.log(err)
                     })
                     .catch(err => {
                         console.log(err)
@@ -81,6 +81,7 @@ function NewPost(props) {
         }
     }
 
+    //Function to handle user adding images
     const handleImages = (e) => {
         if (e.target.files.length > 4) {
             setError('Choose up to 4 images')

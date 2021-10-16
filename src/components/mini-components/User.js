@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { addFriend } from '../../services/user.service'
 
+//Displays every user that is not a friend on the friends page
 const User = (props) => {
     const { user } = props;
 
@@ -8,7 +9,6 @@ const User = (props) => {
     const addNewFriend = (e) => {
         addFriend(e.target.id)
             .then(results => {
-                console.log('success!')
                 props.updateAllFriends();       //Trigger an update to refresh the DOM
             })
             .catch(error => {

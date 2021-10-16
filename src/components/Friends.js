@@ -51,8 +51,8 @@ const Friends = () => {
         }
     }
 
+    // Makes an API call to grab all friends from state, then sends that through dispatch to update currentUser
     const updateAllFriends = () => {
-        // Makes an API call to grab all friends from state, then sends that through dispatch
         getCurrentFriends()
             .then(result => {
                 userContext.userDispatch({ type: 'updateAllFriends', payload: { friends: result.data.friends, friendRequests: result.data.friend_requests } })

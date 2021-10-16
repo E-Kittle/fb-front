@@ -86,12 +86,10 @@ function App() {
           // reducer({ type: 'setUser', payload: {user: response.data.user, friendRequests: result.data.results }})
         })
         .catch(err => {
-          console.log('error in app')
           console.log(err.response)
         });
       })
       .catch(err => {
-        console.log('error in app/expired token: logout')
         // A token exists from a previous authentication but is no longer valid, remove from localStorage
         logout();
       })

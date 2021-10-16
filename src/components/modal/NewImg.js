@@ -12,7 +12,6 @@ function NewImg(props) {
     const [image, setImage] = useState(null);
     const [error, setError] = useState('');
 
-    // Function to update 
     // Function to control input for a new user
     const handleChange = (e) => {
         setImage(e.target.files[0])
@@ -26,38 +25,32 @@ function NewImg(props) {
         if(image === null) {
             setError('Please select an image')
         } else if (props.cover) {
+            // Clear error and Update the users cover photo
             setError('');
-            console.log('would submit cover image')
-
-            // Update the cover photo
             updateCover(image, currentUser.id)
             .then(response => {              
+                //Update currentUser in context
                 userContext.userDispatch({ type: 'updateUser', payload: {cover:response.data.cover_img }})
-                props.updateProfile({cover:response.data.cover_img});
-                props.closeModal();
+                props.updateProfile({cover:response.data.cover_img});   //Trigger a profile page update
+                props.closeModal();     //Closes the newImg modal
             })
             .catch(error => {
-                console.log('error')
                 console.log(error)
             })
         } else {
             //if props.cover===false, the image is for a profile image
+            //Clear the error and update the users profile image
             setError('');
-            console.log('would submit profile image')
             updateProfile(image, currentUser.id)
             .then(response => {                
-                props.updateProfile({profile:response.data.profile_img});
-                props.closeModal();
+                props.updateProfile({profile:response.data.profile_img});   //Trigger profile update
+                props.closeModal();     //Close the newImg modal
             })
             .catch(error => {
-                console.log('error')
                 console.log(error)
             })
         }
-
-
     }
-
 
     // Used to close the modal when the user clicks outside of the modal
     const closeModal = (e) => {
@@ -65,9 +58,6 @@ function NewImg(props) {
             props.toggleModal();
         }
     }
-
-
-    // First, work on styling to add a new profile image. cover=false;
 
 
     return (
