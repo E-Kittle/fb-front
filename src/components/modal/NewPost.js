@@ -58,6 +58,11 @@ function NewPost(props) {
                             props.setUpdateNewsFeed(true);
                             props.toggleModal();
                             })
+                            .catch(error => {
+                                console.log('error')
+                                setError('Post created but images were not, too large or wrong type - Only jpg, jpeg, or png acceted.')
+                                props.setUpdateNewsFeed(true);
+                            })
                         } else {
                             // Success - updatenewsfeed and toggle modal
                             props.setUpdateNewsFeed(true);
