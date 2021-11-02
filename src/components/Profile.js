@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../App';
-import { getProfile, getProfileFeed, addFriend, getFriendRequests, formatURL } from '../services/user.service'
+import { getProfile, getProfileFeed, addFriend, getFriendRequests } from '../services/user.service'
 import NewsPost from './mini-components/NewsPost';
 import { Link, useHistory } from 'react-router-dom';
 import defaultProfileImg from '../assets/default.jpeg';
@@ -207,12 +207,12 @@ const Profile = (props) => {
     return (
         <div className='profile-wrapper'>
             <div className='profile-header-wrapper'>
-                <div className={profileUser.profile_img === '' || profileUser.profile_img === undefined ? 'top-profile-header' : 'top-profile-header profile-banner'} style={profileUser.profile_img === '' || profileUser.profile_img === undefined ? { backgroundImage: 'none' } : { backgroundImage: `url(${formatURL(profileUser.profile_img)})` }}>
+                <div className={profileUser.profile_img === '' || profileUser.profile_img === undefined ? 'top-profile-header' : 'top-profile-header profile-banner'} style={profileUser.profile_img === '' || profileUser.profile_img === undefined ? { backgroundImage: 'none' } : { backgroundImage: `url(${profileUser.profile_img})` }}>
 
                     <div id='profile-img-wrapper'>
                         {profileUser.cover_img === undefined || profileUser.cover_img === '' ?
                             <img id='profile-img' src={defaultProfileImg} alt='Cover' /> :
-                            <img id='profile-img' src={formatURL(profileUser.cover_img)} alt='Cover' />
+                            <img id='profile-img' src={profileUser.cover_img} alt='Cover' />
                         }
                         {currentUser.id === profileUser.id ? <button id='cover-img-button' onClick={toggleModal}>+</button> : null}
                     </div>

@@ -2,7 +2,7 @@ import htmlDecode from "../../services/formatting";
 import { Link } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import { UserContext } from "../../App";
-import { likeComment, createComment, editComment, formatURL } from "../../services/user.service";
+import { likeComment, createComment, editComment } from "../../services/user.service";
 import { formatDistance } from "date-fns";
 import defaultProfileImg from '../../assets/default.jpeg'
 
@@ -249,7 +249,7 @@ const Comment = (props) => {
                 <div className={props.index === 0 ? 'comment-wrapper' : props.index >= 3 ? `comment-wrapper reply3` : `comment-wrapper reply${props.index}`} >
                     <div className='comment-header'>
                         <Link to={`/profile/${comment.comment.author._id}`} className='cover-img'>
-                            <img src={comment.comment.author.cover_img === undefined || comment.comment.author.cover_img === '' ? defaultProfileImg : formatURL(comment.comment.author.cover_img)} alt='to profile'></img>
+                            <img src={comment.comment.author.cover_img === undefined || comment.comment.author.cover_img === '' ? defaultProfileImg : comment.comment.author.cover_img} alt='to profile'></img>
                         </Link>
                         <div className='comment-content-wrapper'>
                             <div>

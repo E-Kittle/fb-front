@@ -1,7 +1,7 @@
 import htmlDecode from "../../services/formatting";
 import { UserContext } from '../../App';
 import { useContext, useRef, useState, useEffect } from 'react';
-import { likePost, createComment, formatURL, editPost } from '../../services/user.service'
+import { likePost, createComment, editPost } from '../../services/user.service'
 import { Link } from 'react-router-dom';
 import Comments from '../mini-components/Comments';
 import { formatDistance } from "date-fns";
@@ -138,7 +138,7 @@ const NewsPost = (props) => {
             <div className='news-header'>
                 <div className='news-header-wrapper'>
                     <Link to={`/profile/${post.author._id}`} className='cover-img'>
-                        <img src={post.author.cover_img === undefined || post.author.cover_img === '' ? defaultProfileImg : post.author._id === currentUser.id ? formatURL(currentUser.cover_img) : formatURL(post.author.cover_img)} alt='to profile'></img>
+                        <img src={post.author.cover_img === undefined || post.author.cover_img === '' ? defaultProfileImg : post.author._id === currentUser.id ? currentUser.cover_img : post.author.cover_img} alt='to profile'></img>
                     </Link>
                     <div>
                         <Link to={`/profile/${post.author._id}`}>{post.author.first_name} {post.author.last_name}</Link>
@@ -163,7 +163,7 @@ const NewsPost = (props) => {
             <div className='news-content'>
                 <p>{htmlDecode(post.content)}</p>
                 <div className='news-image-contaner'>
-                    {post.images.length === 0 ? null : post.images.map(image => { return <img src={formatURL(image)} alt='User Content' key={image}></img> })}
+                    {post.images.length === 0 ? null : post.images.map(image => { return <img src={image} alt='User Content' key={image}></img> })}
                 </div>
                 <div className='news-content-meta'>
                     <p>{post.likes.length} Like{post.likes.length > 1 ? 's' : null}</p>
@@ -181,7 +181,7 @@ const NewsPost = (props) => {
                 <form className='new-comment-form' id={post._id} onSubmit={handleNewComment}>
                     <label htmlFor='new-comment' >New Comment</label>
                     <Link to={`/profile/${currentUser._id}`} className='cover-img'>
-                        <img src={currentUser.cover_img === undefined || currentUser.cover_img === '' ? defaultProfileImg : formatURL(currentUser.cover_img)} alt='to profile'></img>
+                        <img src={currentUser.cover_img === undefined || currentUser.cover_img === '' ? defaultProfileImg : currentUser.cover_img} alt='to profile'></img>
                     </Link>
                     <input type='text' ref={commentRef} id='new-comment' name='new-comment' placeholder='write a comment...' initialvalue={content} value={content} onChange={handleCommentChange} />
                 </form>
