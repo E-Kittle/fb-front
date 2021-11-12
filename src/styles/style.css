@@ -21,18 +21,6 @@ img {
     width: 500px;
 }
 
-.app {
-    /* display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 100vh;
-    min-height:min-content; */
-    /* position: relative; */
-}
-
-.app > div {
-    /* min-height: 100%; */
-}
 
 h1 {
     font-size: 4rem;
@@ -102,9 +90,8 @@ nav {
     display: inline-block;
     margin: 0;
     margin-top: 10px;
-    padding-right: 40px;
-    align-self: baseline ;
-    
+    padding: 0 40px 2px 5px;
+    align-self: baseline; 
 }
 
 .nav-element {
@@ -219,12 +206,14 @@ footer p {
         height: 100%;
         border-bottom: 1px solid #b0b3b8;
         padding-top: 10px;
+        padding-left: 5px;
     }
 
     .nav-2-1 button {
         padding: 0;
         text-align: left;
         cursor: pointer;
+        padding-left: 5px;
     }
     .nav-2-1  a:hover{
         background-color: rgba(0,0,0,.5);
@@ -248,5 +237,11 @@ footer p {
 
     #find-friend {
         width: 200px;
+    }
+}
+
+@media (max-width: 560px) {
+    .nav-2-1 {
+        margin-top: 80px;
     }
 }

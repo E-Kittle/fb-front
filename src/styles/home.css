@@ -593,6 +593,8 @@
     padding: 10px;
     width: 60%;
     margin: 0 auto;
+    display: flex;
+    align-items: center;
 }
 
 .profile-friend a {
@@ -787,8 +789,10 @@
         right: 60px;
         top: 80px;
     }
-
+    
     .sidebar-button {
+        text-align: left;
+        padding-left: 10px;
         margin: 0;
         font-size: 1.5rem;
     }
@@ -807,6 +811,17 @@
         align-items: center;
         justify-content: center;
     }
+    .friend-req-wrapper {
+        align-items: center;
+    }
+
+    .profile-friend {
+        width: 100%;
+    }
+
+    .profile-friend a {
+        font-size: 1.6rem;
+    }
 }
 
 @media (max-width: 350px) {
@@ -818,4 +833,7 @@
         width: 200px;
     }
 
+    .profile-friend a{
+        font-size: 1.4rem;
+    }
 }

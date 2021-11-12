@@ -65,12 +65,12 @@ const Login = () => {
                 if (response.status === 200) {
                     setError(false);
                     getFriendRequests()
-                    .then(results => {
-                        userContext.userDispatch({ type: 'setUser', payload: {user: response.data.user, friendRequests: results.data.results }})
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    })
+                        .then(results => {
+                            userContext.userDispatch({ type: 'setUser', payload: { user: response.data.user, friendRequests: results.data.results } })
+                        })
+                        .catch(error => {
+                            console.log(error)
+                        })
                     // Sets the new user in App.js and 'redirects' them to the homepage
                 } else if (response.status === 400) {
                     // Inform user that email or password is incorrect
@@ -104,20 +104,23 @@ const Login = () => {
                 <h1>OdinBook</h1>
                 <p>Connecting you with friends wherever you go</p>
             </div>
-            <div className='login-wrapper'>
-                <form onSubmit={handleSubmit}>
-                    {!newUserPrompt ? null : <span className='success'>Registration successful! Please login</span>}
-                    <label htmlFor='email'>Email</label>
-                    <input type='email' id='email' name='email' placeholder='Email' required onChange={handleChange} initialvalue={user.email} value={user.email} />
-                    <label htmlFor='password'>Password</label>
-                    <input type='password' id='password' name='password' placeholder='Password' required onChange={handleChange} initialvalue={user.password} value={user.password} />
-                    {!error ? null : <span className='error'>Email or Password is incorrect</span>}
-                    <button type='submit' className='button-style'>Log In</button>
-                </form>
-                <hr />
-                <div className='login-button-wrapper'>
-                    <a id='login-signup-button' href='/signup' className='button-style' onClick={toggleSignUpModal}>Create New Account</a>
-                    <button className='button-style green-style' onClick={loginTestUser}>Test Drive an Existing Account</button>
+            <div className='login-wrapper-container'>
+
+                <div className='login-wrapper'>
+                    <form onSubmit={handleSubmit}>
+                        {!newUserPrompt ? null : <span className='success'>Registration successful! Please login</span>}
+                        <label htmlFor='email'>Email</label>
+                        <input type='email' id='email' name='email' placeholder='Email' required onChange={handleChange} initialvalue={user.email} value={user.email} />
+                        <label htmlFor='password'>Password</label>
+                        <input type='password' id='password' name='password' placeholder='Password' required onChange={handleChange} initialvalue={user.password} value={user.password} />
+                        {!error ? null : <span className='error'>Email or Password is incorrect</span>}
+                        <button type='submit' className='button-style'>Log In</button>
+                    </form>
+                    <hr />
+                    <div className='login-button-wrapper'>
+                        <a id='login-signup-button' href='/signup' className='button-style' onClick={toggleSignUpModal}>Create New Account</a>
+                        <button className='button-style green-style' onClick={loginTestUser}>Test Drive an Existing Account</button>
+                    </div>
                 </div>
             </div>
             {signUpModal ? <SignUp toggleModal={toggleSignUpModal} handleNewUser={handleNewUser} /> : null}

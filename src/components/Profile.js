@@ -97,7 +97,10 @@ const Profile = (props) => {
                 {profileUser.friends.map(friend => {
                     return (
                         <div className='profile-friend' key={friend._id}>
-                            <button className='user-img'>{friend.first_name[0]}{friend.last_name[0]}</button>
+                            <Link to={`/profile/${friend._id}`} className='cover-img'>
+                                <img src={friend.cover_img === undefined || friend.cover_img === '' ? defaultProfileImg : friend.cover_img} alt='to profile'></img>
+                            </Link>
+                            {/* <button className='user-img'>{friend.first_name[0]}{friend.last_name[0]}</button> */}
                             <Link to={`${friend._id}`} id={friend._id}>{friend.first_name} {friend.last_name}</Link>
                         </div>
                     )
