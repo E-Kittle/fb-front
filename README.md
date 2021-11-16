@@ -2,7 +2,7 @@
 OdinBook is a responsive Facebook clone that was independently created as a completion of The Odin Project. Using React on the frontend, users can add/remove friends, create posts, and write comments, all of which are preserved with the node.js API backend.
 
 ## Demo
-A live demo is available at:[Link to odinbook demo](odinbook.elisabethoconnor.com)
+A live demo is available at: [OdinBook](odinbook.elisabethoconnor.com)
 ![Screenshot of Demo](/public/static_assets/odinbook.png)
 
 ## Features
