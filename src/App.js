@@ -6,6 +6,7 @@ import Nav from './components/Nav';
 import { getFriendRequests } from './services/user.service';
 import { logout, authenticateUser } from './services/auth.service';
 import Footer from './components/Footer';
+import { authHeader } from './services/auth-header';
 // Export context for the user reducerhook
 export const UserContext = React.createContext();
 
@@ -70,12 +71,13 @@ function App() {
   // to check if the session is still active and 'logs in' the user on client side
   // Additionally, catches any page refresh that would 'logout' the user
   useEffect(() => {
-    if (authenticateUser() === null) {
+    let config = authHeader();
+    if (config.headers === undefined) {
       // User has expired token, log them out
       logout();
     } else {
 
-      authenticateUser()
+      authenticateUser(config)
       .then(response => {
         //User was successfully authenticated. 
         //Now grab their friend request list
@@ -90,6 +92,9 @@ function App() {
         });
       })
       .catch(err => {
+        if (err.response.status === 401) {
+          logout();
+        }
         // A token exists from a previous authentication but is no longer valid, remove from localStorage
         logout();
       })

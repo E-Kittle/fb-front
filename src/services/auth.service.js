@@ -3,8 +3,8 @@
 import axios from "axios";
 import {authHeader} from './auth-header';
 
-const API_URL = "https://glacial-beyond-22328.herokuapp.com/";
-// const API_URL = "http://localhost:5000/"
+// const API_URL = "https://glacial-beyond-22328.herokuapp.com/";
+const API_URL = "http://localhost:5000/"
 
 // Registers a new user 
 const register = (newUser) => {
@@ -38,15 +38,8 @@ const logout = () => {
 
 
 //Function used to authenticate a returning user - Allowing the user to bypass logging in again
-const authenticateUser = () => {
-    const config = authHeader();
-    if (config.headers !== undefined) {
-      //They are a returning user.
+const authenticateUser = (config) => {
       return axios.get(`${API_URL}session`, config);
-    } else {
-      //The are not a returning user
-      return null;
-    }
 }
 
 
